@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> BEIR (v1.0.0) &mdash; TREC-COVID
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`beir-v1.0.0-trec-covid.flat-wp.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.flat-wp.yaml)

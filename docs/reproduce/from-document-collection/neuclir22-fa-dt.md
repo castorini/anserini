@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> NeuCLIR22 &mdash; Persian (Document Translation)
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`neuclir22-fa-dt.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-fa-dt.yaml)

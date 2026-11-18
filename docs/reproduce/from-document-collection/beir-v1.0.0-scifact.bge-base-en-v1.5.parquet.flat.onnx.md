@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> BEIR (v1.0.0) &mdash; SciFact
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) with flat indexes (using ONNX for on-the-fly query encoding)
 + **Config**: [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx.yaml)

@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> QA on Wikipedia 100-word splits
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`wikipedia-dpr-100w-bm25.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/wikipedia-dpr-100w-bm25.yaml)

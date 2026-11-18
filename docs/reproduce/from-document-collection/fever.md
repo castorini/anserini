@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> FEVER Fact Verification
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`fever.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/fever.yaml)

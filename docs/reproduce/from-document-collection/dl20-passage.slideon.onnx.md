@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2020 Deep Learning Track (Passage)
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: SlideOn (using ONNX for on-the-fly query encoding)
 + **Config**: [`dl20-passage.slideon.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.slideon.onnx.yaml)

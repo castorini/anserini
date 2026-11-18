@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO Document Ranking
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25 on segmented documents with doc2query-T5 expansions
 + **Config**: [`msmarco-v1-doc-segmented.docTTTTTquery.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.docTTTTTquery.yaml)

@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2005 Robust Track
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: bag-of-words
 + **Config**: [`robust05.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/robust05.yaml)

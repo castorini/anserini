@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> BRIGHT &mdash; Robotics
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) with flat indexes (using ONNX for on-the-fly query encoding)
 + **Config**: [`bright-robotics.bge-large-en-v1.5.flat.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-robotics.bge-large-en-v1.5.flat.onnx.yaml)

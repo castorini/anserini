@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> BEIR (v1.0.0) &mdash; SCIDOCS
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`${yaml_short}`](${yaml})

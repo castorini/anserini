@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2025 RAG Track Test Topics
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: Snowflake's [Arctic-embed-l](https://huggingface.co/Snowflake/snowflake-arctic-embed-l) with flat indexes (using ONNX for on-the-fly query encoding)
 + **Config**: [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.yaml)

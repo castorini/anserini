@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO Passage Ranking
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25 with quantized weights (8 bits)
 + **Config**: [`msmarco-v1-passage.bm25-b8.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bm25-b8.yaml)

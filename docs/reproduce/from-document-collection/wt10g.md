@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> Wt10g
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: bag-of-words
 + **Config**: [`wt10g.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/wt10g.yaml)

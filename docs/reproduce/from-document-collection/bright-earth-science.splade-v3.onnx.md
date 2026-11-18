@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> BRIGHT &mdash; Earth Science
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
 + **Config**: [`bright-earth-science.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-earth-science.splade-v3.onnx.yaml)

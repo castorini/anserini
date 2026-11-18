@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> ClueWeb09 (Category B)
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: bag-of-words
 + **Config**: [`cw09b.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/cw09b.yaml)

@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2002 Monolingual Arabic
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`trec02-ar.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/trec02-ar.yaml)

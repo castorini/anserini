@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2020 Deep Learning Track (Passage)
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: bag-of-words using WordPiece tokenization (pre-tokenized using [`bert-base-uncased`](https://huggingface.co/bert-base-uncased) from Hugging Face)
 + **Config**: [`dl20-passage.wp-tok.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.wp-tok.yaml)

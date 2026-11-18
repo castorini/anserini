@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> QA on Wikipedia Sliding Windows
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`wiki-all-6-3-tamber-bm25.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/wiki-all-6-3-tamber-bm25.yaml)

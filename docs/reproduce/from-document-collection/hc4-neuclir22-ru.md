@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> HC4 (v1.0) on NeuCLIR22 &mdash; Russian
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`hc4-neuclir22-ru.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/hc4-neuclir22-ru.yaml)

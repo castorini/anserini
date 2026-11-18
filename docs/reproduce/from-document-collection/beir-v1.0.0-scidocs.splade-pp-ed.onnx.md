@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> BEIR (v1.0.0) &mdash; SCIDOCS
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: [SPLADE++ CoCondenser-EnsembleDistil](https://arxiv.org/abs/2205.04733) (using ONNX for on-the-fly query encoding)
 + **Config**: [`beir-v1.0.0-scidocs.splade-pp-ed.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scidocs.splade-pp-ed.onnx.yaml)

@@ -1,22 +1,22 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2021 DL Track on V2.1 Corpus
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
 + **Config**: [`dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.yaml)
 + **Template**: [`dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.template)
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2.1 _segmented_ document corpus, which was derived from the MS MARCO V2 segmented document corpus and prepared for the TREC 2024 RAG Track.
-
-NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-
-The model itself can be download [here](https://huggingface.co/naver/splade-v3).
+This page describes reproductions from the raw document collection with [SPLADE-v3](https://huggingface.co/naver/splade-v3) on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2.1 _segmented_ document corpus.
+This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
 
 > Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 
-In these experiments, we are using ONNX to perform query encoding on the fly.
+In these experiments, each document in the MS MARCO V2.1 _segmented_ document corpus is treated as a unit of indexing and we are using ONNX to perform query encoding on the fly.
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

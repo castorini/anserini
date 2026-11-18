@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2020 Deep Learning Track (Passage)
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) with HNSW indexes (using ONNX for on-the-fly query encoding)
 + **Config**: [`dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml)

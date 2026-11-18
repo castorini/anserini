@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> CLEF2006 Monolingual French
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`clef06-fr.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/clef06-fr.yaml)

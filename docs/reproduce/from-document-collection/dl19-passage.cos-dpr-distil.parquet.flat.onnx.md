@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2019 Deep Learning Track (Passage)
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: cosDPR-distil with flat indexes (using ONNX for on-the-fly query encoding)
 + **Config**: [`dl19-passage.cos-dpr-distil.parquet.flat.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.flat.onnx.yaml)

@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> HC4 (v1.0) on translated NeuCLIR22 &mdash; Persian
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`hc4-neuclir22-fa-en.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/hc4-neuclir22-fa-en.yaml)

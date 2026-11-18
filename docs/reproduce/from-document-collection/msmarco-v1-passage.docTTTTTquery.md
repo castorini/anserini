@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO Passage Ranking
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25 with doc2query-T5 expansions
 + **Config**: [`msmarco-v1-passage.docTTTTTquery.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.docTTTTTquery.yaml)

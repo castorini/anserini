@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> NanoKnow v1.0 &mdash; NQ-Open
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`nanoknow-v1.0-nq.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/nanoknow-v1.0-nq.yaml)

@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> BEIR (v1.0.0) &mdash; CQADupStack-wordpress
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`beir-v1.0.0-cqadupstack-wordpress.flat-wp.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-wordpress.flat-wp.yaml)

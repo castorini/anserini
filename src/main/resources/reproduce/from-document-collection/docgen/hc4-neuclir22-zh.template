@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> HC4 (v1.0) on NeuCLIR22 &mdash; Chinese
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`${yaml_short}`](${yaml})

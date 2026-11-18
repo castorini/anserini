@@ -1,16 +1,17 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2023 Deep Learning Track (Passage)
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: bag-of-words on augmented passages
 + **Config**: [`dl23-passage-augmented.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl23-passage-augmented.yaml)
 + **Template**: [`dl23-passage-augmented.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-passage-augmented.template)
 
-This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2023.html) using the _augmented version_ of the MS MARCO V2 passage corpus.
+This page describes reproductions from the raw document collection for passage ranking on the [TREC 2023 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2023.html) using the _augmented version_ of the MS MARCO V2 passage corpus.
 For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](../../../docs/experiments-msmarco-v2.md).
 
-NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-passage-augmented.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

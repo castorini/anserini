@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2019 Deep Learning Track (Document)
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: bag-of-words on segmented documents
 + **Config**: [`dl19-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.yaml)

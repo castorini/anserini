@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO Passage Ranking
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: cosDPR-distil with quantized flat indexes (using ONNX for on-the-fly query encoding)
 + **Config**: [`msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.onnx.yaml)

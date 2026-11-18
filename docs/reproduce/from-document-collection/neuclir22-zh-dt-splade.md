@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> NeuCLIR22 &mdash; Chinese (Document Translation)
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: [SPLADE CoCondenser SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil)
 + **Config**: [`neuclir22-zh-dt-splade.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-zh-dt-splade.yaml)

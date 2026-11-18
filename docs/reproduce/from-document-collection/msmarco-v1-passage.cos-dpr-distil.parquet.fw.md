@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO Passage Ranking
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: cosDPR-distil with inverted indexes using the "fake-words" technique (_q_=40) using cached queries
 + **Config**: [`msmarco-v1-passage.cos-dpr-distil.parquet.fw.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.fw.yaml)

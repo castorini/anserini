@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> FIRE 2012 Monolingual Bengali
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`fire12-bn.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/fire12-bn.yaml)

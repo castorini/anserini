@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2025 RAG Track Test Topics
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: bag-of-words on segmented documents
 + **Config**: [`rag25-doc-segmented-test-nist.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.yaml)

@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> BEIR (v1.0.0) &mdash; Signal-1M
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: [SlideOn](https://huggingface.co/lightonai/SlideOn) (using ONNX for on-the-fly query encoding)
 + **Config**: [`beir-v1.0.0-signal1m.slideon.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.slideon.onnx.yaml)

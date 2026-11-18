@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> MIRACL (v1.0) &mdash; Bengali
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`miracl-v1.0-bn.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-bn.yaml)

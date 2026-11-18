@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2025 RAG Track Test Topics
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
 + **Config**: [`rag25-doc-segmented-test-umbrela2.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.splade-v3.onnx.yaml)

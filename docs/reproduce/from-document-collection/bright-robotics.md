@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> BRIGHT &mdash; Robotics
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25 and BM25QS
 + **Config**: [`bright-robotics.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-robotics.yaml)

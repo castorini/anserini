@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> CIRAL (v1.0) &mdash; Yoruba
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`ciral-v1.0-yo.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-yo.yaml)

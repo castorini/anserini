@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> NeuCLIR22 &mdash; Chinese (Query Translation)
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: SPLADE NeuCLIR22
 + **Config**: [`neuclir22-zh-qt-splade.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-zh-qt-splade.yaml)

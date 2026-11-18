@@ -1,22 +1,22 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2023 Deep Learning Track (Passage)
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: SPLADE++ CoCondenser-EnsembleDistil (using ONNX for on-the-fly query encoding)
 + **Config**: [`dl23-passage.splade-pp-ed.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.splade-pp-ed.onnx.yaml)
 + **Template**: [`dl23-passage.splade-pp-ed.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-passage.splade-pp-ed.onnx.template)
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model to the MS MARCO V2 passage corpus.
+This page describes reproductions from the raw document collection using [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) for passage ranking on MS MARCO V2 passage corpus.
 Here, we evaluate on the [TREC 2023 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2023.html), using ONNX to perform query encoding on the fly.
-
 The model is described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
 For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](../../../docs/experiments-msmarco-v2.md).
 
-NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-passage.splade-pp-ed.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> Mr. TyDi (v1.1) &mdash; Bengali
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`mrtydi-v1.1-bn.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-bn.yaml)

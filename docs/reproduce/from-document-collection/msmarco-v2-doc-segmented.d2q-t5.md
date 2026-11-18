@@ -1,14 +1,19 @@
-# <img src="../../anserini-logo.png" height="30" /> MS MARCO (V2) Document Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO V2 Document Ranking
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
-+ **Models**: BM25 on segmented documents with doc2query-T5 expansions
++ **Models**: bag-of-words on segmented documents with doc2query-T5 expansions
 + **Config**: [`msmarco-v2-doc-segmented.d2q-t5.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc-segmented.d2q-t5.yaml)
 + **Template**: [`msmarco-v2-doc-segmented.d2q-t5.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2-doc-segmented.d2q-t5.template)
 
-This page describes regression experiments for document ranking _on the segmented version_ of the MS MARCO (V2) document corpus using the dev queries, which is integrated into Anserini's reproduction testing framework.
-Here, we expand the segmented document corpus with doc2query-T5.
+This page describes reproductions from the raw document collection for document ranking on the dev queries using the MS MARCO V2 _segmented_ document corpus (with doc2query-T5 expansions).
 For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../../docs/experiments-msmarco-v2.md).
+
+There are four different bag-of-words regression conditions for this task, and this page describes the following:
+
++ **Indexing Condition:** each segment in the MS MARCO V2 _segmented_ document corpus is treated as a unit of indexing
++ **Expansion Condition:** doc2query-T5
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2-doc-segmented.d2q-t5.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> BEIR (v1.0.0) &mdash; SciFact
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: [SlideOn](https://huggingface.co/lightonai/SlideOn) (using ONNX for on-the-fly query encoding)
 + **Config**: [`beir-v1.0.0-scifact.slideon.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.slideon.onnx.yaml)

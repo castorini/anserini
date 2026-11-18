@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC Disks 4 &amp; 5
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: bag-of-words
 + **Config**: [`disk45.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/disk45.yaml)

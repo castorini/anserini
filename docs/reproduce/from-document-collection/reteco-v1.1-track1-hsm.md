@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> RETECO v1.1 Track 1a &mdash; HSM
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25 and BM25QS
 + **Config**: [`reteco-v1.1-track1-hsm.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-hsm.yaml)

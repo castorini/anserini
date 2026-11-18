@@ -1,6 +1,6 @@
 # <img src="../../anserini-logo.png" height="30" /> BRIGHT &mdash; LeetCode
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: BM25
 + **Config**: [`bright-leetcode.bm25qs.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-leetcode.bm25qs.yaml)

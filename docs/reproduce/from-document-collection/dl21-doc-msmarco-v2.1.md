@@ -1,17 +1,18 @@
 # <img src="../../anserini-logo.png" height="30" /> TREC 2021 DL Track on V2.1 Corpus
 
-**Anserini reproductions from raw documents**
+**Anserini reproductions from document collection**
 
 + **Models**: bag-of-words on complete documents
 + **Config**: [`dl21-doc-msmarco-v2.1.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-msmarco-v2.1.yaml)
 + **Template**: [`dl21-doc-msmarco-v2.1.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl21-doc-msmarco-v2.1.template)
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2.1 document corpus, which was derived from the MS MARCO V2 document corpus and prepared for the TREC 2024 RAG Track.
+This page describes reproductions from the raw document collection on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2.1 document corpus.
+This corpus was derived from the MS MARCO V2 document corpus and prepared for the TREC 2024 RAG Track.
+In these experiments, each document in the MS MARCO V2.1 document corpus is treated as a unit of indexing.
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl21-doc-msmarco-v2.1.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-
-Here, we cover bag-of-words baselines where each document in the MS MARCO V2.1 document corpus is treated as a unit of indexing.
-This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl21-doc-msmarco-v2.1.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
