@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.NoSuchElementException;
@@ -82,7 +83,7 @@ public class C4NoCleanCollection extends C4Collection {
       try {
         this.id = json.get("docno").asText();
       } catch (Exception e) {
-        this.id = String.format("en.noclean.%s.%d", filename, jsonLoc);
+        this.id = String.format(Locale.ROOT, "en.noclean.%s.%d", filename, jsonLoc);
       }
     }
 

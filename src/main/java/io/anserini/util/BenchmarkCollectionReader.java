@@ -84,7 +84,7 @@ public final class BenchmarkCollectionReader {
         recordsProcessed = records;
 
         segment.close();
-        LOG.info(String.format("%s%s%s: %d records processed.",
+        LOG.info(String.format(Locale.ROOT, "%s%s%s: %d records processed.",
             inputFile.getParent().getFileName().toString(),
             File.separator,
             inputFile.getFileName().toString(),
@@ -132,7 +132,7 @@ public final class BenchmarkCollectionReader {
     final int segmentCnt = segmentPaths.size();
     AtomicInteger completedTaskCount = new AtomicInteger(0);
 
-    LOG.info(String.format("%d files found in %s", segmentCnt, collectionPath));
+    LOG.info(String.format(Locale.ROOT, "%d files found in %s", segmentCnt, collectionPath));
 
     List<Callable<Void>> tasks = new ArrayList<>(segmentCnt);
     for (int i = 0; i < segmentCnt; i++) {
@@ -153,7 +153,7 @@ public final class BenchmarkCollectionReader {
       // log progress every minute
       monitor.scheduleAtFixedRate(() -> {
         double pct = (double) completedTaskCount.get() / segmentCnt * 100.0d;
-        LOG.info(String.format("%.2f percent completed", pct));
+        LOG.info(String.format(Locale.ROOT, "%.2f percent completed", pct));
       }, 1, 1, TimeUnit.MINUTES);
 
       executor.invokeAll(tasks);      // blocks until every task is done
@@ -163,10 +163,10 @@ public final class BenchmarkCollectionReader {
       Thread.currentThread().interrupt();
     }
 
-    LOG.info("Total records processed: {}", String.format(Locale.US, "%,d", totalRecordCount.sum()));
+    LOG.info("Total records processed: {}", String.format(Locale.ROOT, "%,d", totalRecordCount.sum()));
 
     if (segmentCnt != completedTaskCount.get()) {
-      throw new RuntimeException(String.format("totalFiles = %d is not equal to completedTaskCount = %d", segmentCnt, completedTaskCount.get()));
+      throw new RuntimeException(String.format(Locale.ROOT, "totalFiles = %d is not equal to completedTaskCount = %d", segmentCnt, completedTaskCount.get()));
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);

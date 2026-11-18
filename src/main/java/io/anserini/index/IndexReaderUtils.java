@@ -935,7 +935,7 @@ public class IndexReaderUtils {
       size = size / 1024;
       unitIndex = unitIndex + 1;
     }
-    return String.format(Locale.US, "%.1f %s", size, units[unitIndex]);
+    return String.format(Locale.ROOT, "%.1f %s", size, units[unitIndex]);
   }
 
   public static final class Args {
