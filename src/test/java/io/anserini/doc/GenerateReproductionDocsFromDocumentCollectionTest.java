@@ -714,20 +714,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-stackoverflow"),
         Pattern.quote("bright-sustainable-living"),
         Pattern.quote("bright-theoremqa-questions"),
-        Pattern.quote("bright-theoremqa-theorems"),
-        Pattern.quote(""),
-        Pattern.quote("bright-aops.bm25qs"),
-        Pattern.quote("bright-biology.bm25qs"),
-        Pattern.quote("bright-earth-science.bm25qs"),
-        Pattern.quote("bright-economics.bm25qs"),
-        Pattern.quote("bright-leetcode.bm25qs"),
-        Pattern.quote("bright-pony.bm25qs"),
-        Pattern.quote("bright-psychology.bm25qs"),
-        Pattern.quote("bright-robotics.bm25qs"),
-        Pattern.quote("bright-stackoverflow.bm25qs"),
-        Pattern.quote("bright-sustainable-living.bm25qs"),
-        Pattern.quote("bright-theoremqa-questions.bm25qs"),
-        Pattern.quote("bright-theoremqa-theorems.bm25qs")
+        Pattern.quote("bright-theoremqa-theorems")
     ));
     ORDERING.put("BRIGHT: SPLADE-v3", List.of(
         Pattern.quote("bright-aops.splade-v3.onnx"),

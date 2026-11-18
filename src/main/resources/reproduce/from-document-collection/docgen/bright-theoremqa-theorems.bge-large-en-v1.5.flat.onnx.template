@@ -6,7 +6,7 @@
 + **Config**: [`${yaml_short}`](${yaml})
 + **Template**: [`${template_short}`](${template})
 
-This page describes reproductions from the raw document collection for [BRIGHT &mdash; TheoremQA-T](https://brightbenchmark.github.io/) using [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5).
+This page describes reproductions from the raw document collection using [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) on [BRIGHT &mdash; TheoremQA-T](https://brightbenchmark.github.io/).
 See the following paper for more details:
 
 > Shitao Xiao, Zheng Liu, Peitian Zhang, and Niklas Muennighoff. [C-Pack: Packaged Resources To Advance General Chinese Embedding.](https://arxiv.org/abs/2309.07597) _arXiv:2309.07597_, 2023.

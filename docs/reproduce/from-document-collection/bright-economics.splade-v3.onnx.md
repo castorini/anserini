@@ -6,7 +6,7 @@
 + **Config**: [`bright-economics.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-economics.splade-v3.onnx.yaml)
 + **Template**: [`bright-economics.splade-v3.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-economics.splade-v3.onnx.template)
 
-This page describes reproductions from the raw document collection for [BRIGHT &mdash; Economics](https://brightbenchmark.github.io/) using [SPLADE-v3](https://huggingface.co/naver/splade-v3).
+This page describes reproductions from the raw document collection using [SPLADE-v3](https://huggingface.co/naver/splade-v3) on [BRIGHT &mdash; Economics](https://brightbenchmark.github.io/).
 See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
 
 > Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
