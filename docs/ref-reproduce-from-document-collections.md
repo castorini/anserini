@@ -8,12 +8,12 @@ This [catalog](./ref-reproduce-from-document-collections-catalog.md) enumerates 
 
 ## Table of Contents
 
-+ [MS MARCO V1 Passage](reproduce/from-document-collection-summaries/msmarco-v1-passage.md)
-+ [MS MARCO V1 Doc](reproduce/from-document-collection-summaries/msmarco-v1-doc.md)
-+ [MS MARCO V2 Passage](reproduce/from-document-collection-summaries/msmarco-v2-passage.md)
-+ [MS MARCO V2 Doc](reproduce/from-document-collection-summaries/msmarco-v2-doc.md)
-+ [MS MARCO V2.1 Segmented Doc](reproduce/from-document-collection-summaries/msmarco-v2.1-segmented-doc.md)
-+ [MS MARCO V2.1 Doc](reproduce/from-document-collection-summaries/msmarco-v2.1-doc.md)
++ [MS MARCO V1 Passage](reproduce/from-document-collection-summaries/msmarco-v1-passage.md) (TREC Deep Learning Tracks, 2019-2020)
++ [MS MARCO V1 Doc](reproduce/from-document-collection-summaries/msmarco-v1-doc.md) (TREC Deep Learning Tracks, 2019-2020)
++ [MS MARCO V2 Passage](reproduce/from-document-collection-summaries/msmarco-v2-passage.md) (TREC Deep Learning Tracks, 2021-2023)
++ [MS MARCO V2 Doc](reproduce/from-document-collection-summaries/msmarco-v2-doc.md) (TREC Deep Learning Tracks, 2021-2023)
++ [MS MARCO V2.1 Segmented Doc](reproduce/from-document-collection-summaries/msmarco-v2.1-segmented-doc.md) (TREC RAG Track, 2024-2025)
++ [MS MARCO V2.1 Doc](reproduce/from-document-collection-summaries/msmarco-v2.1-doc.md) (TREC RAG Track, 2024)
 + [BEIR](reproduce/from-document-collection-summaries/beir.md)
 + [BRIGHT](reproduce/from-document-collection-summaries/bright.md)
 + [RETECO v1.1 Track 1a](reproduce/from-document-collection-summaries/reteco.md)
