@@ -6,7 +6,10 @@
 + **Config**: [`bright-theoremqa-theorems.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-theorems.yaml)
 + **Template**: [`bright-theoremqa-theorems.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-theoremqa-theorems.template)
 
-This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; TheoremQA-T](https://brightbenchmark.github.io/).
+This page describes reproductions from the raw document collection using BM25 and BM25QS on [BRIGHT &mdash; TheoremQA-T](https://brightbenchmark.github.io/).
+BM25QS (query-side BM25) is described in the following paper:
+
+> Yijun Ge, Sahel Sharifymoghaddam, and Jimmy Lin. [Lighting the Way for BRIGHT: Reproducible Baselines with Anserini, Pyserini, and RankLLM.](https://arxiv.org/abs/2509.02558) _arXiv:2509.02558_, 2025.
 
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-theoremqa-theorems.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 

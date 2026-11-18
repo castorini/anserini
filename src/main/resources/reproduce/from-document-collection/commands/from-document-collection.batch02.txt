@@ -326,18 +326,18 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-th-aca
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-zh-aca
 
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-economics.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-leetcode.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-pony.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-robotics.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-stackoverflow.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems.bm25qs
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-economics
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-leetcode
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-pony
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-robotics
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-stackoverflow
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops.splade-v3.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology.splade-v3.onnx
@@ -364,16 +364,3 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living.bge-large-en-v1.5.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx
-
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-aops
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-biology
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-earth-science
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-economics
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-leetcode
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-pony
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-psychology
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-robotics
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-stackoverflow
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-sustainable-living
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-theoremqa-questions
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-theoremqa-theorems
