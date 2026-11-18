@@ -2,7 +2,7 @@
 
 **Anserini reproductions from document collection**
 
-+ **Models**: BM25 on complete documents with doc2query-T5 expansions
++ **Models**: bag-of-words on complete documents with doc2query-T5 expansions
 + **Config**: [`${yaml_short}`](${yaml})
 + **Template**: [`${template_short}`](${template})
 

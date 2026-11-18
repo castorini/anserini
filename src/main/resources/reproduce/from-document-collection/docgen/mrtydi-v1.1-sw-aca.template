@@ -2,7 +2,7 @@
 
 **Anserini reproductions from document collection**
 
-+ **Models**: bag-of-words using `AutoCompositeAnalyzer`
++ **Models**: BM25 using `AutoCompositeAnalyzer`
 + **Config**: [`${yaml_short}`](${yaml})
 + **Template**: [`${template_short}`](${template})
 

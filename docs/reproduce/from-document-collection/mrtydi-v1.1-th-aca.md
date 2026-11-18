@@ -2,7 +2,7 @@
 
 **Anserini reproductions from document collection**
 
-+ **Models**: bag-of-words using `AutoCompositeAnalyzer`
++ **Models**: BM25 using `AutoCompositeAnalyzer`
 + **Config**: [`mrtydi-v1.1-th-aca.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-th-aca.yaml)
 + **Template**: [`mrtydi-v1.1-th-aca.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-th-aca.template)
 

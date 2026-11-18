@@ -2,7 +2,7 @@
 
 **Anserini reproductions from document collection**
 
-+ **Models**: BM25 on complete documents with doc2query-T5 expansions
++ **Models**: bag-of-words on complete documents with doc2query-T5 expansions
 + **Config**: [`dl20-doc.docTTTTTquery.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.docTTTTTquery.yaml)
 + **Template**: [`dl20-doc.docTTTTTquery.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.docTTTTTquery.template)
 
