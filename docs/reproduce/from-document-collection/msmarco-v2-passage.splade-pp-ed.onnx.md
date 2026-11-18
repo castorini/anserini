@@ -1,20 +1,22 @@
-# Anserini Regressions: MS MARCO (V2) Passage Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO V2 Passage Ranking
 
-**Model**: SPLADE++ CoCondenser-EnsembleDistil (using ONNX for on-the-fly query encoding)
+**Anserini reproductions from document collection**
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model to the MS MARCO V2 passage corpus.
++ **Models**: SPLADE++ CoCondenser-EnsembleDistil (using ONNX for on-the-fly query encoding)
++ **Config**: [`msmarco-v2-passage.splade-pp-ed.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.splade-pp-ed.onnx.yaml)
++ **Template**: [`msmarco-v2-passage.splade-pp-ed.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2-passage.splade-pp-ed.onnx.template)
+
+This page describes reproductions from the raw document collection using [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) for passage ranking on MS MARCO V2 passage corpus.
 Here, we evaluate on the dev queries, using ONNX to perform query encoding on the fly.
-
 The model is described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
 For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](../../../docs/experiments-msmarco-v2.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.splade-pp-ed.onnx.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2-passage.splade-pp-ed.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2-passage.splade-pp-ed.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage.splade-pp-ed.onnx
@@ -22,13 +24,13 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 
 We make available a version of the corpus that has already been encoded with SPLADE++ CoCondenser-EnsembleDistil.
 
-From any machine, the following command will download the corpus and perform the complete regression, end to end:
+From any machine, the following command will download the corpus and perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config msmarco-v2-passage.splade-pp-ed.onnx
 ```
 
-The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+The `ReproduceFromDocumentCollection` program automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same results.
 
 ## Corpus Download
 

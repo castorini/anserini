@@ -1,20 +1,23 @@
-# Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2019 Deep Learning Track (Passage)
 
-**Model**: SPLADE++ CoCondenser-SelfDistil (using ONNX for on-the-fly query encoding)
+**Anserini reproductions from document collection**
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
++ **Models**: SPLADE++ CoCondenser-SelfDistil (using ONNX for on-the-fly query encoding)
++ **Config**: [`dl19-passage.splade-pp-sd.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-sd.onnx.yaml)
++ **Template**: [`dl19-passage.splade-pp-sd.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.splade-pp-sd.onnx.template)
+
+This page describes reproductions from the raw document collection using [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
-
-Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](../../../docs/experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-sd.onnx.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.splade-pp-sd.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.splade-pp-sd.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.splade-pp-sd.onnx
@@ -22,13 +25,13 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with SPLADE++ CoCondenser-SelfDistil.
 
-From any machine, the following command will download the corpus and perform the complete regression, end to end:
+From any machine, the following command will download the corpus and perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl19-passage.splade-pp-sd.onnx
 ```
 
-The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+The `ReproduceFromDocumentCollection` program automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same results.
 
 ## Corpus Download
 

@@ -1,18 +1,20 @@
-# Anserini Regressions: CAR17 (v2.0)
+# <img src="../../anserini-logo.png" height="30" /> CAR17 (v2.0)
 
-**Models**: various bag-of-words approaches with (vanilla) doc2query expansions
+**Anserini reproductions from document collection**
 
-This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0), with doc2query expansions, as proposed in the following paper:
++ **Models**: bag-of-words with (vanilla) doc2query expansions
++ **Config**: [`car17v2.0-doc2query.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/car17v2.0-doc2query.yaml)
++ **Template**: [`car17v2.0-doc2query.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/car17v2.0-doc2query.template)
+
+This page describes reproductions from the raw document collection for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0), with doc2query expansions, as proposed in the following paper:
 
 > Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 
-These experiments are integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](../../../docs/experiments-doc2query.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/car17v2.0-doc2query.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/car17v2.0-doc2query.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/car17v2.0-doc2query.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config car17v2.0-doc2query

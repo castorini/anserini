@@ -262,10 +262,10 @@ public abstract class WarcBaseDocument implements SourceDocument {
         headerBuffer.append(WarcBaseDocument.NEWLINE);
         String[] thisHeaderPieceParts = line.split(":", 2);
         if (thisHeaderPieceParts.length == 2) {
-          if (thisHeaderPieceParts[0].toLowerCase(Locale.US).startsWith(headerEndKey.toLowerCase(Locale.US))){
+          if (thisHeaderPieceParts[0].toLowerCase(Locale.ROOT).startsWith(headerEndKey.toLowerCase(Locale.ROOT))){
             reachHeaderEnd = true;
           }
-          if (thisHeaderPieceParts[0].toLowerCase(Locale.US).startsWith("content-length")) {
+          if (thisHeaderPieceParts[0].toLowerCase(Locale.ROOT).startsWith("content-length")) {
             try {
               contentLength = Integer.parseInt(thisHeaderPieceParts[1].trim());
             } catch (NumberFormatException nfEx) {

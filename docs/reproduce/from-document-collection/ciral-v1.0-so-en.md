@@ -1,11 +1,16 @@
-# Anserini Regressions: CIRAL (v1.0) &mdash; Somali (English Translation)
+# <img src="../../anserini-logo.png" height="30" /> CIRAL (v1.0) &mdash; Somali (English Translation)
+
+**Anserini reproductions from document collection**
+
++ **Models**: BM25
++ **Config**: [`ciral-v1.0-so-en.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-so-en.yaml)
++ **Template**: [`ciral-v1.0-so-en.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/ciral-v1.0-so-en.template)
 
 This page documents BM25 regression experiments for [CIRAL (v1.0) &mdash; Somali](https://github.com/ciralproject/ciral) with document translations. To be clear, the queries are in English and the corpus is in English (translated with [NLLB 1.3B](https://huggingface.co/facebook/nllb-200-1.3B)).
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-so-en.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/ciral-v1.0-so-en.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/ciral-v1.0-so-en.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-so-en

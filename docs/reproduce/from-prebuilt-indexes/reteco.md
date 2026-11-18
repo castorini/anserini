@@ -3,7 +3,8 @@
 **Anserini reproductions from prebuilt indexes**
 
 + **Corpus**: RETECO v1.1 Track 1a
-+ **Config**: [reteco.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml)
++ **Config**: [`reteco.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml)
++ **Template**: [`reteco.template`](../../../src/main/resources/reproduce/from-prebuilt-indexes/docgen/reteco.template)
 
 ## Summary
 
@@ -58,7 +59,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25 (train)
 
-**Config**: [reteco.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L2)
+**Config**: [`reteco.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L2)
 
 #### bitcoin
 
@@ -350,7 +351,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 reteco-v1.1-track1a-workplace.train
 
 ### 2. BM25 (dev)
 
-**Config**: [reteco.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L85)
+**Config**: [`reteco.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L85)
 
 #### bitcoin
 
@@ -642,7 +643,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 reteco-v1.1-track1a-workplace.dev r
 
 ### 3. Query-side BM25 (train)
 
-**Config**: [reteco.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L168)
+**Config**: [`reteco.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L168)
 
 #### bitcoin
 
@@ -934,7 +935,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 reteco-v1.1-track1a-workplace.train
 
 ### 4. Query-side BM25 (dev)
 
-**Config**: [reteco.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L251)
+**Config**: [`reteco.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L251)
 
 #### bitcoin
 

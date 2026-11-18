@@ -3,7 +3,8 @@
 **Anserini reproductions from prebuilt indexes**
 
 + **Corpus**: MS MARCO V2 Passage
-+ **Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
++ **Config**: [`msmarco-v2-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
++ **Template**: [`msmarco-v2-passage.template`](../../../src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco-v2-passage.template)
 
 ## Summary
 
@@ -50,7 +51,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
-**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L2)
+**Config**: [`msmarco-v2-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L2)
 
 #### msmarco-v2-passage.dev
 
@@ -168,7 +169,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-
 
 ### 2. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
-**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L60)
+**Config**: [`msmarco-v2-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L60)
 
 #### msmarco-v2-passage.dev
 
@@ -286,7 +287,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-
 
 ### 3. BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
-**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L118)
+**Config**: [`msmarco-v2-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L118)
 
 #### msmarco-v2-passage.dev
 
@@ -404,7 +405,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-
 
 ### 4. uniCOIL with doc2query-T5 (ONNX)
 
-**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L176)
+**Config**: [`msmarco-v2-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L176)
 
 #### msmarco-v2-passage.dev
 

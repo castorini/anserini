@@ -3,7 +3,8 @@
 **Anserini reproductions from prebuilt indexes**
 
 + **Corpus**: MS MARCO V1 Passage
-+ **Config**: [msmarco-v1-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml)
++ **Config**: [`msmarco-v1-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml)
++ **Template**: [`msmarco-v1-passage.template`](../../../src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco-v1-passage.template)
 
 ## Summary
 
@@ -55,7 +56,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
-**Config**: [msmarco-v1-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L2)
+**Config**: [`msmarco-v1-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L2)
 
 #### msmarco-v1-passage.dev
 
@@ -126,7 +127,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 2. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
-**Config**: [msmarco-v1-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L34)
+**Config**: [`msmarco-v1-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L34)
 
 #### msmarco-v1-passage.dev
 
@@ -197,7 +198,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 3. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index
 
-**Config**: [msmarco-v1-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L66)
+**Config**: [`msmarco-v1-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L66)
 
 #### dl19-passage
 
@@ -251,7 +252,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 4. BM25 with doc2query-T5  (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
-**Config**: [msmarco-v1-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L90)
+**Config**: [`msmarco-v1-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L90)
 
 #### msmarco-v1-passage.dev
 
@@ -322,7 +323,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 5. SPLADE-v3 (ONNX)
 
-**Config**: [msmarco-v1-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L122)
+**Config**: [`msmarco-v1-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L122)
 
 #### msmarco-v1-passage.dev
 
@@ -399,7 +400,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 6. SlideOn (ONNX)
 
-**Config**: [msmarco-v1-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L154)
+**Config**: [`msmarco-v1-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L154)
 
 #### msmarco-v1-passage.dev
 
@@ -476,7 +477,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 7. bge-base-en-v1.5 with HNSW (ONNX)
 
-**Config**: [msmarco-v1-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L186)
+**Config**: [`msmarco-v1-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L186)
 
 #### msmarco-v1-passage.dev
 
@@ -550,7 +551,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 8. bge-base-en-v1.5 with quantized HNSW (ONNX)
 
-**Config**: [msmarco-v1-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L218)
+**Config**: [`msmarco-v1-passage.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml#L218)
 
 #### msmarco-v1-passage.dev
 

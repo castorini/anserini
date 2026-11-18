@@ -1,13 +1,18 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; SCIDOCS
+# <img src="../../anserini-logo.png" height="30" /> BEIR (v1.0.0) &mdash; SCIDOCS
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; SCIDOCS](http://beir.ai/).
+**Anserini reproductions from document collection**
+
++ **Models**: BM25
++ **Config**: [`beir-v1.0.0-scidocs.flat-wp.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scidocs.flat-wp.yaml)
++ **Template**: [`beir-v1.0.0-scidocs.flat-wp.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-scidocs.flat-wp.template)
+
+This page describes reproductions from the raw document collection using BM25 for [BEIR (v1.0.0) &mdash; SCIDOCS](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 All the documents and queries are pre-tokenized with `bert-base-uncased` tokenizer.
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scidocs.flat-wp.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-scidocs.flat-wp.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-scidocs.flat-wp.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.flat-wp
@@ -21,7 +26,7 @@ tar xvf collections/beir-v1.0.0-corpus-wp.tar -C collections/
 ```
 
 The tarball is 13 GB and has MD5 checksum `3cf8f3dcdcadd49362965dd4466e6ff2`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 

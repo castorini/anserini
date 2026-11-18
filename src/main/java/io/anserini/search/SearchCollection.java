@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -939,7 +940,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
       LOG.info("{}: {} queries processed in {}{}", desc, topics.size(),
           DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
-          String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
+          String.format(Locale.ROOT, " = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
       
       String name = null;
       if (ExcludeDocs.isExcludable(args.topics[0])){

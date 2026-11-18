@@ -54,7 +54,7 @@ topics:
 
 models:
   - name: cos-dpr-distil-fw-40-cached_q
-    display: cosDPR-distill
+    display: cosDPR-distil
     type: inverted-dense
     params: -topicField vector -threads 16 -encoding fw -fw.q 40 -hits 1000
     results:

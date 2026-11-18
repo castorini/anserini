@@ -1,12 +1,17 @@
-# Anserini Regressions: FIRE 2012 Monolingual Bengali
+# <img src="../../anserini-logo.png" height="30" /> FIRE 2012 Monolingual Bengali
+
+**Anserini reproductions from document collection**
+
++ **Models**: BM25
++ **Config**: [`fire12-bn.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/fire12-bn.yaml)
++ **Template**: [`fire12-bn.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/fire12-bn.template)
 
 This page documents BM25 regression experiments for [FIRE 2012 ad hoc retrieval (Monolingual Bengali)](https://www.isical.ac.in/~fire/2012/adhoc.html).
 The document collection can be found in [FIRE data page](http://fire.irsi.res.in/fire/static/data).
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/fire12-bn.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/fire12-bn.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/fire12-bn.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config fire12-bn

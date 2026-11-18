@@ -36,6 +36,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Locale;
 
 public class PrebuiltIndexHandler {
   private static final Logger LOG = LogManager.getLogger(PrebuiltIndexHandler.class);
@@ -226,12 +227,12 @@ public class PrebuiltIndexHandler {
       return bytes + " B";
     }
     if (bytes < 1024 * 1024) {
-      return String.format("%.1f KB", bytes / 1024.0);
+      return String.format(Locale.ROOT, "%.1f KB", bytes / 1024.0);
     }
     if (bytes < 1024L * 1024L * 1024L) {
-      return String.format("%.1f MB", bytes / (1024.0 * 1024.0));
+      return String.format(Locale.ROOT, "%.1f MB", bytes / (1024.0 * 1024.0));
     }
-    return String.format("%.1f GB", bytes / (1024.0 * 1024.0 * 1024.0));
+    return String.format(Locale.ROOT, "%.1f GB", bytes / (1024.0 * 1024.0 * 1024.0));
   }
 
   private void decompress() throws IOException, InterruptedException {

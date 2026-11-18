@@ -1,13 +1,18 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; FEVER
+# <img src="../../anserini-logo.png" height="30" /> BEIR (v1.0.0) &mdash; FEVER
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; FEVER](http://beir.ai/).
+**Anserini reproductions from document collection**
+
++ **Models**: BM25
++ **Config**: [`beir-v1.0.0-fever.multifield.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.multifield.yaml)
++ **Template**: [`beir-v1.0.0-fever.multifield.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-fever.multifield.template)
+
+This page describes reproductions from the raw document collection using BM25 for [BEIR (v1.0.0) &mdash; FEVER](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.multifield.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-fever.multifield.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-fever.multifield.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.multifield
@@ -21,7 +26,7 @@ tar xvf collections/beir-v1.0.0-corpus.tar -C collections/
 ```
 
 The tarball is 14 GB and has MD5 checksum `faefd5281b662c72ce03d22021e4ff6b`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 
