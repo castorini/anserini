@@ -1,12 +1,16 @@
-# Anserini Regressions: TREC 2018 News Background Linking
+# <img src="../../anserini-logo.png" height="30" /> TREC 2018 News Background Linking
 
-**Models**: various bag-of-words approaches
+**Anserini reproductions from document collection**
+
++ **Models**: bag-of-words
++ **Config**: [`backgroundlinking18.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/backgroundlinking18.yaml)
++ **Template**: [`backgroundlinking18.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/backgroundlinking18.template)
 
 This page describes regressions for the background linking task in the [TREC 2018 News Track](http://trec-news.org/).
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/backgroundlinking18.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/backgroundlinking18.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/backgroundlinking18.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config backgroundlinking18

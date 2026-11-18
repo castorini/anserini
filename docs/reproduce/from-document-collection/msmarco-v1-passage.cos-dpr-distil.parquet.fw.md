@@ -1,14 +1,20 @@
-# Anserini Regressions: MS MARCO Passage Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO Passage Ranking
 
-**Model**: cosDPR-distil with inverted indexes using the "fake-words" technique (q=40) using cached queries
+**Anserini reproductions from document collection**
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
++ **Models**: cosDPR-distil with inverted indexes using the "fake-words" technique (_q_=40) using cached queries
++ **Config**: [`msmarco-v1-passage.cos-dpr-distil.parquet.fw.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.fw.yaml)
++ **Template**: [`msmarco-v1-passage.cos-dpr-distil.parquet.fw.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.fw.template)
+
+This page describes reproductions from the raw document collection using cosDPR-distil on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), searching inverted indexes using the "fake-words" technique (_q_=40), as described in the following paper:
+
+> Jimmy Lin and Tommaso Teofili. [Searching Dense Representations with Inverted Indexes.](https://arxiv.org/abs/2312.01556) arXiv:2312.01556, 2023.
+
 In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.fw.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.fw.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.fw.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.fw
@@ -16,13 +22,13 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with cosDPR-distil.
 
-From any machine, the following command will download the corpus and perform the complete regression, end to end:
+From any machine, the following command will download the corpus and perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.fw
 ```
 
-The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+The `ReproduceFromDocumentCollection` program automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same results.
 
 ## Corpus Download
 
@@ -65,7 +71,7 @@ Upon completion, we should have an index with 8,841,823 documents.
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 The regression experiments here evaluate on the 6980 dev set questions; see [this page](../../../docs/experiments-msmarco-passage.md) for more details.
 
-After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
+After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchInvertedDenseVectors \
@@ -89,15 +95,15 @@ bin/trec_eval -c -m recall.1000 msmarco-passage.dev-subset runs/run.lucene-inver
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                   | **cosDPR-distill** |
-|:------------------------------------------------------------------------------|:------------------:|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3654             |
-| **RR@10**                                                                     | **cosDPR-distill** |
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3605             |
-| **R@100**                                                                     | **cosDPR-distill** |
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.8711             |
-| **R@1000**                                                                    | **cosDPR-distill** |
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.9668             |
+| **AP@1000**                                                                   | **cosDPR-distil** |
+|:------------------------------------------------------------------------------|:-----------------:|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3654            |
+| **RR@10**                                                                     | **cosDPR-distil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3605            |
+| **R@100**                                                                     | **cosDPR-distil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.8711            |
+| **R@1000**                                                                    | **cosDPR-distil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.9668            |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

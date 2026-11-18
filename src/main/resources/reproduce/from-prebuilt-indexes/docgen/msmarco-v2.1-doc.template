@@ -4,6 +4,7 @@
 
 + **Corpus**: MS MARCO V2.1 Doc
 + **Config**: ${config}
++ **Template**: ${template}
 
 ## Summary
 

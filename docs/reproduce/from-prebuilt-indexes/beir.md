@@ -3,7 +3,8 @@
 **Anserini reproductions from prebuilt indexes**
 
 + **Corpus**: BEIR
-+ **Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml)
++ **Config**: [`beir.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml)
++ **Template**: [`beir.template`](../../../src/main/resources/reproduce/from-prebuilt-indexes/docgen/beir.template)
 
 ## Summary
 
@@ -85,7 +86,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25, flat bag-of-words baseline
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L2)
+**Config**: [`beir.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L2)
 
 #### trec-covid
 
@@ -671,7 +672,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 2. BM25, multifield bag-of-words baseline
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L181)
+**Config**: [`beir.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L181)
 
 #### trec-covid
 
@@ -1315,7 +1316,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 3. SPLADE-v3 (ONNX)
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L360)
+**Config**: [`beir.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L360)
 
 #### trec-covid
 
@@ -1959,7 +1960,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 4. SlideOn (ONNX), d512/q64, scale 100
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L539)
+**Config**: [`beir.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L539)
 
 #### trec-covid
 
@@ -2632,7 +2633,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 5. bge-base-en-v1.5 w/ flat indexes (ONNX)
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L718)
+**Config**: [`beir.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L718)
 
 #### trec-covid
 
@@ -3218,7 +3219,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 6. Fusion: RRF (BM25 + BGE)
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L897)
+**Config**: [`beir.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L897)
 
 #### trec-covid
 
@@ -3833,7 +3834,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 7. Fusion: Average (BM25 + BGE) with normalization
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L1076)
+**Config**: [`beir.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L1076)
 
 #### trec-covid
 
