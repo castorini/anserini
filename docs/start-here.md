@@ -711,6 +711,6 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@nahid2003131](https://github.com/nahid2003131) on 2026-11-11 (commit [`44c9ce9`](https://github.com/castorini/anserini/commit/44c9ce9e4548703db69f3a7df04b2297c32bbd5f))
 + Results reproduced by [@MuhammadBilalKhan267](https://github.com/MuhammadBilalKhan267) on 2026-11-11 (commit [`6390709`](https://github.com/castorini/anserini/commit/6390709ad7a637ec974b69d8a8556e9607652edc))
 + Results reproduced by [@stallionn](https://github.com/stallionn) on 2026-11-13 (commit [`d69c77b`](https://github.com/castorini/anserini/commit/d69c77b43a5eb59a7e735b1b3a5438de8e14e567))
++ Results reproduced by [@capnmav77](https://github.com/capnmav77) on 2026-11-13 (commit [`d69c77b`](https://github.com/castorini/anserini/commit/d69c77b43a5eb59a7e735b1b3a5438de8e14e567))
 + Results reproduced by [@s4natk](https://github.com/s4natk) on 2026-11-17 (commit [`740e7b8`](https://github.com/castorini/anserini/commit/740e7b84e3c1a3172158c4c920505d7637449d03))
 + Results reproduced by [@UsmanGhias](https://github.com/UsmanGhias) on 2026-11-17 (commit [`f69dc1b`](https://github.com/castorini/anserini/commit/f69dc1bf7ecfc2b8fcfccd364f39788bf125419d))
-+ Results reproduced by [@capnmav77](https://github.com/capnmav77) on 2026-11-18 (commit [`d39c02b`](https://github.com/castorini/anserini/commit/d39c02bd5331767003c5a89772481f351d159c66))
