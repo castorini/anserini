@@ -4,6 +4,7 @@
 
 + **Corpus**: BRIGHT
 + **Config**: ${config}
++ **Template**: ${template}
 
 ## Summary
 

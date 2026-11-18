@@ -4,6 +4,7 @@
 
 + **Corpus**: MS MARCO V2.1 Segmented Doc
 + **Config**: ${config}
++ **Template**: ${template}
 
 ## Summary
 

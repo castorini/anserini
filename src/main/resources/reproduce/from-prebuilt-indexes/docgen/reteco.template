@@ -4,6 +4,7 @@
 
 + **Corpus**: RETECO v1.1 Track 1a
 + **Config**: ${config}
++ **Template**: ${template}
 
 ## Summary
 
