@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFac
 index_stats:
   documents: 20545677
   documents (non-empty): 20545677
-  total terms: 6338905909
+  total terms: 6338906110
 
 metrics:
   - metric: AP@100
