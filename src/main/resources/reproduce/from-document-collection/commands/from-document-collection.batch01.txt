@@ -45,6 +45,7 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.wp-hgf
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.unicoil.onnx
@@ -158,6 +159,7 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc-segmented
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc-segmented.wp-hgf
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc-segmented.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc-segmented.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc-segmented.unicoil.onnx
@@ -190,6 +192,7 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc-segmented
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc-segmented.wp-hgf
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc-segmented.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc-segmented.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc-segmented.unicoil.onnx
