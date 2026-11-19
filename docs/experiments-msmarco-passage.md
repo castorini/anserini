@@ -34,7 +34,8 @@ That is, most things done with Anserini can be "translated" into Elasticsearch q
 
 In this guide, we're just going through the mechanical steps of data prep.
 To better understand what you're actually doing, go through the [start here](start-here.md) guide.
-The guide contains the same exact instructions, but provide more detailed explanations.
+The guide contains the same exact instructions, but provides more detailed explanations.
+If you've already completed it and still have the files in `collections/msmarco-passage/`, you can skip ahead to [Indexing](#indexing).
 
 We're going to use the repository's root directory as the working directory.
 First, we need to download and extract the MS MARCO passage dataset:
@@ -832,3 +833,4 @@ The default baseline remains `k1=0.9`, `b=0.4`.
 + Results reproduced by [@UsmanGhias](https://github.com/UsmanGhias) on 2026-11-17 (commit [`f69dc1b`](https://github.com/castorini/anserini/commit/f69dc1bf7ecfc2b8fcfccd364f39788bf125419d))
 + Results reproduced by [@sjyoo88](https://github.com/sjyoo88) on 2026-11-18 (commit [`f6eae4b`](https://github.com/castorini/anserini/commit/f6eae4b92ab53dcc4f4de5f418e0010bc2703cd7))
 + Results reproduced by [@MasihMoafi](https://github.com/MasihMoafi) on 2026-11-18 (commit [`7b08f29`](https://github.com/castorini/anserini/commit/7b08f2954d8390a85370e68ab3a3ff8164f7dd0b))
++ Results reproduced by [@Aviciiiiii](https://github.com/Aviciiiiii) on 2026-11-18 (commit [`d69c77b`](https://github.com/castorini/anserini/commit/d69c77b43a5eb59a7e735b1b3a5438de8e14e567))
