@@ -18,7 +18,6 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 # MS MARCO V1, full indexing
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bm25-b8
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.wp-tok
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.wp-hgf
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.doc2query
@@ -42,12 +41,10 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.wp-tok
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.wp-hgf
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.wp-tok
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.unicoil.onnx
@@ -135,7 +132,6 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 # Just retrieval
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bm25-b8
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.wp-tok
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.wp-hgf
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.docTTTTTquery
@@ -158,19 +154,16 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.lexlsh
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc.wp-tok
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc.wp-hgf
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc-segmented
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc-segmented.wp-tok
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc-segmented.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc-segmented.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-doc-segmented.unicoil.onnx
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bm25-b8
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.wp-tok
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.wp-hgf
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.docTTTTTquery
@@ -193,12 +186,10 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.lexlsh
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc.wp-tok
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc.wp-hgf
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc-segmented
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc-segmented.wp-tok
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc-segmented.wp-ca
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc-segmented.docTTTTTquery
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc-segmented.unicoil.onnx
