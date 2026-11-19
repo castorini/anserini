@@ -535,37 +535,6 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-climate-fever.flat"),
         Pattern.quote("beir-v1.0.0-scifact.flat")
     ));
-    ORDERING.put("BEIR (v1.0.0): \"flat\" baseline with WordPiece tokenization", List.of(
-        Pattern.quote("beir-v1.0.0-trec-covid.flat-wp"),
-        Pattern.quote("beir-v1.0.0-bioasq.flat-wp"),
-        Pattern.quote("beir-v1.0.0-nfcorpus.flat-wp"),
-        Pattern.quote("beir-v1.0.0-nq.flat-wp"),
-        Pattern.quote("beir-v1.0.0-hotpotqa.flat-wp"),
-        Pattern.quote("beir-v1.0.0-fiqa.flat-wp"),
-        Pattern.quote("beir-v1.0.0-signal1m.flat-wp"),
-        Pattern.quote("beir-v1.0.0-trec-news.flat-wp"),
-        Pattern.quote("beir-v1.0.0-robust04.flat-wp"),
-        Pattern.quote("beir-v1.0.0-arguana.flat-wp"),
-        Pattern.quote("beir-v1.0.0-webis-touche2020.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-android.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-english.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-gaming.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-gis.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-mathematica.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-physics.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-programmers.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-stats.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-tex.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-unix.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-webmasters.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-wordpress.flat-wp"),
-        Pattern.quote("beir-v1.0.0-quora.flat-wp"),
-        Pattern.quote("beir-v1.0.0-dbpedia-entity.flat-wp"),
-        Pattern.quote("beir-v1.0.0-scidocs.flat-wp"),
-        Pattern.quote("beir-v1.0.0-fever.flat-wp"),
-        Pattern.quote("beir-v1.0.0-climate-fever.flat-wp"),
-        Pattern.quote("beir-v1.0.0-scifact.flat-wp")
-    ));
     ORDERING.put("BEIR (v1.0.0): \"multifield\" baseline", List.of(
         Pattern.quote("beir-v1.0.0-trec-covid.multifield"),
         Pattern.quote("beir-v1.0.0-bioasq.multifield"),

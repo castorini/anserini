@@ -238,36 +238,6 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.flat
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.flat
 
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.flat-wp
-
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.multifield
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.multifield
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.multifield
