@@ -85,6 +85,7 @@ Here are all the available configurations:
 + [`msmarco-v1-doc.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.wp-ca.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.wp-ca.md)]
 + [`msmarco-v1-doc.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.docTTTTTquery.md)]
 + [`msmarco-v1-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.md)]
++ [`msmarco-v1-doc-segmented.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-hgf.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-hgf.md)]
 + [`msmarco-v1-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-ca.md)]
 + [`msmarco-v1-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.docTTTTTquery.md)]
 + [`msmarco-v1-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.unicoil.onnx.yaml)
@@ -113,6 +114,7 @@ Here are all the available configurations:
 + [`dl19-doc.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl19-doc.wp-ca.md)]
 + [`dl19-doc.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl19-doc.docTTTTTquery.md)]
 + [`dl19-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.md)]
++ [`dl19-doc-segmented.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-hgf.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.wp-hgf.md)]
 + [`dl19-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.wp-ca.md)]
 + [`dl19-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.docTTTTTquery.md)]
 + [`dl19-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.unicoil.onnx.yaml)
@@ -141,6 +143,7 @@ Here are all the available configurations:
 + [`dl20-doc.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl20-doc.wp-ca.md)]
 + [`dl20-doc.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl20-doc.docTTTTTquery.md)]
 + [`dl20-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.md)]
++ [`dl20-doc-segmented.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-hgf.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.wp-hgf.md)]
 + [`dl20-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.wp-ca.md)]
 + [`dl20-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.docTTTTTquery.md)]
 + [`dl20-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.unicoil.onnx.yaml)

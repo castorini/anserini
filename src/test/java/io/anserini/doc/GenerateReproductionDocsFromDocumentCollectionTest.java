@@ -85,6 +85,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("msmarco-v1-doc.docTTTTTquery"),
         Pattern.quote(""),
         Pattern.quote("msmarco-v1-doc-segmented"),
+        Pattern.quote("msmarco-v1-doc-segmented.wp-hgf"),
         Pattern.quote("msmarco-v1-doc-segmented.wp-ca"),
         Pattern.quote("msmarco-v1-doc-segmented.docTTTTTquery"),
         Pattern.quote("msmarco-v1-doc-segmented.unicoil.onnx"),
@@ -118,6 +119,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl19-doc.docTTTTTquery"),
         Pattern.quote(""),
         Pattern.quote("dl19-doc-segmented"),
+        Pattern.quote("dl19-doc-segmented.wp-hgf"),
         Pattern.quote("dl19-doc-segmented.wp-ca"),
         Pattern.quote("dl19-doc-segmented.docTTTTTquery"),
         Pattern.quote("dl19-doc-segmented.unicoil.onnx"),
@@ -151,6 +153,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl20-doc.docTTTTTquery"),
         Pattern.quote(""),
         Pattern.quote("dl20-doc-segmented"),
+        Pattern.quote("dl20-doc-segmented.wp-hgf"),
         Pattern.quote("dl20-doc-segmented.wp-ca"),
         Pattern.quote("dl20-doc-segmented.docTTTTTquery"),
         Pattern.quote("dl20-doc-segmented.unicoil.onnx")
