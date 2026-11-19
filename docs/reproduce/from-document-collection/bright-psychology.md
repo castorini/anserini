@@ -1,11 +1,19 @@
-# Anserini Regressions: BRIGHT &mdash; Psychology
+# <img src="../../anserini-logo.png" height="30" /> BRIGHT &mdash; Psychology
 
-This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; Psychology](https://brightbenchmark.github.io/).
+**Anserini reproductions from document collection**
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-psychology.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-psychology.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
++ **Models**: BM25 and BM25QS
++ **Config**: [`bright-psychology.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-psychology.yaml)
++ **Template**: [`bright-psychology.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-psychology.template)
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+This page describes reproductions from the raw document collection using BM25 and BM25QS on [BRIGHT &mdash; Psychology](https://brightbenchmark.github.io/).
+BM25QS (query-side BM25) is described in the following paper:
+
+> Yijun Ge, Sahel Sharifymoghaddam, and Jimmy Lin. [Lighting the Way for BRIGHT: Reproducible Baselines with Anserini, Pyserini, and RankLLM.](https://arxiv.org/abs/2509.02558) _arXiv:2509.02558_, 2025.
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-psychology.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology
@@ -19,7 +27,7 @@ tar xvf collections/bright-corpus.tar -C collections/
 ```
 
 The tarball is 284 MB and has MD5 checksum `568b594709a9977369033117bfb6889c`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 

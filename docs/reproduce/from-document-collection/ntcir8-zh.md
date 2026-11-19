@@ -1,12 +1,17 @@
-# Anserini Regressions: NTCIR-8 Monolingual Chinese
+# <img src="../../anserini-logo.png" height="30" /> NTCIR-8 Monolingual Chinese
+
+**Anserini reproductions from document collection**
+
++ **Models**: BM25
++ **Config**: [`ntcir8-zh.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/ntcir8-zh.yaml)
++ **Template**: [`ntcir8-zh.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/ntcir8-zh.template)
 
 This page documents BM25 regression experiments for [NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html).
 The description of the document collection can be found in the [NTCIR-8 data page](http://research.nii.ac.jp/ntcir/permission/ntcir-8/perm-en-ACLIA.html).
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/ntcir8-zh.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/ntcir8-zh.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/ntcir8-zh.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ntcir8-zh

@@ -4,6 +4,7 @@
 
 + **Corpus**: MS MARCO V1 Passage
 + **Config**: ${config}
++ **Template**: ${template}
 
 ## Summary
 

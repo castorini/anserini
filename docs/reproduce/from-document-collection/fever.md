@@ -1,11 +1,16 @@
-# Anserini Regressions: FEVER Fact Verification
+# <img src="../../anserini-logo.png" height="30" /> FEVER Fact Verification
 
-This page documents BM25 regression experiments for the [FEVER fact verification task](https://fever.ai/), which is integrated into Anserini's regression testing framework.
+**Anserini reproductions from document collection**
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/fever.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/fever.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
++ **Models**: BM25
++ **Config**: [`fever.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/fever.yaml)
++ **Template**: [`fever.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/fever.template)
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+This page documents BM25 regression experiments for the [FEVER fact verification task](https://fever.ai/), which is integrated into Anserini's reproduction testing framework.
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/fever.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config fever
@@ -72,4 +77,4 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                         | **BM25 (Default)** | **BM25 (Tuned)** |
 | [FEVER Paper Development Dataset](https://s3-eu-west-1.amazonaws.com/fever.public/paper_dev.jsonl) | 0.9477             | 0.9481           |
 
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.9`, `b=0.1`.
+The setting "default" refers to the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.9`, `b=0.1`.

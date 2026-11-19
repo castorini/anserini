@@ -714,20 +714,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-stackoverflow"),
         Pattern.quote("bright-sustainable-living"),
         Pattern.quote("bright-theoremqa-questions"),
-        Pattern.quote("bright-theoremqa-theorems"),
-        Pattern.quote(""),
-        Pattern.quote("bright-aops.bm25qs"),
-        Pattern.quote("bright-biology.bm25qs"),
-        Pattern.quote("bright-earth-science.bm25qs"),
-        Pattern.quote("bright-economics.bm25qs"),
-        Pattern.quote("bright-leetcode.bm25qs"),
-        Pattern.quote("bright-pony.bm25qs"),
-        Pattern.quote("bright-psychology.bm25qs"),
-        Pattern.quote("bright-robotics.bm25qs"),
-        Pattern.quote("bright-stackoverflow.bm25qs"),
-        Pattern.quote("bright-sustainable-living.bm25qs"),
-        Pattern.quote("bright-theoremqa-questions.bm25qs"),
-        Pattern.quote("bright-theoremqa-theorems.bm25qs")
+        Pattern.quote("bright-theoremqa-theorems")
     ));
     ORDERING.put("BRIGHT: SPLADE-v3", List.of(
         Pattern.quote("bright-aops.splade-v3.onnx"),
@@ -821,7 +808,9 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       Map<String, String> valuesMap = new HashMap<>();
       valuesMap.put("root_path", "../../..");
       valuesMap.put("yaml", String.format("../../../src/main/resources/reproduce/from-document-collection/configs/%s.yaml", testName));
+      valuesMap.put("yaml_short", String.format("%s.yaml", testName));
       valuesMap.put("template", String.format("../../../src/main/resources/reproduce/from-document-collection/docgen/%s.template", testName));
+      valuesMap.put("template_short", String.format("%s.template", testName));
       valuesMap.put("test_name", testName);
       valuesMap.put("corpus", corpus);
       valuesMap.put("download_url", data.getDownload_url());

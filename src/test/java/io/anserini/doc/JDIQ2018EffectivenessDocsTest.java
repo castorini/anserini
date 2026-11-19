@@ -16,10 +16,13 @@
 
 package io.anserini.doc;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -101,7 +104,7 @@ public class JDIQ2018EffectivenessDocsTest {
             builder.append(String.format("%1$-40s|", topic));
             for (Map.Entry<String, Object> entry4 : ((Map<String, Object>) entry3.getValue()).entrySet()) {
               Double value = (Double) entry4.getValue();
-              builder.append(String.format(" %-10.4f|", value));
+              builder.append(String.format(Locale.ROOT, " %-10.4f|", value));
             }
             builder.append("\n");
           }
@@ -132,5 +135,24 @@ public class JDIQ2018EffectivenessDocsTest {
     String resolvedString = sub.replace(text);
     FileUtils.writeStringToFile(new File("docs/experiments-jdiq2018.md"),
         resolvedString, "UTF-8");
+  }
+
+  @Test
+  public void testEffectivenessIndependentOfLocale() {
+    Model data = new Model();
+    Map<String, Object> expected = new HashMap<>();
+    for (String collection : new String[] { "disk12", "robust04", "robust05", "core17", "wt10g", "gov2", "cw09b", "cw12b13", "mb11", "mb13" }) {
+      expected.put(collection, Map.of("map", Map.of("topics", 0.2274)));
+    }
+    data.setModels(Map.of("BM25", Map.of("expected", expected)));
+    Locale previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT);
+    try {
+      Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("mzn-Arab-IR"));
+      String output = data.generateEffectiveness();
+      String row = output.lines().filter(line -> line.contains("topics")).findFirst().orElseThrow();
+      assertEquals("0.2274", row.split("\\|")[1].trim());
+    } finally {
+      Locale.setDefault(Locale.Category.FORMAT, previousFormatLocale);
+    }
   }
 }

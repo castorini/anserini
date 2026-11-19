@@ -1,19 +1,21 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-physics
+# <img src="../../anserini-logo.png" height="30" /> BEIR (v1.0.0) &mdash; CQADupStack-physics
 
-**Model**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
+**Anserini reproductions from document collection**
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using [SPLADE-v3](https://arxiv.org/abs/2403.06789) on [BEIR (v1.0.0) &mdash; CQADupStack-physics](http://beir.ai/).
-The model itself can be download [here](https://huggingface.co/naver/splade-v3).
++ **Models**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
++ **Config**: [`beir-v1.0.0-cqadupstack-physics.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-physics.splade-v3.onnx.yaml)
++ **Template**: [`beir-v1.0.0-cqadupstack-physics.splade-v3.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-cqadupstack-physics.splade-v3.onnx.template)
+
+This page describes reproductions from the raw document collection using [SPLADE-v3](https://huggingface.co/naver/splade-v3) on [BEIR (v1.0.0) &mdash; CQADupStack-physics](http://beir.ai/).
 See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
 
 > Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-physics.splade-v3.onnx.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-cqadupstack-physics.splade-v3.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-cqadupstack-physics.splade-v3.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.splade-v3.onnx
@@ -27,7 +29,7 @@ tar xvf collections/beir-v1.0.0-splade-v3.tar -C collections/
 ```
 
 The tarball is 55 GB and has MD5 checksum `37f294610af763ce48eed03afd9455df`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 

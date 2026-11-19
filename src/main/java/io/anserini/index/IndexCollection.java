@@ -292,11 +292,10 @@ public final class IndexCollection extends AbstractIndexer {
       int segmentCnt = segmentPaths.size();
       monitor.scheduleAtFixedRate(() -> {
         if (segmentCnt == 1) {
-          LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
+          LOG.info(String.format(Locale.ROOT, "%,d documents indexed", counters.indexed.get()));
         } else {
           double percent = (double) completedTaskCount.get() / segmentCnt * 100.0;
-          LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
-                  percent, counters.indexed.get()));
+          LOG.info(String.format(Locale.ROOT, "%.2f%% of files completed, %,d documents indexed", percent, counters.indexed.get()));
           }
         }, 1, 1, TimeUnit.MINUTES);
 

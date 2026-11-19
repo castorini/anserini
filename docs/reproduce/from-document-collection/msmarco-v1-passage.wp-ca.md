@@ -1,14 +1,18 @@
-# Anserini Regressions: MS MARCO Passage Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO Passage Ranking
 
-**Models**: bag-of-words approaches using `CompositeAnalyzer`
+**Anserini reproductions from document collection**
 
-This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
-Here we are using `CompositeAnalyzer` which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
++ **Models**: bag-of-words using `CompositeAnalyzer`
++ **Config**: [`msmarco-v1-passage.wp-ca.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.wp-ca.yaml)
++ **Template**: [`msmarco-v1-passage.wp-ca.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.wp-ca.template)
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.wp-ca.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.wp-ca.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page describes reproductions from the raw document collection on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+In these experiments, we are using `CompositeAnalyzer`, which combines Lucene tokenization and WordPiece tokenization (i.e., from BERT) with the [`bert-base-uncased`](https://huggingface.co/bert-base-uncased) tokenizer from Hugging Face.
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.wp-ca.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.wp-ca
@@ -29,7 +33,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   >& logs/log.msmarco-passage &
 ```
 
-The directory `/path/to/msmarco-passage-wp/` should be a directory containing the corpus in Anserini's jsonl format.
+The directory `/path/to/msmarco-passage/` should be a directory containing the corpus in Anserini's jsonl format.
 
 For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
