@@ -37,7 +37,6 @@ Here are all the available configurations:
 + [BEIR (v1.0.0): SPLADE-v3](#beir-v1-0-0-splade-v3)
 + [BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil](#beir-v1-0-0-splade-cocondenser-ensembledistil)
 + [BEIR (v1.0.0): "flat" baseline](#beir-v1-0-0-flat-baseline)
-+ [BEIR (v1.0.0): "flat" baseline with WordPiece tokenization](#beir-v1-0-0-flat-baseline-with-wordpiece-tokenization)
 + [BEIR (v1.0.0): "multifield" baseline](#beir-v1-0-0-multifield-baseline)
 + [Mr.TyDi (v1.1): BM25 regressions](#mr-tydi-v1-1-bm25-regressions)
 + [MIRACL (v1.0): BM25 regressions](#miracl-v1-0-bm25-regressions)
@@ -62,7 +61,6 @@ Here are all the available configurations:
 
 + [`msmarco-v1-passage`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.md)]
 + [`msmarco-v1-passage.bm25-b8`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bm25-b8.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bm25-b8.md)]
-+ [`msmarco-v1-passage.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.wp-tok.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.wp-tok.md)]
 + [`msmarco-v1-passage.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.wp-hgf.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.wp-hgf.md)]
 + [`msmarco-v1-passage.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.wp-ca.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.wp-ca.md)]
 + [`msmarco-v1-passage.doc2query`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.doc2query.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.doc2query.md)]
@@ -83,18 +81,15 @@ Here are all the available configurations:
 + [`msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
 + [`msmarco-v1-doc`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.md)]
-+ [`msmarco-v1-doc.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.wp-tok.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.wp-tok.md)]
 + [`msmarco-v1-doc.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.wp-hgf.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.wp-hgf.md)]
 + [`msmarco-v1-doc.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.wp-ca.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.wp-ca.md)]
 + [`msmarco-v1-doc.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.docTTTTTquery.md)]
 + [`msmarco-v1-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.md)]
-+ [`msmarco-v1-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-tok.md)]
 + [`msmarco-v1-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-ca.md)]
 + [`msmarco-v1-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.docTTTTTquery.md)]
 + [`msmarco-v1-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.unicoil.onnx.yaml)
 + [`dl19-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.yaml) [[docs](reproduce/from-document-collection/dl19-passage.md)]
 + [`dl19-passage.bm25-b8`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bm25-b8.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bm25-b8.md)]
-+ [`dl19-passage.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl19-passage.wp-tok.md)]
 + [`dl19-passage.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.wp-hgf.yaml) [[docs](reproduce/from-document-collection/dl19-passage.wp-hgf.md)]
 + [`dl19-passage.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl19-passage.wp-ca.md)]
 + [`dl19-passage.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl19-passage.docTTTTTquery.md)]
@@ -114,18 +109,15 @@ Here are all the available configurations:
 + [`dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
 + [`dl19-doc`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.yaml) [[docs](reproduce/from-document-collection/dl19-doc.md)]
-+ [`dl19-doc.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl19-doc.wp-tok.md)]
 + [`dl19-doc.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.wp-hgf.yaml) [[docs](reproduce/from-document-collection/dl19-doc.wp-hgf.md)]
 + [`dl19-doc.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl19-doc.wp-ca.md)]
 + [`dl19-doc.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl19-doc.docTTTTTquery.md)]
 + [`dl19-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.md)]
-+ [`dl19-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.wp-tok.md)]
 + [`dl19-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.wp-ca.md)]
 + [`dl19-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.docTTTTTquery.md)]
 + [`dl19-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.unicoil.onnx.yaml)
 + [`dl20-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.yaml) [[docs](reproduce/from-document-collection/dl20-passage.md)]
 + [`dl20-passage.bm25-b8`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bm25-b8.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bm25-b8.md)]
-+ [`dl20-passage.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl20-passage.wp-tok.md)]
 + [`dl20-passage.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.wp-hgf.yaml) [[docs](reproduce/from-document-collection/dl20-passage.wp-hgf.md)]
 + [`dl20-passage.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl20-passage.wp-ca.md)]
 + [`dl20-passage.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl20-passage.docTTTTTquery.md)]
@@ -145,12 +137,10 @@ Here are all the available configurations:
 + [`dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
 + [`dl20-doc`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.yaml) [[docs](reproduce/from-document-collection/dl20-doc.md)]
-+ [`dl20-doc.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl20-doc.wp-tok.md)]
 + [`dl20-doc.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.wp-hgf.yaml) [[docs](reproduce/from-document-collection/dl20-doc.wp-hgf.md)]
 + [`dl20-doc.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl20-doc.wp-ca.md)]
 + [`dl20-doc.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl20-doc.docTTTTTquery.md)]
 + [`dl20-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.md)]
-+ [`dl20-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.wp-tok.md)]
 + [`dl20-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.wp-ca.md)]
 + [`dl20-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.docTTTTTquery.md)]
 + [`dl20-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.unicoil.onnx.yaml)
@@ -532,40 +522,6 @@ Here are all the available configurations:
 + [`beir-v1.0.0-fever.flat`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.flat.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fever.flat.md)]
 + [`beir-v1.0.0-climate-fever.flat`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.flat.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.flat.md)]
 + [`beir-v1.0.0-scifact.flat`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.flat.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.flat.md)]
-
-<a id="beir-v1-0-0-flat-baseline-with-wordpiece-tokenization"></a>
-
-## BEIR (v1.0.0): "flat" baseline with WordPiece tokenization
-
-+ [`beir-v1.0.0-trec-covid.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.flat-wp.md)]
-+ [`beir-v1.0.0-bioasq.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.flat-wp.md)]
-+ [`beir-v1.0.0-nfcorpus.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.flat-wp.md)]
-+ [`beir-v1.0.0-nq.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nq.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nq.flat-wp.md)]
-+ [`beir-v1.0.0-hotpotqa.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-hotpotqa.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.flat-wp.md)]
-+ [`beir-v1.0.0-fiqa.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fiqa.flat-wp.md)]
-+ [`beir-v1.0.0-signal1m.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-signal1m.flat-wp.md)]
-+ [`beir-v1.0.0-trec-news.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-news.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-news.flat-wp.md)]
-+ [`beir-v1.0.0-robust04.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-robust04.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-robust04.flat-wp.md)]
-+ [`beir-v1.0.0-arguana.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-arguana.flat-wp.md)]
-+ [`beir-v1.0.0-webis-touche2020.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-webis-touche2020.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-android.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-android.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-english.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-english.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-gaming.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-gaming.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-gis.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-gis.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-mathematica.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-mathematica.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-physics.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-physics.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-programmers.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-programmers.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-stats.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-stats.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-tex.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-tex.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-unix.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-unix.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-webmasters.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-webmasters.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-wordpress.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-wordpress.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.flat-wp.md)]
-+ [`beir-v1.0.0-quora.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-quora.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-quora.flat-wp.md)]
-+ [`beir-v1.0.0-dbpedia-entity.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.flat-wp.md)]
-+ [`beir-v1.0.0-scidocs.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scidocs.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scidocs.flat-wp.md)]
-+ [`beir-v1.0.0-fever.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fever.flat-wp.md)]
-+ [`beir-v1.0.0-climate-fever.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.flat-wp.md)]
-+ [`beir-v1.0.0-scifact.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.flat-wp.md)]
 
 <a id="beir-v1-0-0-multifield-baseline"></a>
 
