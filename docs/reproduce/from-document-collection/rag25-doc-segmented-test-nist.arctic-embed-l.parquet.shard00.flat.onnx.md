@@ -6,7 +6,7 @@
 + **Config**: [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.yaml)
 + **Template**: [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.template)
 
-This page describes regression experiments for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the RAG 25 test topics (= narratives), which is integrated into Anserini's reproduction testing framework.
+This page describes reproductions from the raw document collection for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the RAG 25 test topics (= narratives), which is integrated into Anserini's reproduction testing framework.
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and re-used for the TREC 2025 RAG Track.
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2025-rag25-corpus/).
 
@@ -47,13 +47,13 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   >& logs/log.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l &
 ```
 
-The setting of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+The setting of `-input` should be a directory containing the Parquet files that comprise the corpus.
 
 For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
-Here, we are using all 22 test topics from the TREC 2025 RAG Track with (automatically generated) UMBRELA relevance judgments.
+Here, we are using all 22 test topics from the TREC 2025 RAG Track with manual relevance judgments from NIST assessors.
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 After indexing has completed, you should be able to perform retrieval as follows:

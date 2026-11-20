@@ -6,7 +6,7 @@
 + **Config**: [`rag24-doc-segmented-test-umbrela.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.yaml)
 + **Template**: [`rag24-doc-segmented-test-umbrela.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-test-umbrela.template)
 
-This page describes regression experiments for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the RAG 24 test topics (= queries in TREC parlance), which is integrated into Anserini's reproduction testing framework.
+This page describes reproductions from the raw document collection for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the RAG 24 test topics (= queries in TREC parlance), which is integrated into Anserini's reproduction testing framework.
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
 

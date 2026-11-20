@@ -6,7 +6,7 @@
 + **Config**: [`rag25-doc-segmented-test-nist.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.yaml)
 + **Template**: [`rag25-doc-segmented-test-nist.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag25-doc-segmented-test-nist.template)
 
-This page describes regression experiments for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the RAG 25 test topics (= narratives), which is integrated into Anserini's reproduction testing framework.
+This page describes reproductions from the raw document collection for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the RAG 25 test topics (= narratives), which is integrated into Anserini's reproduction testing framework.
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and re-used for the TREC 2025 RAG Track.
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2025-rag25-corpus/).
 

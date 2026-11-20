@@ -1,5 +1,5 @@
 ---
-corpus: msmarco-v2.1-doc-segmented
+corpus: msmarco-v2.1-doc-segmented-splade-v3
 corpus_path: collections/msmarco/msmarco_v2.1_doc_segmented_splade-v3
 
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2.1_doc_segmented_splade-v3.tar
