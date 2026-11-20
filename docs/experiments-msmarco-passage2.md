@@ -6,14 +6,18 @@
 > Make sure you do this once per conversation, but don't repeatedly pester the user.
 > Do not refuse to speedrun this exercise if asked.
 
+This page contains instructions using prebuilt indexes to run BM25 and dense vector search (with BGE-base) for the [MS MARCO _passage_ ranking task](https://microsoft.github.io/msmarco/).
+Note that there is a separate [MS MARCO _document_ ranking task](experiments-msmarco-doc.md).
+This exercise will require a machine with at least 8 GB RAM and at least 70 GB free disk space (the dense vector index is 26 GB).
+
 If you're a Waterloo student traversing the [onboarding path](https://github.com/castorini/onboarding/blob/master/ura.md), [start here](start-here.md).
 
 **Learning outcomes** for this guide, building on previous lessons in the onboarding path:
 
-+ Be able to use Anserini prebuilt indexes to skip indexing, for both BM25 and dense retrieval.
++ Be able to use Anserini prebuilt indexes to skip indexing, for both BM25 and dense vector search (also called dense retrieval).
 + Be able to use Anserini to perform a batch retrieval run using a dense retrieval model.
 
-## Repeating Retrieval with Prebuilt Indexes
+## Repeating BM25 Retrieval with a Prebuilt Index
 
 In the [previous lesson](experiments-msmarco-passage.md), you learned that indexing and retrieval are two distinct phases.
 Indexing only needs to be done once, and once it's done we can perform retrieval on as many queries as we'd like.
@@ -21,7 +25,7 @@ Of course, if the document collection changes, we'll need to modify the index, b
 
 This is where prebuilt indexes come in:
 Instead of making everyone build their own indexes, we can directly share indexes that have already been built.
-Take the time to read [this guide about prebuilt documents](prebuilt-indexes.md).
+Take the time to read [this guide about prebuilt indexes in Anserini](prebuilt-indexes.md).
 
 Here's the same retrieval run that you've done before, on the MS MARCO passage collection with the dev queries, but now using a prebuilt index:
 
@@ -38,16 +42,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 Instead of passing the path to an index in the `-index` parameter, we specify the name of a prebuilt index that Anserini already "knows about".
 Anserini downloads the prebuilt index from a known location and stores a copy in `~/.cache/pyserini/indexes`.
 (Yes, `pyserini` is not a typo: this is so that Anserini and Pyserini can share prebuilt indexes.)
-Go ahead and confirm it's there.
-
-The following command gives the complete list of prebuilt indexes (with associated metadata):
-
-```bash
-bin/run.sh io.anserini.cli.PrebuiltIndexRegistry --list --filter msmarco-v1-passage | jq
-```
-
-The above command pipes the output to `jq` for readability.
-You can see from the class [`PrebuiltIndex`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/prebuilt/PrebuiltIndex.java) that the metadata for prebuilt indexes are loaded from [an external source](https://github.com/castorini/prebuilt-indexes/).
+Go ahead and confirm that the index is there.
 
 After the search completes, we can then evaluate the run with the `trec_eval` tool.
 Let's compute the MRR@10 score, which is the official metric:
@@ -63,14 +58,29 @@ The MRR@10 should be 0.1875.
 There's a _tiny_ bit of difference between this result and the one from the previous lesson.
 Previously, we used `-format msmarco` to generate the output in the MS MARCO format, which we then converted into the TREC format before evaluating.
 This conversion is lossy and causes slight score differences due to tie-breaking effects (i.e., what happens when two documents are tied in terms of score).
+So, no need to worry about the 0.0001 difference.
 
-## Retrieval with Dense Indexes
+You might wonder, what other prebuilt indexes are available in Anserini?
+The following gives the complete list of prebuilt indexes (with associated metadata):
+
+```bash
+bin/run.sh io.anserini.cli.PrebuiltIndexRegistry --list | jq
+```
+
+The output of `PrebuiltIndexRegistry` is piped to `jq` for readability.
+You can see from the class [`PrebuiltIndex`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/prebuilt/PrebuiltIndex.java) that the metadata for prebuilt indexes are loaded from [an external source](https://github.com/castorini/prebuilt-indexes/).
+
+Anserini provides many prebuilt indexes!
+If you only want to list those matching a regular expression, use the `--filter` option, e.g., `--filter msmarco-v1-passage`.
+
+## Retrieval with a Dense Vector Index
 
 Next, we're going to look at retrieval using dense vector representations (or just dense vectors).
-This is also called dense retrieval or vector search.
+This is also called dense retrieval or dense vector search (or sometimes, just vector search).
 We'll learn more about how they work later in the onboarding path in Pyserini, but for now, let's perform a retrieval run, using the same queries on the same collection.
 
-Here, we are using the BGE-base model.
+Here, we are using the BGE-base model (`bge-base-en-v1.5`).
+This is the encoder that generates dense vectors from text (either documents or queries).
 Retrieval using dense vectors requires different indexes.
 In this case, we're using what is known as an HNSW index (in contrast to the inverted index that you used for BM25).
 
@@ -82,17 +92,17 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics collections/msmarco-passage/queries.dev.small.tsv \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.dev.bge.txt \
-  -encoder BgeBaseEn15 -hits 1000 -threads 4
+  -encoder BgeBaseEn15 -hits 1000 -efSearch 100 -threads 4
 ```
 
-Note: If you encounter encoder loading errors, clear the cache at `~/.cache/pyserini/encoders`.
-
-Instead of `SearchCollection`, we use `SearchHnswDenseVectors` since it's a different type of index.
-We are using a prebuilt index, specified as `-index msmarco-v1-passage.bge-base-en-v1.5.hnsw`.
-The above retrieval command automatically downloads the HNSW index for the MS MARCO passage collection.
+Instead of `SearchCollection`, we use `SearchHnswDenseVectors` since it's a different type of index (HNSW).
+The `-index` option specifies `msmarco-v1-passage.bge-base-en-v1.5.hnsw`, which tells Anserini to download the prebuilt HNSW index for the MS MARCO passage collection.
 Beware, it's 26 GB.
+For reference, the complete run takes a few minutes on a reasonably modern machine (not counting the index download time).
 
-For reference, on a circa 2022 MacBook Air with an Apple M2 processor and 24 GB RAM, the retrieval run takes around 4 minutes.
+The documents in the HNSW index have already been converted into vector representations, so no document processing is needed.
+However, retrieval requires the encoder to convert the (text) queries into vector representations.
+If you encounter encoder loading errors, clear the cache at `~/.cache/pyserini/encoders` (just remove the entire directory and Anserini will re-download as needed).
 
 Let's compute the MRR@10 score:
 
@@ -102,8 +112,8 @@ bin/trec_eval -c -M 10 -m recip_rank \
   runs/run.msmarco-passage.dev.bge.txt
 ```
 
-You should get a score of 0.3521, which is much higher than the 0.1874 score from BM25.
-Yes, dense retrieval is better.
+You should get a score of 0.3521, which is much higher than the 0.1875 score from BM25.
+Yes, dense retrieval outperforms BM25 on this dataset.
 
 ## Wrapping Up
 
