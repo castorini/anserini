@@ -34,38 +34,61 @@ Basically, this is what _search_ (i.e., information retrieval) is all about.
 
 At this point, it's worthwhile to pause and answer the question: Who cares?
 
-LLMs are cool.
-ChatGPT is cool.
 Generative AI is cool.
+LLMs are cool.
 But _search_?
-That's so... last millennium!
+That's _literally_ so last millennium!
+(Google [celebrated](https://blog.google/company-news/inside-google/message-ceo/google-25th-birthday-sundar-pichai/) its 25th birthday back in 2023!)
 
 Well, not quite.
+Let's recap developments over the past few years.
 You might have heard of this thing called "retrieval augmentation"?
-That's just a fancy way of describing the technique of fetching pieces of content (e.g., paragraphs) from some external source (e.g., a collection of documents), and stuffing them into the prompt of an LLM to improve its generative capabilities.
+The full name of the technique is retrieval-augmented generation, or RAG for short.
+That's just a fancy way of describing the idea of fetching pieces of content (e.g., paragraphs) from some external source (e.g., a collection of documents), and stuffing them into the prompt of an LLM to improve its generation capabilities.
 How do we "fetch" those pieces of content?
-Well, that's retrieval!
+Well, that's search!
 (You might have also heard about something called vector search? We'll cover exactly that later in this onboarding path.)
 
-In fact, retrieval augmentation is exactly how the "new" Bing search works (well, not so new since it debuted in February of 2023).
+In fact, retrieval augmentation is exactly how the "new" Bing search works (well, not so new since it debuted in February 2023).
 You don't have to take my word: you can directly read the blog post on [building the new Bing](https://blogs.bing.com/search-quality-insights/february-2023/Building-the-New-Bing) and find the following diagram:
 
 <img src="Prometheus-Model.png" width="500" />
 
 Search comprises "internal queries" to fetch content ("Bing results") that are then fed into an LLM (i.e., stuffed into the prompt) to generate answers.
 If you want more evidence, here's a [NeurIPS 2020 paper](https://arxiv.org/abs/2005.11401) that basically says the same thing.
+The content that's inserted into the prompt as part of RAG is sometimes referred to as "grounding data" (or "retrieved context", or sometimes just "grounding" for short), so we can say that RAG _grounds_ LLM output (specifically, on search results).
 
-Bing is referenced here because it's the first major consumer product built on RAG.
-[Perplexity](https://www.perplexity.ai/), [ChatGPT search](https://openai.com/index/introducing-chatgpt-search/), and pretty much every customer service chatbot work in similar ways.
-And if you add in control loops and other non-linear flow, you get ["agentic RAG"](https://weaviate.io/blog/what-is-agentic-rag).
-If you need additional convincing, check out [Google Trends](https://trends.google.com/trends/explore?date=today%205-y&q=%2Fg%2F11w2hkn8vj&hl=en).
+Bing is referenced here because it's the first major consumer product built using RAG.
+But [Perplexity](https://www.perplexity.ai/), [ChatGPT search](https://openai.com/index/introducing-chatgpt-search/), and pretty much every other LLM today does something similar: understand the user query, call a search tool to fetch results, and then generate an answer based on (or grounded on) those results.
 
-This is just a long-winded way of saying that retrieval (i.e., search) forms the foundation of answer generation with LLMs.
-In fact, it's critical to the quality of the output.
+So, that's RAG.
+But RAG isn't cool anymore, as you can see from [Google Trends](https://trends.google.com/trends/explore?date=today%205-y&q=%2Fg%2F11w2hkn8vj&hl=en).
+
+The next development was the rise of agentic search, circa 2025.
+What's that all about?
+
+Stripping away unhelpful anthropomorphization and deliberate attempts at making things sound more complicated than they actually are, agents are simply models using tools in loops.
+Don't believe me?
+That's how [Anthropic](https://www.anthropic.com/research/building-effective-agents) characterizes agents as well ("LLMs using tools based on environmental feedback in a loop").
+In this context, search is a tool, alongside other tools like shell commands, querying SQL databases, REST APIs, etc.
+The "thing" that does the "looping" is typically referred to as the harness.
+The harness invokes the model, executes tool calls, returns their results, and maintains the context needed to continue (as well as participating in the decision to stop when the user task is complete).
+
+Thus, agentic search is simply agents doing "searchy stuff".
+For these applications, models use "search tools" in loops, broadly defined to include, for example, grep, BM25, dense vector search, external APIs that perform live web search, etc.
+Of course, agentic search can involve non-search tools as well, for example, to read a retrieved document, to execute an analysis, or to capture intermediate findings.
+
+An agent might decompose a complex information need into smaller components, and for each, it might issue a query, examine retrieved results, identify missing information, and follow up with reformulated queries.
+In many cases, the agent is also responsible for synthesizing relevant information into a coherent whole that addresses the user's information need.
+This definition is intentionally broad to encompass the information-seeking aspects of a variety of downstream tasks,
+from automated data science to writing detailed research reports.
+
+tl;dr &mdash; This exposition is just a long-winded way of saying that retrieval (i.e., search) remains critical to the quality of an agent's answer.
 We all know the adage "[garbage in, garbage out](https://en.wikipedia.org/wiki/Garbage_in,_garbage_out)", which highlights the importance of retrieval.
-If the retrieval quality ain't good, the LLM output will be garbage.
+If the retrieval quality ain't good, the agent output won't be good either.
+No amount of reasoning can compensate for non-relevant results that are fed to a model.
 
-How do we do retrieval effectively?
+How do we perform retrieval effectively?
 Well, that's why you should read on.
 Later, we'll also see that transformers (the same neural network model that underlies LLMs) form a fundamental building block of converting content into representation vectors (called "embeddings"), which underlie vector search.
 
@@ -80,11 +103,11 @@ The **"collection"** is what you're retrieving from (i.e., searching).
 Some people say **"corpus"** (plural, "corpora", not "corpuses"), but the terms are used interchangeably.
 A "collection" or "corpus" comprises "documents".
 In standard parlance, a "document" is used generically to refer to any discrete information object that can be retrieved.
-We call them "documents" even though in reality they may be webpages, passages, PDFs, Powerpoint slides, Excel spreadsheets, or even images, audio, or video.
+We call them "documents" even though in reality they may be webpages, passages, PDFs, PowerPoint slides, Excel spreadsheets, or even images, audio, or video.
 
 The output of retrieval is a ranking of documents (i.e., a ranked list, or just a sorted list).
 Documents are identified by unique ids, and so a ranking is simply a list of ids.
-The document contents can serve as input to downstream processing, e.g., fed into the prompt of a large language model as part of retrieval augmentation or generative question answering.
+The document contents can serve as input to downstream processing, e.g., fed into the prompt of an LLM as part of agentic search.
 
 **Relevance** is perhaps the most important concept in information retrieval.
 The literature on relevance goes back at least fifty years and the notion is (surprisingly) difficult to pin down precisely.
@@ -131,12 +154,12 @@ With a metric, we have the ability to iterate incrementally and build better ret
 Oversimplifying (of course), information retrieval is all about making the metric go up.
 
 Oh, where do these magical relevance judgments (qrels) come from?
-Well, that's the story for another day...
+Well, that's a story for another day...
 
 <details>
 <summary>Additional readings...</summary>
 
-This is a very high-level summary of core concepts in information retrieval.
+This page provides a very high-level summary of core concepts in information retrieval.
 More nuanced explanations are presented in our book [Pretrained Transformers for Text Ranking: BERT and Beyond](
 https://link.springer.com/book/10.1007/978-3-031-02181-7).
 If you can access the book (e.g., via your university), then please do, since it helps get our page views up.
@@ -176,7 +199,7 @@ mkdir collections/msmarco-passage
 wget https://msmarco.z22.web.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P collections/msmarco-passage
 
 # Alternative mirror:
-# wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collectionandqueries.tar.gz -P collections/msmarco-passage
+# wget https://rgw.cs.uwaterloo.ca/pyserini/data/collectionandqueries.tar.gz -P collections/msmarco-passage
 
 tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
@@ -186,8 +209,8 @@ Once you unpack it, you're looking at ~4 GB on disk.
 
 ```bash
 % du -h collections
-3.9G	collections/msmarco-passage
-3.9G	collections
+3.9G    collections/msmarco-passage
+3.9G    collections
 ```
 
 Peek inside the collection:
@@ -197,7 +220,7 @@ head collections/msmarco-passage/collection.tsv
 ```
 
 You'll see that `collection.tsv` contains the documents that we're searching.
-Note that generically we call them "documents" but in truth they are passages; we'll use the terms interchangeably.
+Note that as discussed above, we call them "documents" but in truth they are passages; we use these terms interchangeably.
 
 Each line represents a passage:
 the first column contains a unique identifier for the passage (called the `docid`) and the second column contains the text of the passage itself.
@@ -238,9 +261,9 @@ At this point, you'll have used about 7 GB of disk:
 
 ```bash
 % du -h collections
-3.2G	collections/msmarco-passage/collection_jsonl
-7.1G	collections/msmarco-passage
-7.1G	collections
+3.1G    collections/msmarco-passage/collection_jsonl
+7.1G    collections/msmarco-passage
+7.1G    collections
 ```
 
 As an aside, data munging along these lines is a very common data preparation operation.
@@ -263,16 +286,16 @@ Check out its contents:
 
 ```bash
 $ head collections/msmarco-passage/queries.dev.small.tsv
-1048585	what is paula deen's brother
-2	 Androgen receptor define
-524332	treating tension headaches without medication
-1048642	what is paranoid sc
-524447	treatment of varicose veins in legs
-786674	what is prime rate in canada
-1048876	who plays young dr mallard on ncis
-1048917	what is operating system misconfiguration
-786786	what is priority pass
-524699	tricare service number
+1048585 what is paula deen's brother
+2        Androgen receptor define
+524332  treating tension headaches without medication
+1048642 what is paranoid sc
+524447  treatment of varicose veins in legs
+786674  what is prime rate in canada
+1048876 who plays young dr mallard on ncis
+1048917 what is operating system misconfiguration
+786786  what is priority pass
+524699  tricare service number
 ```
 
 These are the queries in the development set of the MS MARCO passage ranking test collection.
@@ -283,7 +306,7 @@ Okay, let's now cross-reference the `qid` with the relevance judgments, i.e., th
 
 ```bash
 $ grep 1048585 collections/msmarco-passage/qrels.dev.small.tsv
-1048585	0	7187158	1
+1048585 0       7187158 1
 ```
 
 The above is the standard format for a qrels file.
@@ -299,7 +322,7 @@ The simplest way is to grep through the collection itself:
 
 ```bash
 $ grep 7187158 collections/msmarco-passage/collection.tsv
-7187158	Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ¦ Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ¦
+7187158 Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ¦ Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ¦
 ```
 
 We see here that, indeed, the passage above is relevant to the query (i.e., provides information that answers the question).
@@ -313,7 +336,7 @@ For those, we have 7437 relevance judgments:
 
 ```bash
 $ wc collections/msmarco-passage/qrels.dev.small.tsv
-7437   29748  143300 collections/msmarco-passage/qrels.dev.small.tsv
+    7437   29748  143300 collections/msmarco-passage/qrels.dev.small.tsv
 ```
 
 This means that we have only about one relevance judgment per query.
@@ -326,16 +349,16 @@ Now let's look at the training set:
 
 ```bash
 $ wc collections/msmarco-passage/qrels.train.tsv
-532761 2131044 10589532 collections/msmarco-passage/qrels.train.tsv
+  532761 2131044 10589532 collections/msmarco-passage/qrels.train.tsv
 $ cut -f1 collections/msmarco-passage/qrels.train.tsv | sort -u | wc -l
-502939
+  502939
 ```
 
 Wow, there are over 532k relevance judgments in the dataset, covering over 502k distinct training queries!
 (Yes, that's big!)
 It's sufficient... for example... to _train_ neural networks (transformers) to perform retrieval!
 And, indeed, MS MARCO is perhaps the most common starting point for work in building neural retrieval models.
-But that's for some other time....
+But that's for some other time...
 
 Okay, go back and look at the learning outcomes at the top of this page.
 By now you should be able to connect the concepts we introduced to how they manifest in the MS MARCO passage ranking test collection.
@@ -708,7 +731,7 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@ghaus-malik](https://github.com/ghaus-malik) on 2026-11-08 (commit [`80319f4`](https://github.com/castorini/anserini/commit/80319f4088fbb04ab40e80b5fe3a883038ad6994))
 + Results reproduced by [@mrnabdulai](https://github.com/mrnabdulai) on 2026-11-08 (commit [`92f8cb9`](https://github.com/castorini/anserini/commit/92f8cb98ec54ce891f507dc01b22247eae34127b))
 + Results reproduced by [@sayyedwajih](https://github.com/sayyedwajih) on 2026-11-08 (commit [`6f5a922`](https://github.com/castorini/anserini/commit/6f5a922c7a8361d63a7a78b37c4921743a7c57c8))
-- Results reproduced by [@afroza-akter-cuet](https://github.com/afroza-akter-cuet) on 2026-11-10 (commit [`44c9ce9`](https://github.com/castorini/anserini/commit/44c9ce9e4548703db69f3a7df04b2297c32bbd5f))
++ Results reproduced by [@afroza-akter-cuet](https://github.com/afroza-akter-cuet) on 2026-11-10 (commit [`44c9ce9`](https://github.com/castorini/anserini/commit/44c9ce9e4548703db69f3a7df04b2297c32bbd5f))
 + Results reproduced by [@musaarfah](https://github.com/musaarfah) on 2026-11-10 (commit [`44c9ce9`](https://github.com/castorini/anserini/commit/44c9ce9e4548703db69f3a7df04b2297c32bbd5f))
 + Results reproduced by [@nahid2003131](https://github.com/nahid2003131) on 2026-11-11 (commit [`44c9ce9`](https://github.com/castorini/anserini/commit/44c9ce9e4548703db69f3a7df04b2297c32bbd5f))
 + Results reproduced by [@MuhammadBilalKhan267](https://github.com/MuhammadBilalKhan267) on 2026-11-11 (commit [`6390709`](https://github.com/castorini/anserini/commit/6390709ad7a637ec974b69d8a8556e9607652edc))
