@@ -43,7 +43,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2.1_doc_segmented_splade
 tar xvf collections/msmarco_v2.1_doc_segmented_splade-v3.tar -C collections/
 ```
 
-To confirm, `msmarco-v2.1-doc-segmented.tar` is 125 GB and has MD5 checksum `c62490569364a1eb0101da1ca4a894d9`.
+To confirm, `msmarco_v2.1_doc_segmented_splade-v3.tar` is 125 GB and has MD5 checksum `c62490569364a1eb0101da1ca4a894d9`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
@@ -59,11 +59,11 @@ Typical indexing command:
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 24 \
   -collection JsonVectorCollection \
-  -input /path/to/msmarco-v2.1-doc-segmented \
+  -input /path/to/msmarco-v2.1-doc-segmented-splade-v3 \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/ \
   -impact -pretokenized \
-  >& logs/log.msmarco-v2.1-doc-segmented &
+  >& logs/log.msmarco-v2.1-doc-segmented-splade-v3 &
 ```
 
 The setting of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.

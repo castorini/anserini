@@ -6,7 +6,7 @@
 + **Config**: [`rag25-doc-segmented-test-umbrela2.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.splade-v3.onnx.yaml)
 + **Template**: [`rag25-doc-segmented-test-umbrela2.splade-v3.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag25-doc-segmented-test-umbrela2.splade-v3.onnx.template)
 
-This page describes regression experiments for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test topics (= queries in TREC parlance), which is integrated into Anserini's reproduction testing framework.
+This page describes reproductions from the raw document collection for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test topics (= queries in TREC parlance), which is integrated into Anserini's reproduction testing framework.
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 
 The model itself can be downloaded [here](https://huggingface.co/naver/splade-v3).
@@ -16,7 +16,7 @@ See the [official SPLADE repo](https://github.com/naver/splade) and the followin
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
 
-Evaluation uses qrels over 22 topics from the TREC 2025 RAG Track test set.
+Evaluation uses (automatically generated) UMBRELA qrels over 22 topics from the TREC 2025 RAG Track test set.
 More details can be found in the following paper:
 
 > Shivani Upadhyay, Nandan Thakur, Ronak Pradeep, Nick Craswell, Daniel Campos and Jimmy Lin. [Overview of the TREC 2025 Retrieval Augmented Generation (RAG) Track.](https://arxiv.org/abs/2603.09891) _arXiv:2603.09891_, March 2026.
@@ -48,7 +48,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2.1_doc_segmented_splade
 tar xvf collections/msmarco_v2.1_doc_segmented_splade-v3.tar -C collections/
 ```
 
-To confirm, `msmarco-v2.1-doc-segmented-splade-v3.tar` is 125 GB and has MD5 checksum `c62490569364a1eb0101da1ca4a894d9`.
+To confirm, `msmarco_v2.1_doc_segmented_splade-v3.tar` is 125 GB and has MD5 checksum `c62490569364a1eb0101da1ca4a894d9`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
@@ -78,7 +78,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Here, we are using 22 test topics from the TREC 2025 RAG Track with manual relevance judgments from NIST assessors.
+Here, we are using 22 test topics from the TREC 2025 RAG Track with (automatically generated) UMBRELA relevance judgments.
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 After indexing has completed, you should be able to perform retrieval as follows:

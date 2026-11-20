@@ -6,7 +6,7 @@
 + **Config**: [`rag25-doc-segmented-test-nist.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.splade-v3.onnx.yaml)
 + **Template**: [`rag25-doc-segmented-test-nist.splade-v3.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag25-doc-segmented-test-nist.splade-v3.onnx.template)
 
-This page describes regression experiments for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test topics (= queries in TREC parlance), which is integrated into Anserini's reproduction testing framework.
+This page describes reproductions from the raw document collection for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test topics (= queries in TREC parlance), which is integrated into Anserini's reproduction testing framework.
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 
 The model itself can be downloaded [here](https://huggingface.co/naver/splade-v3).
@@ -49,7 +49,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2.1_doc_segmented_splade
 tar xvf collections/msmarco_v2.1_doc_segmented_splade-v3.tar -C collections/
 ```
 
-To confirm, `msmarco-v2.1-doc-segmented-splade-v3.tar` is 125 GB and has MD5 checksum `c62490569364a1eb0101da1ca4a894d9`.
+To confirm, `msmarco_v2.1_doc_segmented_splade-v3.tar` is 125 GB and has MD5 checksum `c62490569364a1eb0101da1ca4a894d9`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

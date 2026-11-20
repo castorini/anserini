@@ -6,7 +6,7 @@
 + **Config**: [`${yaml_short}`](${yaml})
 + **Template**: [`${template_short}`](${template})
 
-This page describes regression experiments for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test topics (= queries in TREC parlance), which is integrated into Anserini's reproduction testing framework.
+This page describes reproductions from the raw document collection for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test topics (= queries in TREC parlance), which is integrated into Anserini's reproduction testing framework.
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 
 The model itself can be downloaded [here](https://huggingface.co/naver/splade-v3).
@@ -49,7 +49,7 @@ wget ${download_url} -P collections/
 tar xvf collections/${download_corpus}.tar -C collections/
 ```
 
-To confirm, `${corpus}.tar` is 125 GB and has MD5 checksum `${download_checksum}`.
+To confirm, `${download_corpus}.tar` is 125 GB and has MD5 checksum `${download_checksum}`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

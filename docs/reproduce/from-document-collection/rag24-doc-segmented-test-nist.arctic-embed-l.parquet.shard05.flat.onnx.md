@@ -6,7 +6,7 @@
 + **Config**: [`rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx.yaml)
 + **Template**: [`rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx.template)
 
-This page describes regression experiments for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test topics (= queries in TREC parlance), which is integrated into Anserini's reproduction testing framework.
+This page describes reproductions from the raw document collection for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test topics (= queries in TREC parlance), which is integrated into Anserini's reproduction testing framework.
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 
 We build on embeddings made available by Snowflake on [Hugging Face Datasets](https://huggingface.co/datasets/Snowflake/msmarco-v2.1-snowflake-arctic-embed-l), which contains vectors already encoded by the Arctic-embed-l model.
@@ -48,7 +48,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   >& logs/log.msmarco-v2.1-doc-segmented-shard05.arctic-embed-l &
 ```
 
-The setting of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+The setting of `-input` should be a directory containing the Parquet files that comprise the corpus.
 
 For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
