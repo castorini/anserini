@@ -72,7 +72,7 @@ What's that all about?
 Stripping away unhelpful anthropomorphization and deliberate attempts at making things sound more complicated than they actually are, agents are simply models using tools in loops.
 Don't believe me?
 That's how Anthropic [characterizes agents](https://www.anthropic.com/research/building-effective-agents) as well ("LLMs using tools based on environmental feedback in a loop").
-In this context, search is a tool, alongside other tools like shell commands, querying SQL databases, REST APIs, etc.
+In this context, search is a tool, alongside other tools like shell commands, SQL query interfaces, REST APIs, etc.
 The "thing" that does the "looping" is typically referred to as the harness.
 The harness invokes the model, executes tool calls, returns their results, and maintains the context needed to continue (as well as participating in the decision to stop when the user task is complete).
 

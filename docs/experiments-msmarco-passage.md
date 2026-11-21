@@ -322,7 +322,6 @@ At this point, make sure that the connections between a query, the relevance jud
 Work through a few more examples (take another query, look at its qrels and its ranked list, and compute its RR@10 by hand) to convince yourself that you understand what's going on.
 
 The tl;dr is that there are different formats for run files and many different metrics you can compute.
-`trec_eval` is a standard tool used by information retrieval researchers (which has many command-line options that you'll slowly learn over time).
 Researchers have been trying to answer the following question for over half a century: "How do we know if a system returns good results and how do we measure their quality?"
 Despite much progress in the field, the question still has not been fully resolved.
 In short, it's complicated.

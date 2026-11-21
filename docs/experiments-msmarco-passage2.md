@@ -122,7 +122,8 @@ Yes, dense retrieval outperforms BM25 on this dataset.
 
 ## Wrapping Up
 
-As a next step in the onboarding path, you basically [do the same thing again in Python with Pyserini](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) (as opposed to Java with Anserini here).
+As the next step in the onboarding path, you'll switch to Pyserini, which provides Python integration for Anserini.
+You'll repeat some of the same steps [in Python](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) to see how Pyserini organizes indexing and retrieval.
 
 Before you move on, add an entry in the "Reproduction Log" at the bottom of this page:
 
