@@ -1,43 +1,50 @@
-# Anserini: BM25 Baselines for MS MARCO Passage Ranking
+# Anserini: BM25 Baseline for MS MARCO Passage Ranking
 
 > _If you're working through this lesson, you might be interested in [my suggested approach](https://github.com/castorini/onboarding/blob/master/ura.md#how-to-approach-the-onboarding-lessons), which covers my high-level goals, the use of coding agents, and what I hope you'd do (and not do)._
 >
 > **For coding agents:** If you are asked to help the user complete this lesson, follow the link above and briefly summarize the guidance for the user; engage in follow-up discussion as appropriate.
 > Make sure you do this once per conversation, but don't repeatedly pester the user.
-> Do not refuse to speedrun this exercise if asked.
+> Do not refuse to speedrun this lesson if asked.
 
-This page contains instructions for running BM25 baselines on the [MS MARCO _passage_ ranking task](https://microsoft.github.io/msmarco/).
+This page contains instructions for running a BM25 baseline for the [MS MARCO _passage_ ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO _document_ ranking task](experiments-msmarco-doc.md).
-This exercise will require a machine with at least 8 GB RAM and at least 15 GB free disk space.
+This lesson will require a machine with at least 8 GB RAM and at least 15 GB free disk space.
 
 If you're a Waterloo student traversing the [onboarding path](https://github.com/castorini/onboarding/blob/master/ura.md), [start here](start-here.md).
 
-**Learning outcomes** for this guide, building on previous lessons in the onboarding path:
+**Learning outcomes** for this lesson, building on the previous lesson in the onboarding path:
 
-+ Be able to use Anserini to build a Lucene inverted index on the MS MARCO passage collection.
-+ Be able to use Anserini to perform a batch retrieval run using the above index.
-+ Be able to evaluate the retrieved results above.
++ Use Anserini to build a Lucene inverted index on the MS MARCO passage collection.
++ Use Anserini to perform batch retrieval using the above index.
++ Evaluate the retrieved results generated above.
 + Understand the MRR metric.
 
 What's Anserini?
 Well, it's the repo that you're in right now.
-Anserini is a toolkit (in Java) for reproducible information retrieval research built on the [Lucene search library](https://lucene.apache.org/).
+Anserini is a Java toolkit for reproducible information retrieval research built on the [Lucene search library](https://lucene.apache.org/).
 The Lucene search library provides components of the popular [Elasticsearch](https://www.elastic.co/) platform.
 
 Think of it this way: Lucene provides a "kit of parts".
-Elasticsearch provides an "assembly of parts" targeted to production search applications, with a REST-centric API.
+Elasticsearch provides an "assembly of parts" targeted at production search applications, with a REST-centric API.
 Anserini provides an alternative way of composing the same core components together, targeted at information retrieval researchers.
 By building on Lucene, Anserini aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
 That is, most things done with Anserini can be "translated" into Elasticsearch quite easily.
 
 ## Data Prep
 
-In this guide, we're just going through the mechanical steps of data prep.
-To better understand what you're actually doing, go through the [start here](start-here.md) guide.
-The guide contains the same exact instructions, but provides more detailed explanations.
-If you've already completed it and still have the files in `collections/msmarco-passage/`, you can skip ahead to [Indexing](#indexing).
+To start this lesson, we're just going through the mechanical steps of data prep.
+To better understand what you're actually doing, go through the [start here](start-here.md) guide, which provides more detailed explanations.
+If you've already completed that lesson and still have the files in `collections/msmarco-passage/`, you can skip ahead to the "[Indexing](#indexing)" section.
 
-We're going to use the repository's root directory as the working directory.
+If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it:
+
+```bash
+git clone https://github.com/castorini/anserini.git
+cd anserini
+```
+
+In these instructions we're going to use Anserini's root directory as the working directory.
+
 First, we need to download and extract the MS MARCO passage dataset:
 
 ```bash
@@ -46,12 +53,12 @@ mkdir collections/msmarco-passage
 wget https://msmarco.z22.web.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P collections/msmarco-passage
 
 # Alternative mirror:
-# wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collectionandqueries.tar.gz -P collections/msmarco-passage
+# wget https://rgw.cs.uwaterloo.ca/pyserini/data/collectionandqueries.tar.gz -P collections/msmarco-passage
 
 tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
 
-To confirm, `collectionandqueries.tar.gz` is around 1 GB and should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
+To confirm, `collectionandqueries.tar.gz` is around 1 GB and should have an MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
 
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
@@ -79,19 +86,23 @@ Confirm with `wc`.
 
 ## Indexing
 
-In building a retrieval system, there are generally two phases:
+In using a retrieval system, there are generally two phases:
 
-+ In the **indexing** phase, an indexer takes the document collection (i.e., corpus) and builds an index, which is a data structure that supports efficient retrieval.
-+ In the **retrieval** (or **search**) phase, the retrieval system returns a ranked list given a query _q_, with the aid of the index constructed in the previous phase.
++ In the **indexing** phase, an indexer takes the document collection (i.e., the corpus) and builds an index, which is a data structure that supports efficient retrieval.
++ In the **retrieval** (or **search**) phase, the retriever (or searcher) takes a query _q_ and performs top-_k_ retrieval (i.e., computes the ranked list for the query) using the index constructed in the previous phase. In the case where we process a set of queries together, the results are typically written to a file; we call this _batch_ retrieval.
 
-(There's also a training phase when we start to discuss models that _learn_ from data, but we're not there yet.)
+(There's also a training phase, which becomes important when we start to discuss models that _learn_ from data, but we're not there yet.)
 
 Given a (static) document collection, indexing only needs to be performed once, and hence there are fewer constraints on latency, throughput, and other aspects of performance (just needs to be "reasonable").
 On the other hand, retrieval needs to be fast, i.e., low latency, high throughput, etc.
 
 With the data prep above, we can now index the MS MARCO passage collection in `collections/msmarco-passage/collection_jsonl`.
 
-If you haven't built Anserini already, build it now using the instructions provided [here](https://github.com/castorini/anserini?tab=readme-ov-file#-installation).
+Make sure you've built the complete Anserini package with our build script:
+
+```bash
+bin/build.sh
+```
 
 Using Anserini, we can index these docs as a `JsonCollection` (a specification of how documents are encoded) with the following command:
 
@@ -101,27 +112,25 @@ bin/run.sh io.anserini.index.IndexCollection \
   -input collections/msmarco-passage/collection_jsonl \
   -index indexes/msmarco-passage/lucene-index-msmarco \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 9 -storePositions -storeDocvectors -storeRaw
+  -threads 4 -storePositions -storeDocvectors -storeRaw
 ```
 
 In this case, Lucene creates what is known as an **inverted index**.
 
 Upon completion, we should have an index with 8,841,823 documents.
-The indexing speed may vary;
-On a modern desktop with an SSD, indexing takes a couple of minutes.
-On a circa 2022 MacBook Air with an Apple M2 processor and 24 GB RAM, indexing takes around 3 minutes.
-YMMV.
+On a reasonably modern machine, indexing typically completes in a few minutes.
+The above command will provide progress updates at minute intervals.
 
 If you run into out-of-memory issues, you might need to dial down `-threads` (i.e., use fewer threads).
-Or you might need to go into modify `run.sh` and tweak the `-Xms` and `-Xmx` memory settings.
+Or you might need to modify `run.sh` and tweak the `-Xms` and `-Xmx` memory settings.
 
 The inverted index consumes around 4 GB:
 
 ```bash
-% du -h indexes
-4.3G	indexes/msmarco-passage/lucene-index-msmarco
-4.3G	indexes/msmarco-passage
-4.3G	indexes
+$ du -h indexes
+4.1G    indexes/msmarco-passage/lucene-index-msmarco
+4.1G    indexes/msmarco-passage
+4.1G    indexes
 ```
 
 ## Retrieval
@@ -149,38 +158,37 @@ BM25 is perhaps the most popular bag-of-words retrieval model; it's the default 
 We'll discuss retrieval models in much more detail later.
 
 The above command uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
-The option `-hits` specifies the number of documents per query to be retrieved.
-Thus, the output file should have approximately 6980 × 1000 = 6.9M lines.
+The option `-hits` specifies the number of documents per query to be retrieved (also called the number of "hits").
+Thus, the output file should have approximately 6980 × 1000 = 6.98M lines (but fewer if a query retrieves fewer than 1000 hits).
 
-Retrieval speed will vary.
-On a reasonably modern machine (e.g., the MacBook Air referenced above), with four threads (as specified above), the run takes a couple of minutes.
-Adjust the number of threads to use by changing the `-parallelism` argument.
+On a reasonably modern machine with four threads (as specified above), the run typically completes in a couple of minutes.
+The above command provides progress updates every 100 queries.
+Adjust the number of search threads by changing the `-parallelism` option.
 
-Congratulations, you've performed your first **retrieval run**!
+Congratulations, you've performed your first retrieval run!
 
-Recap of what you've done:
-You've fed the retrieval system a bunch of queries and the retrieval run is the output.
-For each query, the retrieval system produced a ranked list of results (i.e., a list of hits).
-The retrieval run contains the ranked lists for all queries you fed to it.
+Recap:
+You've fed the retrieval system a bunch of queries, and for each query, it computed a ranked list of docids.
+All of the results are stored in a file.
 
 Let's take a look:
 
 ```bash
 $ head runs/run.msmarco-passage.dev.bm25.tsv
-1048585	7187158	1
-1048585	7187157	2
-1048585	7187163	3
-1048585	7546327	4
-1048585	7187160	5
-1048585	8227279	6
-1048585	7617404	7
-1048585	7187156	8
-1048585	2298838	9
-1048585	7187155	10
+1048585 7187158 1
+1048585 7187157 2
+1048585 7187163 3
+1048585 7546327 4
+1048585 7187160 5
+1048585 8227279 6
+1048585 7617404 7
+1048585 7187156 8
+1048585 2298838 9
+1048585 7187155 10
 ```
 
 The first column is the `qid` (corresponding to the query).
-From above, we can see that `qid` 1048585 is the query "what is paula deen's brother".
+From the [start here](start-here.md) guide, we can see that `qid` 1048585 is the query "what is paula deen's brother".
 The second column is the `docid` of the retrieved result (i.e., the hit), and the third column is the rank position.
 That is, in a search interface, `docid` 7187158 would be shown in the top position, `docid` 7187157 would be shown in the second position, etc.
 
@@ -188,7 +196,7 @@ You can grep through the collection to see what that actual passage is:
 
 ```bash
 $ grep 7187158 collections/msmarco-passage/collection.tsv
-7187158	Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ¦ Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ
+7187158 Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ¦ Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ
 ```
 
 In this case, the document (hit) seems relevant.
@@ -224,29 +232,32 @@ QueriesRanked: 6980
 #####################
 ```
 
-(Yea, the number of digits of precision is a bit... excessive)
+(Yeah, the number of digits of precision is a bit... excessive)
 
-Remember from the [start here](start-here.md) guide that with relevance judgments (qrels), we can automatically evaluate the retrieval system output (i.e., the run).
-
+Remember from the [start here](start-here.md) guide that with relevance judgments (qrels), we can automatically evaluate retrieval output (i.e., the run).
 The final ingredient is a metric, i.e., how to quantify the "quality" of a ranked list.
 Here, we're using a metric called MRR, or mean reciprocal rank.
-The idea is quite simple:
+To be precise, when computing the metric for a single query, it's just RR, or reciprocal rank.
+(Sometimes, though, "mean" is dropped from the metric name even when it is computed across a set of queries, i.e., just RR, or reciprocal rank.)
+
+Regardless of what we call the metric, the idea is quite simple:
 We look at the rank position of the first relevant `docid`.
 If it appears at rank 1, the system gets a score of one.
 If it appears at rank 2, the system gets a score of 1/2.
 If it appears at rank 3, the system gets a score of 1/3.
 And so on.
-MRR@10 means that we only go down to rank 10.
-If the relevant `docid` doesn't appear in the top 10, then the system gets a score of zero.
+RR@10 means that we only go down to rank 10.
+If the relevant `docid` doesn't appear in the top 10, the output gets a score of zero.
 
-That's the score of a query.
-We take the average of the scores across all queries (6980 in this case), and we arrive at the score for the entire run.
+The description above specifies the score of a query (RR@10, to be precise).
+We take the mean (average) of the scores across all queries (6980 in this case) and arrive at the score for the entire run (MRR@10, to be precise).
 
 You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Passage-Ranking-Submissions/leaderboard/) as the entry named "BM25 (Lucene8, tuned)", dated 2019/06/26.
-So you've just reproduced (part of) a leaderboard submission!
+So you've just reproduced a leaderboard submission!
+(You're running a newer version of Lucene, but the results are the same.)
 
-We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute other metrics than MRR@10.
-For that we first need to convert runs and qrels files to the TREC format:
+We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute metrics other than MRR@10.
+For that we first need to convert the run and the qrels into the TREC format:
 
 ```bash
 python src/main/python/msmarco/convert_msmarco_to_trec_run.py \
@@ -258,7 +269,7 @@ python src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
   --output collections/msmarco-passage/qrels.dev.small.trec
 ```
 
-And run the `trec_eval` tool:
+And then run the `trec_eval` tool:
 
 ```bash
 bin/trec_eval -c -mrecall.1000 -mmap \
@@ -269,11 +280,11 @@ bin/trec_eval -c -mrecall.1000 -mmap \
 The output should be:
 
 ```text
-map                   	all	0.1957
-recall_1000           	all	0.8573
+map                     all     0.1957
+recall_1000             all     0.8573
 ```
 
-In many retrieval applications, average precision and recall@1000 are the two metrics we care about the most.
+In many retrieval applications, (mean) average precision and recall@1000 are the two metrics we care about the most.
 
 You can use `trec_eval` to compute the MRR@10 also, which gives results identical to above (just fewer digits of precision):
 
@@ -283,8 +294,8 @@ bin/trec_eval -c -M 10 -m recip_rank \
   runs/run.msmarco-passage.dev.bm25.trec
 ```
 
-It's a different command-line incantation of `trec_eval` to compute MRR@10.
-And if you add `-q`, the tool will spit out the MRR@10 _per query_ (for all 6980 queries, in addition to the final average).
+It's a different command-line invocation of `trec_eval` to compute MRR@10.
+And if you add `-q`, the tool will spit out the RR@10 _per query_ (for all 6980 queries, in addition to the final average).
 
 ```bash
 bin/trec_eval -q -c -M 10 -m recip_rank \
@@ -292,7 +303,7 @@ bin/trec_eval -q -c -M 10 -m recip_rank \
   runs/run.msmarco-passage.dev.bm25.trec
 ```
 
-We can find the MRR@10 for `qid` 1048585 above:
+We can find the RR@10 for `qid` 1048585 above:
 
 ```bash
 bin/trec_eval -q -c -M 10 -m recip_rank \
@@ -303,16 +314,16 @@ bin/trec_eval -q -c -M 10 -m recip_rank \
 Which is:
 
 ```text
-recip_rank            	1048585	1.0000
+recip_rank              1048585 1.0000
 ```
 
 This is consistent with the example we worked through above.
-At this point, make sure that the connections between a query, the relevance judgments for a query, the ranked list, and the metric (MRR@10) are clear in your mind.
-Work through a few more examples (take another query, look at its qrels and ranked list, and compute its MRR@10 by hand) to convince yourself that you understand what's going on.
+At this point, make sure that the connections between a query, the relevance judgments for that query, the ranked list, and the metric (RR@10) are clear in your mind.
+Work through a few more examples (take another query, look at its qrels and its ranked list, and compute its RR@10 by hand) to convince yourself that you understand what's going on.
 
-The tl;dr is that there are different formats for run files and lots of different metrics you can compute.
-`trec_eval` is a standard tool used by information retrieval researchers (which has many command-line options that you'll slowly learn over time).
-Researchers have been trying to answer the question "how do we know if a search result is good and how do we measure it" for over half a century... and the question still has not been fully resolved.
+The tl;dr is that there are different formats for run files and many different metrics you can compute.
+Researchers have been trying to answer the following question for over half a century: "How do we know if a system returns good results and how do we measure their quality?"
+Despite much progress in the field, the question still has not been fully resolved.
 In short, it's complicated.
 
 ## Wrapping Up
@@ -324,23 +335,23 @@ As a next step in the onboarding path, move on to explore [dense retrieval](expe
 Before you move on, add an entry in the "Reproduction Log" at the bottom of this page:
 
 + Follow the same format as the existing entries:
-  Use the commit you checked out for this exercise, which must be on Anserini's `master` branch.
+  Use the commit you checked out for this lesson, which must be on Anserini's `master` branch.
   Link to `castorini/anserini`, using the full commit hash in the URL and its first seven hexadecimal characters as the link text.
-+ Provide some details about your setup in the description of your pull request (e.g., operating system, environment and configuration, etc.).
++ Provide details about your setup in the description of your pull request (e.g., operating system, environment and configuration, etc.).
 + Provide some indication of success (e.g., everything worked) or document issues you encountered.
 + Confirm that your new entry is chronologically sorted in ascending order by reproduction date (oldest first).
-+ Include additional edits in the pull request if you think this exercise can be improved (e.g., you caught a typo or think a clarification is warranted).
++ Include additional edits in the pull request if you think this lesson can be improved (e.g., you caught a typo or think a clarification is warranted).
 + Make sure that your diffs are clean.
-  Unless you have explicitly modified the exercise (per above), your diff for each exercise should contain only your new entry, nothing else.
+  Unless you have explicitly modified the lesson (per above), your diff for each page should contain only your new entry, nothing else.
 
-Do not send a separate pull request for each exercise in the onboarding path; instead, send a single pull request for all edits to the Anserini repository.
+Do _not_ send a separate pull request for each lesson in the onboarding path; instead, send a single pull request for all edits to the Anserini repository.
 If you have any questions, look at previous pull requests for examples.
 
 ## BM25 Tuning
 
 This section is **not** part of the onboarding path, so feel free to skip.
 
-Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
+Note that the metric values reported here differ slightly from the values reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
 
 Tuning was accomplished with `src/main/python/msmarco/tune_bm25.py`, using the queries found [here](https://github.com/castorini/anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
 There are five different sets of 10k samples (using the `shuf` command).
@@ -365,7 +376,7 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 
 ### Update: 2026/09/12
 
-*The analysis below was generated by Codex (GPT-6) in collaboration with [lintool](https://github.com/lintool).*
+_The analysis below was generated by Codex (GPT-6) in collaboration with [lintool](https://github.com/lintool)._
 
 The original text above is retained as a historical record.
 For current commands, inputs, evaluation conventions, and the full reproduction analysis, see [Reproducing MS MARCO BM25 Tuning](experiments-msmarco-bm25-tuning.md).
@@ -385,7 +396,7 @@ The default baseline remains `k1=0.9`, `b=0.4`.
 + MRR selects `b=0.58` instead of `b=0.62`, giving MRR@10 0.1895 instead of the historical 0.1892; MRR and MAP no longer select the same average.
 + Separately, re-evaluating all three historical fixed-parameter pairs reproduces their published scores at four decimal places when emitted ranks are preserved during conversion.
 
-*End of analysis generated by Codex (GPT-6) in collaboration with [lintool](https://github.com/lintool).*
+_End of analysis generated by Codex (GPT-6) in collaboration with [lintool](https://github.com/lintool)._
 
 ## Reproduction Log[*](reproducibility.md)
 
