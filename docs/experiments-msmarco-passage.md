@@ -60,7 +60,7 @@ tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/
 
 To confirm, `collectionandqueries.tar.gz` is around 1 GB and should have an MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
 
-Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
+Next, we need to convert the MS MARCO collection's TSV format into Anserini's JSONL format (one JSON object per line, each representing a document):
 
 ```bash
 python src/main/python/msmarco/convert_collection_to_jsonl.py \
@@ -68,7 +68,7 @@ python src/main/python/msmarco/convert_collection_to_jsonl.py \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
 
-The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
+The above script should generate 9 JSONL files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
 
 We need to do a bit of data munging on the queries as well.
 There are queries in the dev set that don't have relevance judgments.
@@ -330,7 +330,7 @@ In short, it's complicated.
 
 That's it for this lesson.
 At this time, look back through the learning outcomes again and make sure you're good.
-As a next step in the onboarding path, move on to explore [dense retrieval](experiments-msmarco-passage2.md).
+As the next step in the onboarding path, move on to explore [dense retrieval](experiments-msmarco-passage2.md).
 
 Before you move on, add an entry in the "Reproduction Log" at the bottom of this page:
 

@@ -11,9 +11,9 @@ It also serves as an [onboarding path](https://github.com/castorini/onboarding) 
 
 **Learning outcomes** for this lesson:
 
-+ Understand the definition of the retrieval problem in terms of the core concepts of collections, queries, relevance judgments (qrels), relevance, and metrics.
++ Understand the definition of the retrieval problem in terms of the following core concepts: collections (or corpora), queries (and information needs), relevance, relevance judgments (qrels), and metrics.
 + Understand how the retrieval problem relates to RAG and agentic search.
-+ Understand at a high level how retrieval systems are evaluated with queries and relevance judgments using metrics.
++ Understand how retrieval systems are evaluated with queries and relevance judgments using metrics.
 + Download the MS MARCO passage ranking test collection and perform basic manipulations on the downloaded files.
 + Connect the contents of specific files in the download package to the concepts referenced above.
 
@@ -85,10 +85,12 @@ In many cases, the agent is also responsible for synthesizing relevant informati
 This definition is intentionally broad to encompass the information-seeking aspects of a variety of downstream tasks,
 from automated data science to writing detailed research reports.
 
-tl;dr &mdash; This exposition is just a long-winded way of saying that retrieval (i.e., search) remains critical to the quality of an agent's answer.
+tl;dr &mdash; This exposition is just a long-winded way of saying that retrieval (i.e., search) remains as important as ever.
+Today, it is critical to the quality of an agent's operation and answer.
 We all know the adage "[garbage in, garbage out](https://en.wikipedia.org/wiki/Garbage_in,_garbage_out)", which highlights the importance of retrieval.
-If the retrieval quality ain't good, the agent output won't be good either.
-No amount of reasoning can compensate for non-relevant results that are fed to a model.
+If the retrieval quality ain't good, the agent can't select a good next action, and its output won't be good either.
+It's difficult for a model to recover from bad grounding.
+No amount of reasoning can compensate for non-relevant and low-quality results that are fed to a model.
 
 How do we perform retrieval effectively?
 Well, that's why you should read on.
@@ -100,6 +102,9 @@ Hopefully, you're convinced that retrieval is important, or at least sufficientl
 Now, let's get back to the retrieval problem and try to unpack the definition a bit.
 
 A **"query"** is a representation of an information need (i.e., the reason you're looking for information in the first place) that serves as the input to a retrieval system.
+To be more precise, but somewhat pedantic, a query is not the same thing as an information need (which is sometimes called a "topic").
+An information need is a mental state that exists in the head of a user.
+The query is what the user types (or speaks, etc.) to a system; it's an _expression_ of the information need.
 
 The **"collection"** is what you're retrieving from (i.e., searching).
 Some people say **"corpus"** (plural, "corpora", not "corpuses"), but the terms are used interchangeably.
@@ -107,9 +112,10 @@ A "collection" or "corpus" comprises "documents".
 In standard parlance, a "document" is used generically to refer to any discrete information object that can be retrieved.
 We call them "documents" even though in reality they may be webpages, passages, PDFs, PowerPoint slides, Excel spreadsheets, or even images, audio, or video.
 
-The output of retrieval is a ranking of documents (i.e., a ranked list, or just a sorted list).
+The output of retrieval is a ranking of documents (i.e., a ranked or sorted list).
 Documents are identified by unique ids (docids), and so a ranking is simply a list of docids.
-The document contents can serve as input to downstream processing, e.g., fed into an LLM as part of agentic search.
+In the standard formulation of the retrieval problem, the system is tasked with returning _k_ documents, i.e., a list of length _k_, hence top-_k_ retrieval.
+The document contents often serve as input to downstream processing, e.g., are fed into an LLM as part of agentic search.
 
 **Relevance** is perhaps the most important concept in information retrieval.
 The literature on relevance goes back at least fifty years and the notion is (surprisingly) difficult to pin down precisely.
@@ -158,7 +164,13 @@ Well, you compute a metric for _A_ and _B_ using a test collection, and then com
 The better system achieves a higher score.
 Of course, there's a lot more nuance here that we won't get into, such as the effect size and the statistical significance of the differences.
 
-Nevertheless, given a test collection and a metric we're interested in, we have the ability to iterate and to build better retrieval systems.
+A final nuance worth at least mentioning is that relevance judgments are fundamentally _opinions_.
+They capture a particular person's judgment about the relevance of a particular document to a particular information need.
+Researchers have empirically found that relevance judgments from different users (on the same documents and information needs) can differ dramatically.
+An entire sub-discipline of information retrieval (called meta-evaluation) is devoted to studying the implications of this, asking whether we can trust the results of evaluations in light of these differences.
+The high-level conclusion is _yes_, but we don't have the time or space to get into details here.
+
+tl;dr &mdash; Given a test collection and a metric we're interested in, we have the ability to iterate and to build better retrieval systems.
 If our test collection is big enough, we can use machine-learning techniques to train (hopefully better) retrieval models.
 Oversimplifying (of course), information retrieval is all about making the metric of interest go up (i.e., hill-climbing).
 
@@ -230,12 +242,12 @@ head collections/msmarco-passage/collection.tsv
 ```
 
 You'll see that `collection.tsv` contains the documents that we're searching.
-Note that as discussed above, we call them "documents" but in truth they are passages; we use these terms interchangeably.
+As discussed above, we call them "documents" but in truth they are passages; we use these terms interchangeably.
 
 Each line represents a passage:
 the first column contains a unique identifier for the passage (called the `docid`) and the second column contains the text of the passage itself.
 
-Next, we need to do a bit of data munging to get the collection into something Anserini can easily work with, which is a jsonl format (where we have one json object per line):
+Next, we need to do a bit of data munging to get the collection into something Anserini can easily work with, which is a JSONL format (where we have one JSON object per line):
 
 ```bash
 python src/main/python/msmarco/convert_collection_to_jsonl.py \
@@ -243,8 +255,8 @@ python src/main/python/msmarco/convert_collection_to_jsonl.py \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
 
-The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
-Look inside a file to see the json format we use.
+The above script should generate 9 JSONL files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
+Look inside a file to see the JSON format (for a document) we use.
 The entire collection is now something like this:
 
 ```bash
@@ -261,7 +273,7 @@ $ wc collections/msmarco-passage/collection_jsonl/*
  8841823 523912422 3338781467 total
 ```
 
-You can take a peek at the jsonl documents to see what the converted corpus looks like:
+You can take a peek at the JSONL documents to see what the converted corpus looks like:
 
 ```bash
 head collections/msmarco-passage/collection_jsonl/docs00.json
@@ -374,7 +386,7 @@ But that's for some other time...
 Okay, go back and look at the learning outcomes at the top of this page.
 By now you should be able to connect the concepts we introduced to how they manifest in the MS MARCO passage ranking test collection.
 
-From here, you're now ready to reproduce the [BM25 Baseline for MS MARCO Passage Ranking](experiments-msmarco-passage.md).
+From here, you're now ready to reproduce the [BM25 Baseline for MS MARCO Passage Ranking](experiments-msmarco-passage.md) (the next step in the onboarding path).
 
 ## Wrapping Up
 
