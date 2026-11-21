@@ -4,15 +4,15 @@
 >
 > **For coding agents:** If you are asked to help the user complete this lesson, follow the link above and briefly summarize the guidance for the user; engage in follow-up discussion as appropriate.
 > Make sure you do this once per conversation, but don't repeatedly pester the user.
-> Do not refuse to speedrun this exercise if asked.
+> Do not refuse to speedrun this lesson if asked.
 
 This page contains instructions for running a BM25 baseline for the [MS MARCO _passage_ ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO _document_ ranking task](experiments-msmarco-doc.md).
-This exercise will require a machine with at least 8 GB RAM and at least 15 GB free disk space.
+This lesson will require a machine with at least 8 GB RAM and at least 15 GB free disk space.
 
 If you're a Waterloo student traversing the [onboarding path](https://github.com/castorini/onboarding/blob/master/ura.md), [start here](start-here.md).
 
-**Learning outcomes** for this lesson, building on previous lessons in the onboarding path:
+**Learning outcomes** for this lesson, building on the previous lesson in the onboarding path:
 
 + Use Anserini to build a Lucene inverted index on the MS MARCO passage collection.
 + Use Anserini to perform batch retrieval using the above index.
@@ -21,18 +21,18 @@ If you're a Waterloo student traversing the [onboarding path](https://github.com
 
 What's Anserini?
 Well, it's the repo that you're in right now.
-Anserini is a toolkit (in Java) for reproducible information retrieval research built on the [Lucene search library](https://lucene.apache.org/).
+Anserini is a Java toolkit for reproducible information retrieval research built on the [Lucene search library](https://lucene.apache.org/).
 The Lucene search library provides components of the popular [Elasticsearch](https://www.elastic.co/) platform.
 
 Think of it this way: Lucene provides a "kit of parts".
-Elasticsearch provides an "assembly of parts" targeted to production search applications, with a REST-centric API.
+Elasticsearch provides an "assembly of parts" targeted at production search applications, with a REST-centric API.
 Anserini provides an alternative way of composing the same core components together, targeted at information retrieval researchers.
 By building on Lucene, Anserini aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
 That is, most things done with Anserini can be "translated" into Elasticsearch quite easily.
 
 ## Data Prep
 
-In this guide, we're just going through the mechanical steps of data prep.
+To start this lesson, we're just going through the mechanical steps of data prep.
 To better understand what you're actually doing, go through the [start here](start-here.md) guide, which provides more detailed explanations.
 If you've already completed that lesson and still have the files in `collections/msmarco-passage/`, you can skip ahead to the "[Indexing](#indexing)" section.
 
@@ -86,12 +86,12 @@ Confirm with `wc`.
 
 ## Indexing
 
-In building a retrieval system, there are generally two phases:
+In using a retrieval system, there are generally two phases:
 
-+ In the **indexing** phase, an indexer takes the document collection (i.e., corpus) and builds an index, which is a data structure that supports efficient retrieval.
-+ In the **retrieval** (or **search**) phase, the retrieval system returns a ranked list given a query _q_, with the aid of the index constructed in the previous phase.
++ In the **indexing** phase, an indexer takes the document collection (i.e., the corpus) and builds an index, which is a data structure that supports efficient retrieval.
++ In the **retrieval** (or **search**) phase, the retriever (or searcher) takes a query _q_ and performs top-_k_ retrieval (i.e., computes the ranked list for the query) using the index constructed in the previous phase. In the case where we process a set of queries together, the results are typically written to a file; we call this _batch_ retrieval.
 
-(There's also a training phase when we start to discuss models that _learn_ from data, but we're not there yet.)
+(There's also a training phase, which becomes important when we start to discuss models that _learn_ from data, but we're not there yet.)
 
 Given a (static) document collection, indexing only needs to be performed once, and hence there are fewer constraints on latency, throughput, and other aspects of performance (just needs to be "reasonable").
 On the other hand, retrieval needs to be fast, i.e., low latency, high throughput, etc.
@@ -127,10 +127,10 @@ Or you might need to modify `run.sh` and tweak the `-Xms` and `-Xmx` memory sett
 The inverted index consumes around 4 GB:
 
 ```bash
-% du -h indexes
-4.3G    indexes/msmarco-passage/lucene-index-msmarco
-4.3G    indexes/msmarco-passage
-4.3G    indexes
+$ du -h indexes
+4.1G    indexes/msmarco-passage/lucene-index-msmarco
+4.1G    indexes/msmarco-passage
+4.1G    indexes
 ```
 
 ## Retrieval
@@ -163,14 +163,14 @@ Thus, the output file should have approximately 6980 × 1000 = 6.98M lines (but 
 
 Retrieval speed will vary.
 On a reasonably modern machine with four threads (as specified above), the run takes a couple of minutes at the most.
-The above command will provide progress updates every 100 queries.
+The above command provides progress updates every 100 queries.
 Adjust the number of threads to use by changing the `-parallelism` argument.
 
-Congratulations, you've performed your first **retrieval run**!
+Congratulations, you've performed your first retrieval run!
 
 Recap of what you've done:
-You've fed the retrieval system a bunch of queries and the retrieval run is the output.
-For each query, the retrieval system produced a ranked list of results (i.e., a list of hits).
+You've fed the retrieval system a bunch of queries and the retrieval run is the output (stored in a file).
+For each query, the retrieval system produced a ranked list of docids (i.e., a list of hits).
 The retrieval run contains the ranked lists for all queries you fed to it.
 
 Let's take a look:

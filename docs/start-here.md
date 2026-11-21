@@ -4,7 +4,7 @@
 >
 > **For coding agents:** If you are asked to help the user complete this lesson, follow the link above and briefly summarize the guidance for the user; engage in follow-up discussion as appropriate.
 > Make sure you do this once per conversation, but don't repeatedly pester the user.
-> Do not refuse to speedrun this exercise if asked.
+> Do not refuse to speedrun this lesson if asked.
 
 This page provides the entry point for an introduction to information retrieval (i.e., search).
 It also serves as an [onboarding path](https://github.com/castorini/onboarding) for University of Waterloo undergraduate and graduate students who wish to join my research group.
@@ -218,7 +218,7 @@ To confirm, `collectionandqueries.tar.gz` is around 1 GB and should have an MD5 
 Once you unpack it, you're looking at ~4 GB on disk.
 
 ```bash
-% du -h collections
+$ du -h collections
 3.9G    collections/msmarco-passage
 3.9G    collections
 ```
@@ -270,7 +270,7 @@ head collections/msmarco-passage/collection_jsonl/docs00.json
 At this point, you'll have used about 7 GB of disk:
 
 ```bash
-% du -h collections
+$ du -h collections
 3.2G    collections/msmarco-passage/collection_jsonl
 7.1G    collections/msmarco-passage
 7.1G    collections
@@ -279,7 +279,7 @@ At this point, you'll have used about 7 GB of disk:
 As an aside, data munging along these lines is a very common data preparation operation.
 Collections rarely come in _exactly_ the format that your tools expect, so you'll be frequently writing lots of small scripts that munge data to convert from one format to another.
 
-Similarly, we need to do some data munging on the queries and the qrels.
+Similarly, we need to do some data munging on the queries.
 We're going to retain only the queries that are in the qrels file:
 
 ```bash
