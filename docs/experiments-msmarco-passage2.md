@@ -40,9 +40,10 @@ bin/run.sh io.anserini.search.SearchCollection \
 ```
 
 Instead of passing the path to an index in the `-index` parameter, we specify the name of a prebuilt index that Anserini already "knows about".
-Anserini downloads the prebuilt index from a known location and stores a copy in `~/.cache/pyserini/indexes`.
-(Yes, `pyserini` is not a typo: this is so that Anserini and Pyserini can share prebuilt indexes.)
+By default, Anserini downloads the prebuilt index from a known location and stores a copy in `~/.cache/pyserini/indexes`.
+Yes, `pyserini` is not a typo: this is so that Anserini and Pyserini can share prebuilt indexes.
 Go ahead and confirm that the index is there.
+Refer to [this guide](prebuilt-indexes.md) if you'd like to alter the cache location.
 
 After the search completes, we can then evaluate the run with the `trec_eval` tool.
 Let's compute the MRR@10 score, which is the official metric:

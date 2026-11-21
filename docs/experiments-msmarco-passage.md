@@ -118,7 +118,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 In this case, Lucene creates what is known as an **inverted index**.
 
 Upon completion, we should have an index with 8,841,823 documents.
-On a reasonably modern machine, indexing should complete in a few minutes at the most.
+On a reasonably modern machine, indexing typically completes in a few minutes.
 The above command will provide progress updates at minute intervals.
 
 If you run into out-of-memory issues, you might need to dial down `-threads` (i.e., use fewer threads).
@@ -161,17 +161,15 @@ The above command uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
 The option `-hits` specifies the number of documents per query to be retrieved (also called the number of "hits").
 Thus, the output file should have approximately 6980 × 1000 = 6.98M lines (but fewer if a query retrieves fewer than 1000 hits).
 
-Retrieval speed will vary.
-On a reasonably modern machine with four threads (as specified above), the run takes a couple of minutes at the most.
+On a reasonably modern machine with four threads (as specified above), the run typically completes in a couple of minutes.
 The above command provides progress updates every 100 queries.
-Adjust the number of threads to use by changing the `-parallelism` argument.
+Adjust the number of search threads by changing the `-parallelism` argument.
 
 Congratulations, you've performed your first retrieval run!
 
-Recap of what you've done:
-You've fed the retrieval system a bunch of queries and the retrieval run is the output (stored in a file).
-For each query, the retrieval system produced a ranked list of docids (i.e., a list of hits).
-The retrieval run contains the ranked lists for all queries you fed to it.
+Recap:
+You've fed the retrieval system a bunch of queries, and for each query, it computed a ranked list of docids.
+All of the results are stored in a file.
 
 Let's take a look:
 
