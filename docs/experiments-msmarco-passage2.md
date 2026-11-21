@@ -25,9 +25,9 @@ Of course, if the document collection changes, we'll need to modify the index, b
 
 This is where prebuilt indexes come in:
 Instead of making everyone build their own indexes, we can directly share indexes that have already been built.
-Take the time to read [this guide about prebuilt indexes in Anserini](prebuilt-indexes.md).
+Prebuilt indexes in Anserini are described in [this guide](prebuilt-indexes.md).
 
-Here's the same retrieval run that you've done before, on the MS MARCO passage collection with the dev queries, but now using a prebuilt index:
+Here's the same retrieval run that you've performed [in the previous lesson](experiments-msmarco-passage.md), on the MS MARCO passage collection with the dev queries, but now using a prebuilt index:
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
@@ -41,12 +41,12 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Instead of passing the path to an index in the `-index` parameter, we specify the name of a prebuilt index that Anserini already "knows about".
 By default, Anserini downloads the prebuilt index from a known location and stores a copy in `~/.cache/pyserini/indexes`.
-Yes, `pyserini` is not a typo: this is so that Anserini and Pyserini can share prebuilt indexes.
 Go ahead and confirm that the index is there.
+Yes, `pyserini` is not a typo: this is so that Anserini and Pyserini can share prebuilt indexes.
 Refer to [this guide](prebuilt-indexes.md) if you'd like to alter the cache location.
 
-After the search completes, we can then evaluate the run with the `trec_eval` tool.
-Let's compute the MRR@10 score, which is the official metric:
+After the search completes, we can evaluate the run with the `trec_eval` tool.
+Let's compute MRR@10, which is the official metric:
 
 ```bash
 bin/trec_eval -c -M 10 -m recip_rank \
@@ -56,8 +56,8 @@ bin/trec_eval -c -M 10 -m recip_rank \
 
 The MRR@10 should be 0.1875.
 
-There's a _tiny_ bit of difference between this result and the one from the previous lesson.
-Previously, we used `-format msmarco` to generate the output in the MS MARCO format, which we then converted into the TREC format before evaluating.
+There's a _tiny_ difference between this result and the result [from the previous lesson](experiments-msmarco-passage.md).
+Before, we used `-format msmarco` to generate results in the MS MARCO format, which we then converted into the TREC format before evaluating.
 This conversion is lossy and causes slight score differences due to tie-breaking effects (i.e., what happens when two documents are tied in terms of score).
 So, no need to worry about the 0.0001 difference.
 
@@ -69,10 +69,11 @@ bin/run.sh io.anserini.cli.PrebuiltIndexRegistry --list | jq
 ```
 
 The output of `PrebuiltIndexRegistry` is piped to `jq` for readability.
-You can see from the class [`PrebuiltIndex`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/prebuilt/PrebuiltIndex.java) that the metadata for prebuilt indexes are loaded from [an external source](https://github.com/castorini/prebuilt-indexes/).
-
-Anserini provides many prebuilt indexes!
 If you only want to list those matching a regular expression, use the `--filter` option, e.g., `--filter msmarco-v1-passage`.
+
+You can see from the class [`PrebuiltIndex`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/prebuilt/PrebuiltIndex.java) that the metadata for prebuilt indexes are loaded from [an external source](https://github.com/castorini/prebuilt-indexes/).
+Anserini provides many prebuilt indexes!
+This makes it convenient for researchers who wish to reproduce experimental results on diverse test collections.
 
 ## Retrieval with a Dense Vector Index
 
