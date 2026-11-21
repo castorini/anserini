@@ -9,16 +9,17 @@
 This page provides the entry point for an introduction to information retrieval (i.e., search).
 It also serves as an [onboarding path](https://github.com/castorini/onboarding) for University of Waterloo undergraduate and graduate students who wish to join my research group.
 
-**Learning outcomes** for this guide:
+**Learning outcomes** for this lesson:
 
-+ Understand the definition of the retrieval problem in terms of the core concepts of queries, collections, and relevance.
-+ Understand at a high level how retrieval systems are evaluated with queries and relevance judgments.
++ Understand the definition of the retrieval problem in terms of the core concepts of collections, queries, relevance judgments (qrels), relevance, and metrics.
++ Understand how the retrieval problem relates to RAG and agentic search.
++ Understand at a high level how retrieval systems are evaluated with queries and relevance judgments using metrics.
 + Download the MS MARCO passage ranking test collection and perform basic manipulations on the downloaded files.
 + Connect the contents of specific files in the download package to the concepts referenced above.
 
 ## The Retrieval Problem
 
-Let's start at the top:
+Let's start at the beginning:
 What's the problem we're trying to solve?
 
 This is the definition I typically give:
@@ -26,8 +27,9 @@ This is the definition I typically give:
 > Given an information need expressed as a query _q_, the text retrieval task is to return a ranked list of _k_ texts {_d<sub>1</sub>_, _d<sub>2</sub>_ ... _d<sub>k</sub>_} from an arbitrarily large but finite collection
 of texts _C_ = {_d<sub>i</sub>_} that maximizes a metric of interest, for example, nDCG, AP, etc.
 
-This problem has been given various names, e.g., the search problem, the information retrieval problem, the text ranking problem, the top-_k_ document retrieval problem, etc.
-In most contexts, "ranking" and "retrieval" are used interchangeably.
+This problem has been given various names: search, retrieval, ranking, etc.
+In most contexts, "retrieval" and "ranking" are used interchangeably.
+Sometimes, top-_k_ retrieval/ranking is referenced to specifically draw attention to the output.
 Basically, this is what _search_ (i.e., information retrieval) is all about.
 
 ## Interlude: Who Cares?
@@ -41,7 +43,7 @@ That's _literally_ so last millennium!
 (Google [celebrated](https://blog.google/company-news/inside-google/message-ceo/google-25th-birthday-sundar-pichai/) its 25th birthday back in 2023!)
 
 Well, not quite.
-Let's recap developments over the past few years.
+Let's recap developments over the past few years:
 You might have heard of this thing called "retrieval augmentation"?
 The full name of the technique is retrieval-augmented generation, or RAG for short.
 That's just a fancy way of describing the idea of fetching pieces of content (e.g., paragraphs) from some external source (e.g., a collection of documents), and stuffing them into the prompt of an LLM to improve its generation capabilities.
@@ -50,7 +52,7 @@ Well, that's search!
 (You might have also heard about something called vector search? We'll cover exactly that later in this onboarding path.)
 
 In fact, retrieval augmentation is exactly how the "new" Bing search works (well, not so new since it debuted in February 2023).
-You don't have to take my word: you can directly read the blog post on [building the new Bing](https://blogs.bing.com/search-quality-insights/february-2023/Building-the-New-Bing) and find the following diagram:
+You don't have to take my word for it: you can read the blog post on [building the new Bing](https://blogs.bing.com/search-quality-insights/2023/2/Building-the-New-Bing/) and find the following diagram:
 
 <img src="Prometheus-Model.png" width="500" />
 
@@ -58,18 +60,18 @@ Search comprises "internal queries" to fetch content ("Bing results") that are t
 If you want more evidence, here's a [NeurIPS 2020 paper](https://arxiv.org/abs/2005.11401) that basically says the same thing.
 The content that's inserted into the prompt as part of RAG is sometimes referred to as "grounding data" (or "retrieved context", or sometimes just "grounding" for short), so we can say that RAG _grounds_ LLM output (specifically, on search results).
 
-Bing is referenced here because it's the first major consumer product built using RAG.
-But [Perplexity](https://www.perplexity.ai/), [ChatGPT search](https://openai.com/index/introducing-chatgpt-search/), and pretty much every other LLM today does something similar: understand the user query, call a search tool to fetch results, and then generate an answer based on (or grounded on) those results.
+Bing is referenced here because it's one of the first major consumer products built using RAG.
+But [Perplexity](https://www.perplexity.ai/), [ChatGPT search](https://openai.com/index/introducing-chatgpt-search/), and pretty much every other LLM today does something similar: understand the user query, call a search tool to fetch results, and then generate an answer grounded on those results.
 
 So, that's RAG.
 But RAG isn't cool anymore, as you can see from [Google Trends](https://trends.google.com/trends/explore?date=today%205-y&q=%2Fg%2F11w2hkn8vj&hl=en).
 
-The next development was the rise of agentic search, circa 2025.
+The next major development was the rise of agentic search, circa 2025.
 What's that all about?
 
 Stripping away unhelpful anthropomorphization and deliberate attempts at making things sound more complicated than they actually are, agents are simply models using tools in loops.
 Don't believe me?
-That's how [Anthropic](https://www.anthropic.com/research/building-effective-agents) characterizes agents as well ("LLMs using tools based on environmental feedback in a loop").
+That's how Anthropic [characterizes agents](https://www.anthropic.com/research/building-effective-agents) as well ("LLMs using tools based on environmental feedback in a loop").
 In this context, search is a tool, alongside other tools like shell commands, querying SQL databases, REST APIs, etc.
 The "thing" that does the "looping" is typically referred to as the harness.
 The harness invokes the model, executes tool calls, returns their results, and maintains the context needed to continue (as well as participating in the decision to stop when the user task is complete).
@@ -90,7 +92,7 @@ No amount of reasoning can compensate for non-relevant results that are fed to a
 
 How do we perform retrieval effectively?
 Well, that's why you should read on.
-Later, we'll also see that transformers (the same neural network model that underlies LLMs) form a fundamental building block of converting content into representation vectors (called "embeddings"), which underlie vector search.
+Later, you'll see that the transformer (the same neural network model that underlies LLMs) forms a fundamental building block of converting content into representation vectors (called "embeddings"), which underlie vector search.
 
 ## Back to the Retrieval Problem
 
@@ -106,15 +108,15 @@ In standard parlance, a "document" is used generically to refer to any discrete 
 We call them "documents" even though in reality they may be webpages, passages, PDFs, PowerPoint slides, Excel spreadsheets, or even images, audio, or video.
 
 The output of retrieval is a ranking of documents (i.e., a ranked list, or just a sorted list).
-Documents are identified by unique ids, and so a ranking is simply a list of ids.
-The document contents can serve as input to downstream processing, e.g., fed into the prompt of an LLM as part of agentic search.
+Documents are identified by unique ids (docids), and so a ranking is simply a list of docids.
+The document contents can serve as input to downstream processing, e.g., fed into an LLM as part of agentic search.
 
 **Relevance** is perhaps the most important concept in information retrieval.
 The literature on relevance goes back at least fifty years and the notion is (surprisingly) difficult to pin down precisely.
 However, at an intuitive level, relevance is a relationship between an information need and a document, i.e., is this document relevant to this information need?
 Something like, "does this document contain the information I'm looking for?"
 
-Sweeping away a lot of complexity... relevance can be binary (i.e., not relevant, relevant) or "graded" (think Likert scale, e.g., not relevant, relevant, highly relevant).
+Sweeping away a lot of complexity... relevance can be binary (i.e., not relevant or relevant) or "graded" (think Likert scale, e.g., not relevant, relevant, highly relevant).
 
 ## The Evaluation Problem
 
@@ -134,24 +136,31 @@ q2 doc97 0
 ```
 
 That is, for `q1`, `doc23` is not relevant, `doc452` is relevant, and `doc536` is not relevant; for `q2`, `doc97` is not relevant...
+(Assuming binary relevance here.)
 
 Now, given a set of queries, you feed each query into your retrieval system and get back a ranked list of document ids.
 
-The final thing you need is a **metric** that quantifies the "goodness" of the ranked list.
+The final thing you need is a **metric** (or measure) that quantifies the "goodness" of the ranked list.
 One easy-to-understand metric is precision at 10, often written P@10.
-It simply means: of the top 10 documents, what fraction are relevant according to your qrels?
+It simply means: of the top 10 documents, what fraction are relevant according to the qrels?
 For a query, if five of them are relevant, you get a score of 0.5; if nine of them are relevant, you get a score of 0.9.
-You compute P@10 per query, and then average across all queries.
+You compute P@10 per query, and then average across all the queries.
 
-Information retrieval researchers have dozens of metrics, but a detailed explanation of each isn't important right now...
+Information retrieval researchers compare systems using dozens of metrics, but a detailed explanation of each isn't important right now...
 just recognize that _all_ metrics are imperfect, but they try to capture different aspects of the quality of a ranked list in terms of containing relevant documents.
 For nearly all metrics, though, higher is better.
 
 So now with a metric, we have the ability to measure (i.e., quantify) the quality of a system's output.
 And with that, we have the ability to compare the quality of two different systems or two model variants.
 
-With a metric, we have the ability to iterate incrementally and build better retrieval systems (e.g., with machine learning).
-Oversimplifying (of course), information retrieval is all about making the metric go up.
+How do you know if system _A_ is better than system _B_?
+Well, you compute a metric for _A_ and _B_ using a test collection, and then compare the scores.
+The better system achieves a higher score.
+Of course, there's a lot more nuance here that we won't get into, such as the effect size and the statistical significance of the differences.
+
+Nevertheless, given a test collection and a metric we're interested in, we have the ability to iterate and to build better retrieval systems.
+If our test collection is big enough, we can use machine-learning techniques to train (hopefully better) retrieval models.
+Oversimplifying (of course), information retrieval is all about making the metric of interest go up (i.e., hill-climbing).
 
 Oh, where do these magical relevance judgments (qrels) come from?
 Well, that's a story for another day...
@@ -171,19 +180,20 @@ When should you do these readings?
 That's a good question:
 If you absolutely want to know more _right now_, then go for it.
 Otherwise, I think it's probably okay to continue along the onboarding path... although you'll need to circle back and get a deeper understanding of these concepts if you want to get into information retrieval research "more seriously".
+
 </details>
 
 ## A Tour of MS MARCO
 
 Bringing together everything we've discussed so far, a test collection consists of three elements:
 
-+ a collection of documents (or corpus)
++ a collection of documents (the corpus)
 + a set of queries
-+ relevance judgments (or qrels), which tell us which documents are relevant to which queries
++ relevance judgments (qrels), which tell us which documents are relevant to which queries
 
 Here, we're going to introduce the [MS MARCO passage ranking test collection](https://microsoft.github.io/msmarco/).
 
-If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it:
+If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it now:
 
 ```bash
 git clone https://github.com/castorini/anserini.git
@@ -251,7 +261,7 @@ $ wc collections/msmarco-passage/collection_jsonl/*
  8841823 523912422 3338781467 total
 ```
 
-You can take a peek at a jsonl document to see what the converted data looks like:
+You can take a peek at the jsonl documents to see what the converted corpus looks like:
 
 ```bash
 head collections/msmarco-passage/collection_jsonl/docs00.json
@@ -261,7 +271,7 @@ At this point, you'll have used about 7 GB of disk:
 
 ```bash
 % du -h collections
-3.1G    collections/msmarco-passage/collection_jsonl
+3.2G    collections/msmarco-passage/collection_jsonl
 7.1G    collections/msmarco-passage
 7.1G    collections
 ```
@@ -269,7 +279,7 @@ At this point, you'll have used about 7 GB of disk:
 As an aside, data munging along these lines is a very common data preparation operation.
 Collections rarely come in _exactly_ the format that your tools expect, so you'll be frequently writing lots of small scripts that munge data to convert from one format to another.
 
-Similarly, we'll also have to do a bit of data munging of the queries and the qrels.
+Similarly, we need to do some data munging on the queries and the qrels.
 We're going to retain only the queries that are in the qrels file:
 
 ```bash
@@ -313,9 +323,10 @@ The above is the standard format for a qrels file.
 The first column is the `qid`;
 the second column is (almost) always 0 (it's a historical artifact dating back decades);
 the third column is a `docid`;
-the fourth column provides the relevance judgment itself.
-In this case, 0 means "not relevant" and 1 means "relevant".
-So, this entry says that the document with id 7187158 is relevant to the query with id 1048585. Note that from the `head` command above, `qid` 1048585 corresponds to the query "what is paula deen's brother".
+the fourth column provides the relevance judgment itself:
+here, 0 means "not relevant" and 1 means "relevant".
+Putting everything together, this entry says that the document with id 7187158 is relevant to the query with id 1048585.
+Note that from the `head` command above, `qid` 1048585 corresponds to the query "what is paula deen's brother".
 
 Well, how do we get the actual contents of document 7187158?
 The simplest way is to grep through the collection itself:
@@ -330,7 +341,7 @@ Note that this particular passage is a bit dirty (garbage characters, dups, etc.
 
 Before proceeding, try the same thing with a few more queries: map the queries to the relevance judgments to the actual documents.
 
-How big is the MS MARCO passage ranking test collection, btw?
+How big is the MS MARCO passage ranking test collection?
 Well, we've just seen that there are 6980 dev queries.
 For those, we have 7437 relevance judgments:
 
@@ -356,30 +367,30 @@ $ cut -f1 collections/msmarco-passage/qrels.train.tsv | sort -u | wc -l
 
 Wow, there are over 532k relevance judgments in the dataset, covering over 502k distinct training queries!
 (Yes, that's big!)
-It's sufficient... for example... to _train_ neural networks (transformers) to perform retrieval!
+It's sufficient to _train_ neural networks (transformers) to perform retrieval!
 And, indeed, MS MARCO is perhaps the most common starting point for work in building neural retrieval models.
 But that's for some other time...
 
 Okay, go back and look at the learning outcomes at the top of this page.
 By now you should be able to connect the concepts we introduced to how they manifest in the MS MARCO passage ranking test collection.
 
-From here, you're now ready to proceed to try and reproduce the [BM25 Baselines for MS MARCO Passage Ranking](experiments-msmarco-passage.md).
+From here, you're now ready to reproduce the [BM25 Baseline for MS MARCO Passage Ranking](experiments-msmarco-passage.md).
 
 ## Wrapping Up
 
 Before you move on, add an entry in the "Reproduction Log" at the bottom of this page:
 
 + Follow the same format as the existing entries:
-  Use the commit you checked out for this exercise, which must be on Anserini's `master` branch.
+  Use the commit you checked out for this lesson, which must be on Anserini's `master` branch.
   Link to `castorini/anserini`, using the full commit hash in the URL and its first seven hexadecimal characters as the link text.
-+ Provide some details about your setup in the description of your pull request (e.g., operating system, environment and configuration, etc.).
++ Provide details about your setup in the description of your pull request (e.g., operating system, environment and configuration, etc.).
 + Provide some indication of success (e.g., everything worked) or document issues you encountered.
 + Confirm that your new entry is chronologically sorted in ascending order by reproduction date (oldest first).
-+ Include additional edits in the pull request if you think this exercise can be improved (e.g., you caught a typo or think a clarification is warranted).
++ Include additional edits in the pull request if you think this lesson can be improved (e.g., you caught a typo or think a clarification is warranted).
 + Make sure that your diffs are clean.
-  Unless you have explicitly modified the exercise (per above), your diff for each exercise should contain only your new entry, nothing else.
+  Unless you have explicitly modified the lesson (per above), your diff for each page should contain only your new entry, nothing else.
 
-Do not send a separate pull request for each exercise in the onboarding path; instead, send a single pull request for all edits to the Anserini repository.
+Do _not_ send a separate pull request for each lesson in the onboarding path; instead, send a single pull request for all edits to the Anserini repository.
 If you have any questions, look at previous pull requests for examples.
 
 ## Reproduction Log[*](reproducibility.md)

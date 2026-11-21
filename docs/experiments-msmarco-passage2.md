@@ -12,10 +12,10 @@ This exercise will require a machine with at least 8 GB RAM and at least 70 GB f
 
 If you're a Waterloo student traversing the [onboarding path](https://github.com/castorini/onboarding/blob/master/ura.md), [start here](start-here.md).
 
-**Learning outcomes** for this guide, building on previous lessons in the onboarding path:
+**Learning outcomes** for this lesson, building on previous lessons in the onboarding path:
 
-+ Be able to use Anserini prebuilt indexes to skip indexing, for both BM25 and dense vector search (also called dense retrieval).
-+ Be able to use Anserini to perform a batch retrieval run using a dense retrieval model.
++ Use a prebuilt index in Anserini to perform batch retrieval using BM25.
++ Use a prebuilt index in Anserini to perform batch retrieval using a dense retrieval model.
 
 ## Repeating BM25 Retrieval with a Prebuilt Index
 
@@ -122,16 +122,16 @@ As a next step in the onboarding path, you basically [do the same thing again in
 Before you move on, add an entry in the "Reproduction Log" at the bottom of this page:
 
 + Follow the same format as the existing entries:
-  Use the commit you checked out for this exercise, which must be on Anserini's `master` branch.
+  Use the commit you checked out for this lesson, which must be on Anserini's `master` branch.
   Link to `castorini/anserini`, using the full commit hash in the URL and its first seven hexadecimal characters as the link text.
-+ Provide some details about your setup in the description of your pull request (e.g., operating system, environment and configuration, etc.).
++ Provide details about your setup in the description of your pull request (e.g., operating system, environment and configuration, etc.).
 + Provide some indication of success (e.g., everything worked) or document issues you encountered.
 + Confirm that your new entry is chronologically sorted in ascending order by reproduction date (oldest first).
-+ Include additional edits in the pull request if you think this exercise can be improved (e.g., you caught a typo or think a clarification is warranted).
++ Include additional edits in the pull request if you think this lesson can be improved (e.g., you caught a typo or think a clarification is warranted).
 + Make sure that your diffs are clean.
-  Unless you have explicitly modified the exercise (per above), your diff for each exercise should contain only your new entry, nothing else.
+  Unless you have explicitly modified the lesson (per above), your diff for each page should contain only your new entry, nothing else.
 
-Do not send a separate pull request for each exercise in the onboarding path; instead, send a single pull request for all edits to the Anserini repository.
+Do _not_ send a separate pull request for each lesson in the onboarding path; instead, send a single pull request for all edits to the Anserini repository.
 If you have any questions, look at previous pull requests for examples.
 
 ## Reproduction Log[*](reproducibility.md)
