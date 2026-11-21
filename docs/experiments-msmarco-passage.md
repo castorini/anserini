@@ -163,7 +163,7 @@ Thus, the output file should have approximately 6980 × 1000 = 6.98M lines (but 
 
 On a reasonably modern machine with four threads (as specified above), the run typically completes in a couple of minutes.
 The above command provides progress updates every 100 queries.
-Adjust the number of search threads by changing the `-parallelism` argument.
+Adjust the number of search threads by changing the `-parallelism` option.
 
 Congratulations, you've performed your first retrieval run!
 

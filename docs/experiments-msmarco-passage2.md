@@ -8,7 +8,7 @@
 
 This page contains instructions using prebuilt indexes to run BM25 and dense vector search (with BGE-base) for the [MS MARCO _passage_ ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO _document_ ranking task](experiments-msmarco-doc.md).
-This lesson will require a machine with at least 8 GB RAM and at least 70 GB free disk space (the dense vector index is 26 GB).
+This lesson will require a machine with at least 8 GB RAM and at least 70 GB free disk space (the dense vector index consumes 27 GB).
 
 If you're a Waterloo student traversing the [onboarding path](https://github.com/castorini/onboarding/blob/master/ura.md), [start here](start-here.md).
 
@@ -68,18 +68,18 @@ The following gives the complete list of prebuilt indexes (with associated metad
 bin/run.sh io.anserini.cli.PrebuiltIndexRegistry --list | jq
 ```
 
-The output of `PrebuiltIndexRegistry` is piped to `jq` for readability.
+In the above command, the output of `PrebuiltIndexRegistry` is piped to `jq` for readability.
 If you only want to list those matching a regular expression, use the `--filter` option, e.g., `--filter msmarco-v1-passage`.
 
-You can see from the class [`PrebuiltIndex`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/prebuilt/PrebuiltIndex.java) that the metadata for prebuilt indexes are loaded from [an external source](https://github.com/castorini/prebuilt-indexes/).
+You can see from the [`PrebuiltIndex`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/prebuilt/PrebuiltIndex.java) class that the metadata for prebuilt indexes are loaded from [an external source](https://github.com/castorini/prebuilt-indexes/).
 Anserini provides many prebuilt indexes!
-This makes it convenient for researchers who wish to reproduce experimental results on diverse test collections.
+This makes it convenient for researchers to reproduce experimental results on diverse test collections.
 
 ## Retrieval with a Dense Vector Index
 
 Next, we're going to look at retrieval using dense vector representations (or just dense vectors).
 This is also called dense retrieval or dense vector search (or sometimes, just vector search).
-We'll learn more about how they work later in the onboarding path in Pyserini, but for now, let's perform a retrieval run, using the same queries on the same collection.
+We'll learn more about how they work later in the Pyserini onboarding path, but for now, let's perform a retrieval run, using the same queries on the same collection.
 
 Here, we are using the BGE-base model (`bge-base-en-v1.5`).
 This is the encoder that generates dense vectors from text (either documents or queries).
@@ -99,8 +99,11 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
 
 Instead of `SearchCollection`, we use `SearchHnswDenseVectors` since it's a different type of index (HNSW).
 The `-index` option specifies `msmarco-v1-passage.bge-base-en-v1.5.hnsw`, which tells Anserini to download the prebuilt HNSW index for the MS MARCO passage collection.
-Beware, it's 26 GB.
-For reference, the complete run takes a few minutes on a reasonably modern machine (not counting the index download time).
+Beware, the index consumes 27 GB.
+
+On a reasonably modern machine with four threads (as specified above), the complete run typically takes a few minutes (not counting the index download time).
+The above command provides progress updates every 100 queries.
+Adjust the number of search threads by changing the `-threads` option.
 
 The documents in the HNSW index have already been converted into vector representations, so no document processing is needed.
 However, retrieval requires the encoder to convert the (text) queries into vector representations.
