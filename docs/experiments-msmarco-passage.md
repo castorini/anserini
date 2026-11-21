@@ -234,8 +234,7 @@ QueriesRanked: 6980
 
 (Yeah, the number of digits of precision is a bit... excessive)
 
-Remember from the [start here](start-here.md) guide that with relevance judgments (qrels), we can automatically evaluate the retrieval system output (i.e., the run).
-
+Remember from the [start here](start-here.md) guide that with relevance judgments (qrels), we can automatically evaluate retrieval output (i.e., the run).
 The final ingredient is a metric, i.e., how to quantify the "quality" of a ranked list.
 Here, we're using a metric called MRR, or mean reciprocal rank.
 To be precise, when computing the metric for a single query, it's just RR, or reciprocal rank.
@@ -248,17 +247,17 @@ If it appears at rank 2, the system gets a score of 1/2.
 If it appears at rank 3, the system gets a score of 1/3.
 And so on.
 RR@10 means that we only go down to rank 10.
-If the relevant `docid` doesn't appear in the top 10, then the system gets a score of zero.
+If the relevant `docid` doesn't appear in the top 10, the output gets a score of zero.
 
-That's the score of a query (RR@10, to be precise).
-We take the average of the scores across all queries (6980 in this case), and we arrive at the score for the entire run (MRR@10, to be precise).
+The description above specifies the score of a query (RR@10, to be precise).
+We take the mean (average) of the scores across all queries (6980 in this case) and arrive at the score for the entire run (MRR@10, to be precise).
 
 You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Passage-Ranking-Submissions/leaderboard/) as the entry named "BM25 (Lucene8, tuned)", dated 2019/06/26.
-So you've just reproduced (part of) a leaderboard submission!
-(Note that you're running a newer version of Lucene, but the results are the same.)
+So you've just reproduced a leaderboard submission!
+(You're running a newer version of Lucene, but the results are the same.)
 
-We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute other metrics than MRR@10.
-For that we first need to convert runs and qrels files to the TREC format:
+We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute metrics other than MRR@10.
+For that we first need to convert the run and the qrels into the TREC format:
 
 ```bash
 python src/main/python/msmarco/convert_msmarco_to_trec_run.py \
@@ -270,7 +269,7 @@ python src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
   --output collections/msmarco-passage/qrels.dev.small.trec
 ```
 
-And run the `trec_eval` tool:
+And then run the `trec_eval` tool:
 
 ```bash
 bin/trec_eval -c -mrecall.1000 -mmap \
@@ -295,7 +294,7 @@ bin/trec_eval -c -M 10 -m recip_rank \
   runs/run.msmarco-passage.dev.bm25.trec
 ```
 
-It's a different command-line incantation of `trec_eval` to compute MRR@10.
+It's a different command-line invocation of `trec_eval` to compute MRR@10.
 And if you add `-q`, the tool will spit out the RR@10 _per query_ (for all 6980 queries, in addition to the final average).
 
 ```bash
@@ -319,12 +318,13 @@ recip_rank              1048585 1.0000
 ```
 
 This is consistent with the example we worked through above.
-At this point, make sure that the connections between a query, the relevance judgments for a query, the ranked list, and the metric (RR@10) are clear in your mind.
-Work through a few more examples (take another query, look at its qrels and ranked list, and compute its RR@10 by hand) to convince yourself that you understand what's going on.
+At this point, make sure that the connections between a query, the relevance judgments for that query, the ranked list, and the metric (RR@10) are clear in your mind.
+Work through a few more examples (take another query, look at its qrels and its ranked list, and compute its RR@10 by hand) to convince yourself that you understand what's going on.
 
-The tl;dr is that there are different formats for run files and lots of different metrics you can compute.
+The tl;dr is that there are different formats for run files and many different metrics you can compute.
 `trec_eval` is a standard tool used by information retrieval researchers (which has many command-line options that you'll slowly learn over time).
-Researchers have been trying to answer the question "how do we know if a search result is good and how do we measure it" for over half a century... and the question still has not been fully resolved.
+Researchers have been trying to answer the following question for over half a century: "How do we know if a search result is good and how do we measure it?"
+Despite much progress in the field, the question still has not been fully resolved.
 In short, it's complicated.
 
 ## Wrapping Up
