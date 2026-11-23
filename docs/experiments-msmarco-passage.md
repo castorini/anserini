@@ -104,6 +104,8 @@ Make sure you've built the complete Anserini package with our build script:
 bin/build.sh
 ```
 
+Anserini requires **JDK 21** (see `java.version` in `pom.xml`); older JDKs fail on flags used by `bin/run.sh` such as `--enable-native-access=ALL-UNNAMED`.
+
 Using Anserini, we can index these docs as a `JsonCollection` (a specification of how documents are encoded) with the following command:
 
 ```bash
