@@ -5,7 +5,7 @@
 
 ## Summary of Changes
 
-+ Modified reproductions:
++ Updated reproductions:
   + Added BEIR and MS MARCO Passage reproductions with SlideOn (via ONNX query encoder)
   + Added RETECO v1.1 Track 1 reproductions with BM25 and BM25QS
   + Removed legacy pre-tokenized WordPiece conditions for BEIR and MS MARCO
