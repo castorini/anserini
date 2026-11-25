@@ -6,10 +6,10 @@
 ## Summary of Changes
 
 + Modified reproductions:
-  + Added BEIR and MS MARCO Passage reproductions with SlideOn (added ONNX query encoder)
+  + Added BEIR and MS MARCO Passage reproductions with SlideOn (via ONNX query encoder)
   + Added RETECO v1.1 Track 1 reproductions with BM25 and BM25QS
-  + Removed legacy pre-tokenized WordPiece conditions
-+ Added qrels registry and expanded topic/qrels registry metadata; switched prebuilt index metadata loading to a pinned raw manifest.
+  + Removed legacy pre-tokenized WordPiece conditions for BEIR and MS MARCO
++ Added qrels registry and expanded topic/qrels registry metadata; switched prebuilt index metadata loading to a pinned manifest.
 + Expanded and standardized reproduction documentation.
 + Refreshed retrieval onboarding lessons.
 + Refactored reproduction drivers.
