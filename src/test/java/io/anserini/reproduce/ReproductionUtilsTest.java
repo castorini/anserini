@@ -16,6 +16,9 @@
 
 package io.anserini.reproduce;
 
+import java.time.Instant;
+import java.util.TimeZone;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -25,6 +28,27 @@ import static io.anserini.reproduce.ReproductionUtils.Status.OKISH;
 import static io.anserini.reproduce.ReproductionUtils.compareScores;
 
 public class ReproductionUtilsTest {
+  @Test
+  public void testTimeFormattingTracksDefaultTimeZone() {
+    TimeZone previousTimeZone = TimeZone.getDefault();
+    Instant start = Instant.parse("2026-03-01T10:00:00Z");
+    Instant end = start.plusSeconds(4);
+    try {
+      // Initialize the shared formatter before changing the default timezone.
+      TimeZone.setDefault(TimeZone.getTimeZone("America/Chicago"));
+      ReproductionUtils.formatStartTime(start);
+      TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+      assertEquals("2026-03-01 10:00:00 UTC", ReproductionUtils.formatStartTime(start));
+      assertEquals("2026-03-01 10:00:04 UTC", ReproductionUtils.formatEndTime(end));
+
+      TimeZone.setDefault(TimeZone.getTimeZone("America/Chicago"));
+      assertEquals("2026-03-01 04:00:00 CST", ReproductionUtils.formatStartTime(start));
+      assertEquals("2026-03-01 04:00:04 CST", ReproductionUtils.formatEndTime(end));
+    } finally {
+      TimeZone.setDefault(previousTimeZone);
+    }
+  }
+
   @Test
   public void testEquality() {
     assertEquals(OK, compareScores(0.0, 0.0, null));
