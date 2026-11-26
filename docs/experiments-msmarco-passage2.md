@@ -360,6 +360,7 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@nothingdev32](https://github.com/nothingdev32) on 2026-11-03 (commit [`7c796ff`](https://github.com/castorini/anserini/commit/7c796ffcdcfe178943472a0de769c324e45de293))
 + Results reproduced by [@karanverma](https://github.com/karanverma) on 2026-11-04 (commit [`e920b4a`](https://github.com/castorini/anserini/commit/e920b4ad3621da7b61ba81ac9251842dfb1d6f07))
 + Results reproduced by [@fakhirhassan](https://github.com/fakhirhassan) on 2026-11-05 (commit [`37274e3`](https://github.com/castorini/anserini/commit/37274e31df3e86cd300a4188fc95d369c64efe29))
++ Results reproduced by [@oma452](https://github.com/oma452) on 2026-11-06 (commit [`aa3930f`](https://github.com/castorini/anserini/commit/aa3930fedb57c00b4c92ba70589a5c9e5beeac4b))
 + Results reproduced by [@Md7tz](https://github.com/Md7tz) on 2026-11-07 (commit [`92f8cb9`](https://github.com/castorini/anserini/commit/92f8cb98ec54ce891f507dc01b22247eae34127b))
 + Results reproduced by [@rabiyasalehjee](https://github.com/rabiyasalehjee) on 2026-11-07 (commit [`e920b4a`](https://github.com/castorini/anserini/commit/e920b4ad3621da7b61ba81ac9251842dfb1d6f07))
 + Results reproduced by [@vardah-ch](https://github.com/vardah-ch) on 2026-11-08 (commit [`92f8cb9`](https://github.com/castorini/anserini/commit/92f8cb98ec54ce891f507dc01b22247eae34127b))
@@ -381,4 +382,5 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@Aviciiiiii](https://github.com/Aviciiiiii) on 2026-11-19 (commit [`d69c77b`](https://github.com/castorini/anserini/commit/d69c77b43a5eb59a7e735b1b3a5438de8e14e567))
 + Results reproduced by [@dlim2011](https://github.com/dlim2011) on 2026-11-22 (commit [`f69dc1b`](https://github.com/castorini/anserini/commit/f69dc1bf7ecfc2b8fcfccd364f39788bf125419d))
 + Results reproduced by [@Harsh23Kashyap](https://github.com/Harsh23Kashyap) on 2026-11-23 (commit [`74596da`](https://github.com/castorini/anserini/commit/74596dac2b5f69db2c1eb20374949efea19fe274))
++ Results reproduced by [@AASani29](https://github.com/AASani29) on 2026-11-24 (commit [`74596da`](https://github.com/castorini/anserini/commit/74596dac2b5f69db2c1eb20374949efea19fe274))
 + Results reproduced by [@jainary4](https://github.com/jainary4) on 2026-11-25 (commit [`92b9d60`](https://github.com/castorini/anserini/commit/92b9d604b05e7685d341ce1d755becf8a8cd03ae))
