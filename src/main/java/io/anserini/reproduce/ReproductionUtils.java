@@ -44,7 +44,7 @@ import org.apache.logging.log4j.Logger;
 public final class ReproductionUtils {
   private static final Logger LOG = LogManager.getLogger(ReproductionUtils.class);
 
-  private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z", Locale.ROOT).withZone(ZoneId.systemDefault());
+  private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z", Locale.ROOT);
 
   private ReproductionUtils() {}
 
@@ -134,11 +134,11 @@ public final class ReproductionUtils {
   }
 
   public static String formatStartTime(Instant startTime) {
-    return TIME_FORMATTER.format(startTime);
+    return TIME_FORMATTER.withZone(ZoneId.systemDefault()).format(startTime);
   }
 
   public static String formatEndTime(Instant endTime) {
-    return TIME_FORMATTER.format(endTime);
+    return TIME_FORMATTER.withZone(ZoneId.systemDefault()).format(endTime);
   }
 
   public static String formatDuration(long durationMillis) {
