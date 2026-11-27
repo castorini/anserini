@@ -770,3 +770,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@dlim2011](https://github.com/dlim2011) on 2026-11-22 (commit [`f69dc1b`](https://github.com/castorini/anserini/commit/f69dc1bf7ecfc2b8fcfccd364f39788bf125419d))
 + Results reproduced by [@Harsh23Kashyap](https://github.com/Harsh23Kashyap) on 2026-11-23 (commit [`74596da`](https://github.com/castorini/anserini/commit/74596dac2b5f69db2c1eb20374949efea19fe274))
 + Results reproduced by [@AASani29](https://github.com/AASani29) on 2026-11-24 (commit [`74596da`](https://github.com/castorini/anserini/commit/74596dac2b5f69db2c1eb20374949efea19fe274))
++ Results reproduced by [@jainary4](https://github.com/jainary4) on 2026-11-25 (commit [`92b9d60`](https://github.com/castorini/anserini/commit/92b9d604b05e7685d341ce1d755becf8a8cd03ae))
