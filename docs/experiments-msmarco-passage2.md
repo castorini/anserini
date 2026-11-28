@@ -385,3 +385,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@AASani29](https://github.com/AASani29) on 2026-11-24 (commit [`74596da`](https://github.com/castorini/anserini/commit/74596dac2b5f69db2c1eb20374949efea19fe274))
 + Results reproduced by [@jainary4](https://github.com/jainary4) on 2026-11-25 (commit [`92b9d60`](https://github.com/castorini/anserini/commit/92b9d604b05e7685d341ce1d755becf8a8cd03ae))
 + Results reproduced by [@Anushagarg25](https://github.com/Anushagarg25) on 2026-11-28 (commit [`c8d0768`](https://github.com/castorini/anserini/commit/c8d0768c663cf013708c14a41bd617e27ee20f4a))
++ Results reproduced by [@prayaagm](https://github.com/prayaagm) on 2026-11-28 (commit [`6778bb7`](https://github.com/castorini/anserini/commit/6778bb7fe36a406be2173e6d1c12cadabc32651a))
