@@ -1,24 +1,26 @@
-# Anserini Regressions: TREC 2023 DL Track on V2.1 Corpus
+# <img src="../../anserini-logo.png" height="30" /> TREC 2023 DL Track on V2.1 Corpus
 
-**Model**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
+**Anserini reproductions from document collection**
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2.1 _segmented_ document corpus, which was derived from the MS MARCO V2 segmented document corpus and prepared for the TREC 2024 RAG Track.
++ **Models**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
++ **Config**: [`dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.yaml)
++ **Template**: [`dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.template)
 
-Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-An important caveat is that these document judgments were inferred from the passages.
-That is, if a passage is relevant, the document containing it is considered relevant.
-
-The model itself can be download [here](https://huggingface.co/naver/splade-v3).
+This page describes reproductions from the raw document collection with [SPLADE-v3](https://huggingface.co/naver/splade-v3) on the [TREC 2023 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2.1 _segmented_ document corpus.
+This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
 
 > Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 
-In these experiments, we are using ONNX to perform query encoding on the fly.
+In these experiments, each document in the MS MARCO V2.1 _segmented_ document corpus is treated as a unit of indexing and we are using ONNX to perform query encoding on the fly.
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+An important caveat is that these document judgments were inferred from the passages.
+That is, if a passage is relevant, the document containing it is considered relevant.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx
@@ -26,13 +28,13 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 
 We make available a version of the MS MARCO V2.1 segmented document corpus that has already been encoded with SPLADE-v3.
 
-From any machine, the following command will download the corpus and perform the complete regression, end to end:
+From any machine, the following command will download the corpus and perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx
 ```
 
-The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+The `ReproduceFromDocumentCollection` program automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same results.
 
 ## Corpus Download
 
@@ -43,7 +45,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2.1_doc_segmented_splade
 tar xvf collections/msmarco_v2.1_doc_segmented_splade-v3.tar -C collections/
 ```
 
-To confirm, `msmarco-v2.1-doc-segmented-splade-v3.tar` is 125 GB and has MD5 checksum `c62490569364a1eb0101da1ca4a894d9`.
+To confirm, `msmarco_v2.1_doc_segmented_splade-v3.tar` is 125 GB and has MD5 checksum `c62490569364a1eb0101da1ca4a894d9`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

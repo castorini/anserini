@@ -16,13 +16,21 @@
 
 package io.anserini.collection;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPOutputStream;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.fasterxml.jackson.core.StreamReadConstraints;
 
 // A file in a JsonCollection can either be:
 // (1) A single JSON object (i.e., a single document)
@@ -81,6 +89,35 @@ public class JsonCollectionLineObjectTest extends JsonCollectionTest {
     assertEquals(expected.get("field2"), ((JsonCollection.Document) doc).fields().get("field2"));
   }
 
+
+  @Test
+  public void testLongContentsWithoutGlobalOverride() throws Exception {
+    int defaultLimit = StreamReadConstraints.defaults().getMaxStringLength();
+    String contents = "x".repeat(defaultLimit + 1);
+    String json = "{\"id\":\"long.txt\",\"contents\":\"" + contents + "\"}";
+    JsonCollection jsonCollection = new JsonCollection();
+    assertEquals(contents, JsonCollection.Document.fromString(json).contents());
+    assertLongContents(jsonCollection.createFileSegment(new BufferedReader(new StringReader(json))), contents);
+    Path directory = createTempDir();
+    Path plain = directory.resolve("docs.jsonl");
+    Path compressed = directory.resolve("docs.jsonl.gz");
+    Files.writeString(plain, json);
+    try (var output = new GZIPOutputStream(Files.newOutputStream(compressed))) {
+      output.write(json.getBytes(StandardCharsets.UTF_8));
+    }
+    for (Path path : List.of(plain, compressed)) {
+      assertLongContents(jsonCollection.createFileSegment(path), contents);
+    }
+    assertEquals(defaultLimit, StreamReadConstraints.defaults().getMaxStringLength());
+  }
+
+  private void assertLongContents(FileSegment<JsonCollection.Document> segment, String contents) throws IOException {
+    try (segment) {
+      JsonCollection.Document doc = segment.iterator().next();
+      assertEquals("long.txt", doc.id());
+      assertEquals(contents, doc.contents());
+    }
+  }
 
   @Test
   public void testFromString() throws IOException {

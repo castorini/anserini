@@ -1,17 +1,19 @@
-# Anserini Regressions: MS MARCO Passage Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO Passage Ranking
 
-**Models**: BM25 with doc2query-T5 expansions
+**Anserini reproductions from document collection**
 
-This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking) with BM25 on [docTTTTTquery](https://github.com/castorini/docTTTTTquery) (also called doc2query-T5) expansions, as proposed in the following paper:
++ **Models**: BM25 with doc2query-T5 expansions
++ **Config**: [`msmarco-v1-passage.docTTTTTquery.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.docTTTTTquery.yaml)
++ **Template**: [`msmarco-v1-passage.docTTTTTquery.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.docTTTTTquery.template)
+
+This page describes reproductions from the raw document collection on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
+These experiments take advantage of [docTTTTTquery](http://doc2query.ai/) (also called doc2query-T5) expansions:
 
 > Rodrigo Nogueira and Jimmy Lin. [From doc2query to docTTTTTquery.](https://cs.uwaterloo.ca/~jimmylin/publications/Nogueira_Lin_2019_docTTTTTquery-latest.pdf) December 2019.
 
-These experiments are integrated into Anserini's regression testing framework.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.docTTTTTquery.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.docTTTTTquery.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.docTTTTTquery.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
-
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.docTTTTTquery
@@ -102,8 +104,8 @@ With the above commands, you should be able to reproduce the following results:
 
 Explanation of settings:
 
-+ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned on _on the original passages_, as described in [this page](../../../docs/experiments-msmarco-passage.md).
++ The setting "default" refers to the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned _on the original passages_, as described in [this page](../../../docs/experiments-msmarco-passage.md).
 + The setting "tuned2" refers to `k1=2.18`, `b=0.86`, tuned to optimize for recall@1000 directly _on the expanded passages_ (in 2020/12); this is the configuration reported in the Lin et al. (SIGIR 2021) Pyserini paper.
 
 ## Additional Implementation Details

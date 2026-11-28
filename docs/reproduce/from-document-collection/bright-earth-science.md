@@ -1,11 +1,19 @@
-# Anserini Regressions: BRIGHT &mdash; Earth Science
+# <img src="../../anserini-logo.png" height="30" /> BRIGHT &mdash; Earth Science
 
-This page documents BM25 regression experiments for [BRIGHT &mdash; Earth Science](https://brightbenchmark.github.io/).
+**Anserini reproductions from document collection**
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-earth-science.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-earth-science.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
++ **Models**: BM25 and BM25QS
++ **Config**: [`bright-earth-science.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-earth-science.yaml)
++ **Template**: [`bright-earth-science.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-earth-science.template)
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+This page describes reproductions from the raw document collection using BM25 and BM25QS on [BRIGHT &mdash; Earth Science](https://brightbenchmark.github.io/).
+BM25QS (query-side BM25) is described in the following paper:
+
+> Yijun Ge, Sahel Sharifymoghaddam, and Jimmy Lin. [Lighting the Way for BRIGHT: Reproducible Baselines with Anserini, Pyserini, and RankLLM.](https://arxiv.org/abs/2509.02558) _arXiv:2509.02558_, 2025.
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-earth-science.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science
@@ -19,7 +27,7 @@ tar xvf collections/bright-corpus.tar -C collections/
 ```
 
 The tarball is 284 MB and has MD5 checksum `568b594709a9977369033117bfb6889c`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 
@@ -52,6 +60,13 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader TsvString \
   -output runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt \
   -bm25 -removeQuery -hits 1000 &
+
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.bright-earth-science/ \
+  -topics bright-earth-science \
+  -topicReader TsvString \
+  -output runs/run.lucene-inverted.bright-earth-science.model-bm25qs.topics-bright-earth-science.txt \
+  -bm25.querySide -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -60,16 +75,20 @@ Evaluation can be performed using `trec_eval`:
 bin/trec_eval -c -m ndcg_cut.10 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt
 bin/trec_eval -c -m recall.100 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt
 bin/trec_eval -c -m recall.1000 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt
+
+bin/trec_eval -c -m ndcg_cut.10 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25qs.topics-bright-earth-science.txt
+bin/trec_eval -c -m recall.100 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25qs.topics-bright-earth-science.txt
+bin/trec_eval -c -m recall.1000 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25qs.topics-bright-earth-science.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**           | **BM25**   |
-|:----------------------|:----------:|
-| BRIGHT: Earth Science | 0.2791     |
-| **R@100**             | **BM25**   |
-| BRIGHT: Earth Science | 0.5955     |
-| **R@1000**            | **BM25**   |
-| BRIGHT: Earth Science | 0.8101     |
+| **nDCG@10**           | **BM25**   | **BM25QS** |
+|:----------------------|:----------:|:----------:|
+| BRIGHT: Earth Science | 0.2791     | 0.2789     |
+| **R@100**             | **BM25**   | **BM25QS** |
+| BRIGHT: Earth Science | 0.5955     | 0.6013     |
+| **R@1000**            | **BM25**   | **BM25QS** |
+| BRIGHT: Earth Science | 0.8101     | 0.8418     |

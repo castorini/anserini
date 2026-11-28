@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.StreamReadConstraints;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,6 +75,8 @@ import java.util.zip.GZIPInputStream;
  */
 public class JsonCollection extends DocumentCollection<JsonCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
+  // Permit large document contents without changing Jackson's process-wide defaults.
+  private static final JsonFactory JSON_FACTORY = JsonFactory.builder().streamReadConstraints(StreamReadConstraints.builder().maxStringLength(256 * 1024 * 1024).build()).build();
 
   public JsonCollection() {
   }
@@ -109,7 +113,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
         bufferedReader = new BufferedReader(new FileReader(path.toString()));
       }
 
-      ObjectMapper mapper = new ObjectMapper();
+      ObjectMapper mapper = new ObjectMapper(JSON_FACTORY);
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {
         node = iterator.next();
@@ -118,7 +122,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
 
     public Segment(BufferedReader bufferedReader) throws IOException {
       super(bufferedReader);
-      ObjectMapper mapper = new ObjectMapper();
+      ObjectMapper mapper = new ObjectMapper(JSON_FACTORY);
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {
         node = iterator.next();
@@ -152,7 +156,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
    * A document in a JSON collection.
    */
   public static class Document extends MultifieldSourceDocument {
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper(JSON_FACTORY);
 
     private String id;
     private String contents;

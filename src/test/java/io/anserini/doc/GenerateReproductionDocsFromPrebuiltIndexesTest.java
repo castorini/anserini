@@ -16,10 +16,14 @@
 
 package io.anserini.doc;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -27,6 +31,8 @@ import java.util.function.Function;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -42,7 +48,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   private static final String REPRODUCE_OUTPUT_DIRECTORY = "docs/reproduce/from-prebuilt-indexes/";
   private static final ObjectMapper YAML_MAPPER = new ObjectMapper(new YAMLFactory());
 
-  private record ReportContext(String yamlPath, String runTag, Config config, String template, File output, String configLink) {}
+  private record ReportContext(String yamlPath, String runTag, Config config, String template, File output, String configLink, String templateLink, Map<String, Integer> conditionLines) {}
 
   private record SummaryColumn(String label, Function<Topic, Double> scoreExtractor) {}
 
@@ -89,9 +95,11 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
           .replace("$metric", topic.metric_definitions.get(entry.getKey()))
           .replace("$evalKey", topic.eval_key)
           .replace("$output", runOutputPath(runTag, conditionName, topic.topic_key));
+
       if (builder.length() > 0) {
         builder.append("\n");
       }
+
       builder.append(command);
     }
 
@@ -117,13 +125,25 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     String outputPath = REPRODUCE_OUTPUT_DIRECTORY + runTag + ".md";
 
     Config config = YAML_MAPPER.readValue(new File(yamlPath), Config.class);
+    Map<String, Integer> conditionLines = new HashMap<>();
+    try (JsonParser parser = YAML_MAPPER.getFactory().createParser(new File(yamlPath))) {
+      while (parser.nextToken() != null) {
+        if (parser.currentToken() == JsonToken.FIELD_NAME && "name".equals(parser.currentName())) {
+          int line = parser.currentTokenLocation().getLineNr();
+          conditionLines.put(parser.nextTextValue(), line);
+        }
+      }
+    }
+
     String template = FileUtils.readFileToString(new File(templatePath), StandardCharsets.UTF_8);
 
     File output = new File(outputPath);
     FileUtils.forceMkdirParent(output);
 
-    String configLink = String.format("[%s](../../../%s)", new File(yamlPath).getName(), yamlPath);
-    return new ReportContext(yamlPath, runTag, config, template, output, configLink);
+    String configLink = String.format("[`%s`](../../../%s)", new File(yamlPath).getName(), yamlPath);
+    String templateLink = String.format("[`%s`](../../../%s)", new File(templatePath).getName(), templatePath);
+
+    return new ReportContext(yamlPath, runTag, config, template, output, configLink, templateLink, conditionLines);
   }
 
   private static String buildSummaryInRows(Config config, List<SummaryColumn> columns) {
@@ -136,7 +156,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
     summary.append("| --- | ---");
     for (int i = 0; i < columns.size(); i++) {
-      summary.append(" | ---");
+      summary.append(" | :---:");
     }
     summary.append(" |\n");
 
@@ -162,37 +182,45 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         }
       }
 
-      summary.append(String.format("| [%d](#condition-%d) | %s", sectionNumber, sectionNumber, condition.display));
+      summary.append(String.format(Locale.ROOT, "| [%d](#condition-%d) | %s", sectionNumber, sectionNumber, condition.display));
       for (Double score : scores) {
-        summary.append(" | ").append(score == null ? "" : String.format("%.4f", score));
+        summary.append(" | ").append(score == null ? "" : String.format(Locale.ROOT, "%.4f", score));
       }
       summary.append(" |\n");
       row++;
     }
 
     summary.append("\n");
-    return summary.toString();
+
+    return DataModel.padMarkdownTable(summary.toString()).stripTrailing();
   }
 
   private static String buildSummaryInColumns(Config config, String metric) {
+    return buildSummaryInColumns(config, metric, config.conditions.get(0).topics, false);
+  }
+
+  private static String buildSummaryInColumns(Config config, String metric, List<Topic> topics, boolean includeAverage) {
     StringBuilder summary = new StringBuilder();
     summary.append("| corpus");
     for (int i = 0; i < config.conditions.size(); i++) {
       Condition condition = config.conditions.get(i);
       String heading = condition.short_name == null ? condition.display : condition.short_name;
-      summary.append(" | ").append(String.format("[%s](#condition-%d)", heading, i + 1));
+      summary.append(" | ").append(String.format(Locale.ROOT, "[%s](#condition-%d)", heading, i + 1));
     }
     summary.append(" |\n");
 
     summary.append("| ---");
     for (int i = 0; i < config.conditions.size(); i++) {
-      summary.append(" | ---");
+      summary.append(" | :---:");
     }
     summary.append(" |\n");
 
-    for (Topic topic : config.conditions.get(0).topics) {
+    double[] sums = new double[config.conditions.size()];
+    int[] counts = new int[config.conditions.size()];
+    for (Topic topic : topics) {
       summary.append(String.format("| %s", topic.topic_key));
-      for (Condition condition : config.conditions) {
+      for (int i = 0; i < config.conditions.size(); i++) {
+        Condition condition = config.conditions.get(i);
         Double score = null;
         for (Topic conditionTopic : condition.topics) {
           if (conditionTopic.topic_key.equals(topic.topic_key) && conditionTopic.expected_scores != null) {
@@ -200,31 +228,47 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
             break;
           }
         }
-        summary.append(" | ").append(score == null ? "" : String.format("%.4f", score));
+        summary.append(" | ").append(score == null ? "" : String.format(Locale.ROOT, "%.4f", score));
+        if (score != null) {
+          sums[i] += score;
+          counts[i]++;
+        }
       }
       summary.append(" |\n");
     }
 
+    if (includeAverage) {
+      summary.append("| Average");
+      for (int i = 0; i < config.conditions.size(); i++) {
+        summary.append(" | ").append(counts[i] == topics.size() && counts[i] > 0 ? String.format(Locale.ROOT, "%.4f", sums[i] / counts[i]) : "");
+      }
+      summary.append(" |\n");
+    }
     summary.append("\n");
-    return summary.toString();
+
+    return DataModel.padMarkdownTable(summary.toString()).stripTrailing();
   }
 
   private static String buildCommandSections(ReportContext context, BiFunction<Topic, Condition, String> topicHeading) {
     StringBuilder command = new StringBuilder();
     int row = 1;
     for (Condition condition : context.config().conditions) {
-      command.append(String.format("<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
-      command.append(String.format("**Config**: %s\n\n", context.configLink()));
+      command.append(String.format(Locale.ROOT, "<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
+      Integer line = context.conditionLines().get(condition.name);
+      if (line == null) {
+        throw new IllegalArgumentException("Missing YAML line for condition: " + condition.name);
+      }
+
+      String configLink = context.configLink().replace(")", "#L" + line + ")");
+      command.append(String.format("**Config**: %s\n\n", configLink));
       row++;
 
       for (Topic topic : condition.topics) {
         command.append(String.format("#### %s\n\n", topicHeading.apply(topic, condition)));
         command.append("Retrieval command:\n\n");
-        command.append(String.format("```bash\n%s\n```\n\n",
-            buildCommand(context.runTag(), condition.name, condition.command, topic.topic_key)));
+        command.append(String.format("```bash\n%s\n```\n\n", buildCommand(context.runTag(), condition.name, condition.command, topic.topic_key)));
         command.append("Evaluation commands:\n\n");
-        command.append(String.format("```bash\n%s\n```\n\n",
-            buildEvalCommands(context.runTag(), condition.name, topic)));
+        command.append(String.format("```bash\n%s\n```\n\n", buildEvalCommands(context.runTag(), condition.name, topic)));
       }
     }
 
@@ -235,15 +279,13 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     return matches ? topic.expected_scores.get(metric) : null;
   }
 
-  private static void generateReportInRows(String yamlConfig, List<SummaryColumn> columns,
-      BiFunction<Topic, Condition, String> topicHeading) throws Exception {
+  private static void generateReportInRows(String yamlConfig, List<SummaryColumn> columns, BiFunction<Topic, Condition, String> topicHeading) throws Exception {
     ReportContext context = loadReportContext(yamlConfig);
     String commands = buildCommandSections(context, topicHeading);
     writeReport(context, buildSummaryInRows(context.config(), columns), commands);
   }
 
-  private static void generateReportInColumns(String yamlConfig, String metric,
-      BiFunction<Topic, Condition, String> topicHeading) throws Exception {
+  private static void generateReportInColumns(String yamlConfig, String metric, BiFunction<Topic, Condition, String> topicHeading) throws Exception {
     ReportContext context = loadReportContext(yamlConfig);
     String commands = buildCommandSections(context, topicHeading);
     writeReport(context, buildSummaryInColumns(context.config(), metric), commands);
@@ -252,10 +294,11 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   private static void writeReport(ReportContext context, String summary, String commands) throws Exception {
     FileUtils.writeStringToFile(context.output(), context.template()
         .replace("${config}", context.configLink())
+        .replace("${template}", context.templateLink())
         .replace("${jvm_args}", ReproductionUtils.Constants.JVM_ARGS)
         .replace("${summary}", summary)
         .replace("${commands}", commands)
-        .replace("${command}", commands), StandardCharsets.UTF_8);
+        .replace("${command}", commands).stripTrailing() + "\n", StandardCharsets.UTF_8);
   }
 
   @Test
@@ -322,13 +365,58 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
   @Test
   public void generateBrightReport() throws Exception {
-    generateReportInColumns("bright.yaml", "nDCG@10",
-        (topic, condition) -> topic.topic_key);
+    generateReportInColumns("bright.yaml", "nDCG@10", (topic, condition) -> topic.topic_key);
+  }
+
+  @Test
+  public void generateRetecoReport() throws Exception {
+    generateReportInColumns("reteco.yaml", "nDCG@10", (topic, condition) -> topic.topic_key);
   }
 
   @Test
   public void generateBeirReport() throws Exception {
-    generateReportInColumns("beir.yaml", "nDCG@10",
-        (topic, condition) -> topic.topic_key);
+    ReportContext context = loadReportContext("beir.yaml");
+    List<Topic> topics = context.config().conditions.get(0).topics;
+    List<Topic> otherDomains = topics.stream().filter(t -> !t.topic_key.startsWith("cqadupstack-")).toList();
+    List<Topic> cqadupstack = topics.stream().filter(t -> t.topic_key.startsWith("cqadupstack-")).toList();
+
+    String summary = "### Other domains\n\n"
+        + buildSummaryInColumns(context.config(), "nDCG@10", otherDomains, true) + "\n\n"
+        + "### CQADupStack domains\n\n"
+        + buildSummaryInColumns(context.config(), "nDCG@10", cqadupstack, true);
+
+    writeReport(context, summary, buildCommandSections(context, (topic, condition) -> topic.topic_key));
+  }
+
+  @Test
+  public void testNumericArtifactsIndependentOfLocale() {
+    Config config = new Config();
+    Condition condition = new Condition();
+    condition.name = "bm25";
+    condition.display = "BM25";
+    condition.command = "SearchCollection -topics $topics -output $output";
+    Topic topic = new Topic();
+    topic.topic_key = "test";
+    topic.eval_key = "test";
+    topic.metric_definitions = Map.of("map", "-m map");
+    topic.expected_scores = Map.of("map", 0.3123);
+    condition.topics = List.of(topic);
+    config.conditions = List.of(condition);
+    ReportContext context = new ReportContext("test.yaml", "test", config, "", null, "[config](test.yaml)", "[template](test.template)", Map.of("bm25", 1));
+    Locale previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT);
+    try {
+      Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("mzn-Arab-IR"));
+      String commands = buildCommandSections(context, (t, c) -> t.topic_key);
+      assertEquals("<a id=\"condition-1\"></a>", commands.lines().findFirst().orElseThrow());
+      String rows = buildSummaryInRows(config, List.of(new SummaryColumn("map", t -> t.expected_scores.get("map"))));
+      assertEquals("| [1](#condition-1) | BM25 | 0.3123 |", rows.lines().reduce((a, b) -> b).orElseThrow().replaceAll(" +", " "));
+      String columns = buildSummaryInColumns(config, "map", List.of(topic), true);
+      List<String> columnLines = columns.replaceAll(" +", " ").lines().toList();
+      assertEquals("| corpus | [BM25](#condition-1) |", columnLines.getFirst());
+      assertEquals("| test | 0.3123 |", columnLines.get(2));
+      assertEquals("| Average | 0.3123 |", columnLines.getLast());
+    } finally {
+      Locale.setDefault(Locale.Category.FORMAT, previousFormatLocale);
+    }
   }
 }

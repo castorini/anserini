@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.SortedMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionException;
@@ -124,7 +125,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
   }
 
   /**
-   * Searches the collection in batch using multiple threads.
+   * Searches the collection in batch using multiple threads (without logging progress).
    *
    * @param queries list of queries
    * @param qids list of unique query ids
@@ -133,6 +134,20 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
    * @return a map of query id to search results
    */
   public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threads) {
+    return batch_search(queries, qids, k, threads, false);
+  }
+
+  /**
+   * Searches the collection in batch using multiple threads.
+   *
+   * @param queries list of queries
+   * @param qids list of unique query ids
+   * @param k number of hits
+   * @param threads number of threads
+   * @param verbose log progress
+   * @return a map of query id to search results
+   */
+  public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threads, boolean verbose) {
     final SortedMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
     final AtomicInteger cnt = new AtomicInteger();
     final long start = System.nanoTime();
@@ -145,12 +160,12 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
       K qid = qids.get(i);
       String queryString = queries.get(i);
 
-      // This adds each query search into the task list
+      // Adding each query to the task list; query execution in parallel.
       tasks.add(() -> {
         try {
           results.put(qid, search(qid, queryString, k));
           int n = cnt.incrementAndGet();
-          if (n % 100 == 0) {
+          if (verbose && n % 100 == 0) {
             LOG.info("{} queries processed", n);
           }
         } catch (IOException e) {
@@ -169,8 +184,10 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info("Batch search completed in {}{}", DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
-        String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
+    if (verbose) {
+      LOG.info("{} queries processed in {}{}", queries.size(), DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
+          String.format(Locale.ROOT, " = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
+    }
 
     return results;
   }

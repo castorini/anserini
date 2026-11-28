@@ -1,8 +1,12 @@
-# Anserini Regressions: TREC 2025 RAG Track Test Topics
+# <img src="../../anserini-logo.png" height="30" /> TREC 2025 RAG Track Test Topics
 
-**Model**: Snowflake's [Arctic-embed-l](https://huggingface.co/Snowflake/snowflake-arctic-embed-l) with flat indexes (using ONNX for on-the-fly query encoding)
+**Anserini reproductions from document collection**
 
-This page describes regression experiments for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the RAG 25 test topics (= narratives), which is integrated into Anserini's regression testing framework.
++ **Models**: Snowflake's [Arctic-embed-l](https://huggingface.co/Snowflake/snowflake-arctic-embed-l) with flat indexes (using ONNX for on-the-fly query encoding)
++ **Config**: [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.yaml)
++ **Template**: [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.template)
+
+This page describes reproductions from the raw document collection for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the RAG 25 test topics (= narratives), which is integrated into Anserini's reproduction testing framework.
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and re-used for the TREC 2025 RAG Track.
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2025-rag25-corpus/).
 
@@ -20,10 +24,9 @@ More details can be found in the following paper:
 
 > Shivani Upadhyay, Nandan Thakur, Ronak Pradeep, Nick Craswell, Daniel Campos and Jimmy Lin. [Overview of the TREC 2025 Retrieval Augmented Generation (RAG) Track.](https://arxiv.org/abs/2603.09891) _arXiv:2603.09891_, March 2026.
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx
@@ -44,13 +47,13 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   >& logs/log.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l &
 ```
 
-The setting of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+The setting of `-input` should be a directory containing the Parquet files that comprise the corpus.
 
 For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
-Here, we are using all 22 test topics from the TREC 2025 RAG Track with (automatically generated) UMBRELA relevance judgments.
+Here, we are using all 22 test topics from the TREC 2025 RAG Track with manual relevance judgments from NIST assessors.
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 After indexing has completed, you should be able to perform retrieval as follows:

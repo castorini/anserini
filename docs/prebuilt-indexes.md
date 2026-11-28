@@ -852,6 +852,58 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="lucene-inverted.nyt.20240803.36f7e3.README.md">README</a>]
 <dd>Lucene index of the New York Times Annotated Corpus, used in the TREC 2017 Common Core Track.
 </dd>
+<dt></dt><b><code>reteco-v1.1-track1-bitcoin</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: bitcoin
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-cardano</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: cardano
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-economics</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: economics
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-genealogy</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: genealogy
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-history</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: history
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-hsm</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: hsm
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-iota</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: iota
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-law</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: law
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-monero</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: monero
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-politics</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: politics
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-quant</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: quant
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-travel</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: travel
+</dd>
+<dt></dt><b><code>reteco-v1.1-track1-workplace</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-reteco/blob/main/lucene-inverted/tf/lucene-inverted.reteco-v1.1-track1.20261017.1.6.0.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the official deduplicated RETECO v1.1 Track 1 collection: workplace
+</dd>
 <dt></dt><b><code>trec-covid-r1-abstract</code></b>
 [<a href="null">README</a>]
 <dd>Lucene index for TREC-COVID Round 1: abstract index
@@ -945,6 +997,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>msmarco-v1-passage.distill-splade-max</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/distill-splade-max/lucene-inverted.msmarco-v1-passage.distill-splade-max.20221005.252b5e.README.md">README</a>]
 <dd>Lucene impact index of the MS MARCO V1 passage corpus encoded by distill-splade-max.
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/slideon/lucene-inverted.msmarco-v1-passage.slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of the MS MARCO V1 passage corpus encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>msmarco-v1-passage.slimr</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/slimr/lucene-inverted.msmarco-v1-passage.slimr.20230925.md">README</a>]
@@ -1041,6 +1097,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <summary>BEIR</summary>
 
 <dl>
+<dt></dt><b><code>beir-v1.0.0-arguana.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'arguana' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-arguana.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'arguana' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1048,6 +1108,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-arguana.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'arguana' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-bioasq.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'bioasq' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-bioasq.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1057,6 +1121,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'bioasq' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-climate-fever.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'climate-fever' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-climate-fever.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'climate-fever' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1064,6 +1132,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-climate-fever.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'climate-fever' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-android.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-android' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-android.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1073,6 +1145,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-android' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-english.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-english' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-english.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-english' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1080,6 +1156,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-english.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-english' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-gaming.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-gaming' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-gaming.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1089,6 +1169,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-gaming' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-gis.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-gis' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-gis.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-gis' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1096,6 +1180,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-gis.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-gis' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-mathematica.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-mathematica' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1105,6 +1193,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-mathematica' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-physics.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-physics' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-physics.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-physics' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1112,6 +1204,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-physics.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-physics' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-programmers.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-programmers' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-programmers.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1121,6 +1217,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-programmers' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-stats.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-stats' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-stats.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-stats' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1128,6 +1228,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-stats.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-stats' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-tex.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-tex' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-tex.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1137,6 +1241,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-tex' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-unix.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-unix' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-unix.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-unix' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1144,6 +1252,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-unix.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-unix' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-webmasters.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-webmasters' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1153,6 +1265,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-webmasters' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-cqadupstack-wordpress.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-wordpress' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-wordpress' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1160,6 +1276,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-cqadupstack-wordpress.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'cqadupstack-wordpress' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-dbpedia-entity.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'dbpedia-entity' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-dbpedia-entity.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1169,6 +1289,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'dbpedia-entity' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-fever.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'fever' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-fever.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'fever' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1176,6 +1300,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-fever.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'fever' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-fiqa.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'fiqa' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-fiqa.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1185,6 +1313,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'fiqa' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-hotpotqa.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'hotpotqa' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-hotpotqa.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'hotpotqa' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1192,6 +1324,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-hotpotqa.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'hotpotqa' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-nfcorpus.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'nfcorpus' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-nfcorpus.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1201,6 +1337,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'nfcorpus' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-nq.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'nq' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-nq.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'nq' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1208,6 +1348,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-nq.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'nq' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-quora.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'quora' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-quora.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1217,6 +1361,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'quora' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-robust04.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'robust04' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-robust04.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'robust04' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1224,6 +1372,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-robust04.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'robust04' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-scidocs.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'scidocs' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-scidocs.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1233,6 +1385,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'scidocs' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-scifact.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'scifact' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-scifact.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'scifact' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1240,6 +1396,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-scifact.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'scifact' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-signal1m.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'signal1m' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-signal1m.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
@@ -1249,6 +1409,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'signal1m' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-trec-covid.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'trec-covid' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-trec-covid.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'trec-covid' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1257,6 +1421,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'trec-covid' collection 'trec-covid' encoded by SPLADE-v3
 </dd>
+<dt></dt><b><code>beir-v1.0.0-trec-news.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'trec-news' encoded by SlideOn (d512, scale 100)
+</dd>
 <dt></dt><b><code>beir-v1.0.0-trec-news.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'trec-news' encoded by SPLADE++ CoCondenser-EnsembleDistil (Lucene 9)
@@ -1264,6 +1432,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>beir-v1.0.0-trec-news.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'trec-news' encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>beir-v1.0.0-webis-touche2020.slideon</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/slideon/lucene-inverted.beir-v1.0.0-slideon-d512-s100.20261025.43c2471.README.md">README</a>]
+<dd>Anserini Lucene impact index of BEIR collection 'webis-touche2020' encoded by SlideOn (d512, scale 100)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-webis-touche2020.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]

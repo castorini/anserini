@@ -3,7 +3,8 @@
 **Anserini reproductions from prebuilt indexes**
 
 + **Corpus**: MS MARCO V2.1 Doc
-+ **Config**: [msmarco-v2.1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
++ **Config**: [`msmarco-v2.1-doc.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
++ **Template**: [`msmarco-v2.1-doc.template`](../../../src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco-v2.1-doc.template)
 
 ## Summary
 
@@ -19,14 +20,12 @@ Key:
 + **DL23** = dl23-doc-msmarco-v2.1
 + **RAGgy** = rag24.raggy-dev
 
-| # | name | dev | dev2 | DL21 | DL22 | DL23 | RAGgy |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
-| [2](#condition-2) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
-| [3](#condition-3) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
+| #                 | name                                                                                      | dev    | dev2   | DL21   | DL22   | DL23   | RAGgy  |
+| ----------------- | ----------------------------------------------------------------------------------------- | :----: | :----: | :----: | :----: | :----: | :----: |
+| [1](#condition-1) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index              | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
+| [2](#condition-2) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index           | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
+| [3](#condition-3) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index    | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
 | [4](#condition-4) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
-
-
 
 The BM25 "slim index" does not contain the document texts, whereas the BM25 "regular index" does contain document texts (and hence supports pseudo-relevance feedback with on-the-fly document parsing).
 
@@ -53,7 +52,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
-**Config**: [msmarco-v2.1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
+**Config**: [`msmarco-v2.1-doc.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml#L2)
 
 #### msmarco-v2-doc.dev
 
@@ -195,7 +194,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2
 
 ### 2. BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
-**Config**: [msmarco-v2.1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
+**Config**: [`msmarco-v2.1-doc.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml#L74)
 
 #### msmarco-v2-doc.dev
 
@@ -337,7 +336,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2
 
 ### 3. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
-**Config**: [msmarco-v2.1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
+**Config**: [`msmarco-v2.1-doc.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml#L146)
 
 #### msmarco-v2-doc.dev
 
@@ -497,7 +496,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2
 
 ### 4. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
-**Config**: [msmarco-v2.1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
+**Config**: [`msmarco-v2.1-doc.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml#L218)
 
 #### msmarco-v2-doc.dev
 
@@ -652,5 +651,3 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2
 java -cp $fatjar trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
 java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
 ```
-
-

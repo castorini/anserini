@@ -1,3 +1,33 @@
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.slideon.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.slideon.onnx
+
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.splade-v3.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.splade-v3.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.splade-v3.onnx
@@ -208,36 +238,6 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.flat
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.flat
 
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.flat-wp
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.flat-wp
-
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.multifield
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.multifield
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.multifield
@@ -326,18 +326,18 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-th-aca
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-zh-aca
 
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-economics.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-leetcode.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-pony.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-robotics.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-stackoverflow.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions.bm25qs
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems.bm25qs
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-economics
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-leetcode
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-pony
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-robotics
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-stackoverflow
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops.splade-v3.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology.splade-v3.onnx
@@ -364,16 +364,3 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living.bge-large-en-v1.5.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx
-
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-aops
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-biology
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-earth-science
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-economics
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-leetcode
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-pony
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-psychology
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-robotics
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-stackoverflow
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-sustainable-living
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-theoremqa-questions
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-theoremqa-theorems

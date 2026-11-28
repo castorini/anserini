@@ -154,8 +154,7 @@ public class RunJavaReproductionCommands {
       double currentLoad = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
       boolean loadAvailable = currentLoad >= 0;
       boolean canLaunchByMax = active.size() < args.max;
-      // Always allow launching when there are no active jobs, otherwise high load can deadlock progress.
-      boolean canLaunchByLoad = !loadAvailable || currentLoad < args.load || active.isEmpty();
+      boolean canLaunchByLoad = !loadAvailable || currentLoad < args.load;
 
       if (nextCommand < commands.size() && canLaunchByMax && canLaunchByLoad) {
         String command = commands.get(nextCommand);
@@ -167,7 +166,7 @@ public class RunJavaReproductionCommands {
       String loadString = loadAvailable ? String.format(Locale.ROOT, "%.1f", currentLoad) : "N/A";
       LOG.info("Current load: {} (threshold = {}), active jobs: {} (max = {})", loadString, args.load, active.size(), args.max);
 
-      if (active.size() > 0) {
+      if (nextCommand < commands.size() || !active.isEmpty()) {
         Thread.sleep(args.sleep * 1000L);
       }
     }

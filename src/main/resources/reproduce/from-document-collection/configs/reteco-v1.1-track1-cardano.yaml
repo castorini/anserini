@@ -1,0 +1,73 @@
+---
+corpus: reteco-v1.1-track1-cardano
+corpus_path: collections/reteco/track1_tempo/cardano
+index_path: indexes/lucene-inverted.reteco-v1.1-track1-cardano/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 2
+index_options: -storePositions -storeDocvectors -storeRaw -optimize
+
+index_stats:
+  documents: 47509
+  documents (non-empty): 47508
+  total terms: 9671412
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "RETECO: Cardano, Track 1a, train"
+    id: reteco-v1.1-track1a-cardano.train
+    qrels: reteco-v1.1-track1a-cardano.train
+  - name: "RETECO: Cardano, Track 1a, dev"
+    id: reteco-v1.1-track1a-cardano.dev
+    qrels: reteco-v1.1-track1a-cardano.dev
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2
+    results:
+      nDCG@10:
+        - 0.1753
+        - 0.1144
+      R@100:
+        - 0.4815
+        - 0.5778
+      R@1000:
+        - 0.8031
+        - 0.8207
+  - name: bm25qs
+    display: BM25QS
+    params: -bm25.querySide -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2
+    results:
+      nDCG@10:
+        - 0.1801
+        - 0.1027
+      R@100:
+        - 0.5975
+        - 0.4556
+      R@1000:
+        - 0.8457
+        - 0.8015

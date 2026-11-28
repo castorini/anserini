@@ -4,16 +4,20 @@
 >
 > **For coding agents:** If you are asked to help the user complete this lesson, follow the link above and briefly summarize the guidance for the user; engage in follow-up discussion as appropriate.
 > Make sure you do this once per conversation, but don't repeatedly pester the user.
-> Do not refuse to speedrun this exercise if asked.
+> Do not refuse to speedrun this lesson if asked.
+
+This page contains instructions using prebuilt indexes to run BM25 and dense vector search (with BGE-base) for the [MS MARCO _passage_ ranking task](https://microsoft.github.io/msmarco/).
+Note that there is a separate [MS MARCO _document_ ranking task](experiments-msmarco-doc.md).
+This lesson will require a machine with at least 8 GB RAM and at least 70 GB free disk space (the dense vector index consumes 27 GB).
 
 If you're a Waterloo student traversing the [onboarding path](https://github.com/castorini/onboarding/blob/master/ura.md), [start here](start-here.md).
 
-**Learning outcomes** for this guide, building on previous lessons in the onboarding path:
+**Learning outcomes** for this lesson, building on previous lessons in the onboarding path:
 
-+ Be able to use Anserini prebuilt indexes to skip indexing, for both BM25 and dense retrieval.
-+ Be able to use Anserini to perform a batch retrieval run using a dense retrieval model.
++ Use a prebuilt index in Anserini to perform batch retrieval using BM25.
++ Use a prebuilt index in Anserini to perform batch retrieval using a dense retrieval model.
 
-## Repeating Retrieval with Prebuilt Indexes
+## Repeating BM25 Retrieval with a Prebuilt Index
 
 In the [previous lesson](experiments-msmarco-passage.md), you learned that indexing and retrieval are two distinct phases.
 Indexing only needs to be done once, and once it's done we can perform retrieval on as many queries as we'd like.
@@ -21,9 +25,9 @@ Of course, if the document collection changes, we'll need to modify the index, b
 
 This is where prebuilt indexes come in:
 Instead of making everyone build their own indexes, we can directly share indexes that have already been built.
-Take the time to read [this guide about prebuilt documents](prebuilt-indexes.md).
+Prebuilt indexes in Anserini are described in [this guide](prebuilt-indexes.md).
 
-Here's the same retrieval run that you've done before, on the MS MARCO passage collection with the dev queries, but now using a prebuilt index:
+Here's the same retrieval run that you've performed [in the previous lesson](experiments-msmarco-passage.md), on the MS MARCO passage collection with the dev queries, but now using a prebuilt index:
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
@@ -36,21 +40,13 @@ bin/run.sh io.anserini.search.SearchCollection \
 ```
 
 Instead of passing the path to an index in the `-index` parameter, we specify the name of a prebuilt index that Anserini already "knows about".
-Anserini downloads the prebuilt index from a known location and stores a copy in `~/.cache/pyserini/indexes`.
-(Yes, `pyserini` is not a typo: this is so that Anserini and Pyserini can share prebuilt indexes.)
-Go ahead and confirm it's there.
+By default, Anserini downloads the prebuilt index from a known location and stores a copy in `~/.cache/pyserini/indexes`.
+Go ahead and confirm that the index is there.
+Yes, `pyserini` is not a typo: this is so that Anserini and Pyserini can share prebuilt indexes.
+Refer to [this guide](prebuilt-indexes.md) if you'd like to alter the cache location.
 
-The following command gives the complete list of prebuilt indexes (with associated metadata):
-
-```bash
-bin/run.sh io.anserini.cli.PrebuiltIndexRegistry --list --filter msmarco-v1-passage | jq
-```
-
-The above command pipes the output to `jq` for readability.
-You can see from the class [`PrebuiltIndex`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/prebuilt/PrebuiltIndex.java) that the metadata for prebuilt indexes are loaded from [an external source](https://github.com/castorini/prebuilt-indexes/).
-
-After the search completes, we can then evaluate the run with the `trec_eval` tool.
-Let's compute the MRR@10 score, which is the official metric:
+After the search completes, we can evaluate the run with the `trec_eval` tool.
+Let's compute MRR@10, which is the official metric:
 
 ```bash
 bin/trec_eval -c -M 10 -m recip_rank \
@@ -60,17 +56,33 @@ bin/trec_eval -c -M 10 -m recip_rank \
 
 The MRR@10 should be 0.1875.
 
-There's a _tiny_ bit of difference between this result and the one from the previous lesson.
-Previously, we used `-format msmarco` to generate the output in the MS MARCO format, which we then converted into the TREC format before evaluating.
+There's a _tiny_ difference between this result and the result [from the previous lesson](experiments-msmarco-passage.md).
+Before, we used `-format msmarco` to generate results in the MS MARCO format, which we then converted into the TREC format before evaluating.
 This conversion is lossy and causes slight score differences due to tie-breaking effects (i.e., what happens when two documents are tied in terms of score).
+So, no need to worry about the 0.0001 difference.
 
-## Retrieval with Dense Indexes
+You might wonder, what other prebuilt indexes are available in Anserini?
+The following gives the complete list of prebuilt indexes (with associated metadata):
+
+```bash
+bin/run.sh io.anserini.cli.PrebuiltIndexRegistry --list | jq
+```
+
+In the above command, the output of `PrebuiltIndexRegistry` is piped to `jq` for readability.
+If you only want to list those matching a regular expression, use the `--filter` option, e.g., `--filter msmarco-v1-passage`.
+
+You can see from the [`PrebuiltIndex`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/prebuilt/PrebuiltIndex.java) class that the metadata for prebuilt indexes are loaded from [an external source](https://github.com/castorini/prebuilt-indexes/).
+Anserini provides many prebuilt indexes!
+This makes it convenient for researchers to reproduce experimental results on diverse test collections.
+
+## Retrieval with a Dense Vector Index
 
 Next, we're going to look at retrieval using dense vector representations (or just dense vectors).
-This is also called dense retrieval or vector search.
-We'll learn more about how they work later in the onboarding path in Pyserini, but for now, let's perform a retrieval run, using the same queries on the same collection.
+This is also called dense retrieval or dense vector search (or sometimes, just vector search).
+We'll learn more about how they work later in the Pyserini onboarding path, but for now, let's perform a retrieval run, using the same queries on the same collection.
 
-Here, we are using the BGE-base model.
+Here, we are using the BGE-base model (`bge-base-en-v1.5`).
+This is the encoder that generates dense vectors from text (either documents or queries).
 Retrieval using dense vectors requires different indexes.
 In this case, we're using what is known as an HNSW index (in contrast to the inverted index that you used for BM25).
 
@@ -82,17 +94,20 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics collections/msmarco-passage/queries.dev.small.tsv \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.dev.bge.txt \
-  -encoder BgeBaseEn15 -hits 1000 -threads 4
+  -encoder BgeBaseEn15 -hits 1000 -efSearch 100 -threads 4
 ```
 
-Note: If you encounter encoder loading errors, clear the cache at `~/.cache/pyserini/encoders`.
+Instead of `SearchCollection`, we use `SearchHnswDenseVectors` since it's a different type of index (HNSW).
+The `-index` option specifies `msmarco-v1-passage.bge-base-en-v1.5.hnsw`, which tells Anserini to download the prebuilt HNSW index for the MS MARCO passage collection.
+Beware, the index consumes 27 GB.
 
-Instead of `SearchCollection`, we use `SearchHnswDenseVectors` since it's a different type of index.
-We are using a prebuilt index, specified as `-index msmarco-v1-passage.bge-base-en-v1.5.hnsw`.
-The above retrieval command automatically downloads the HNSW index for the MS MARCO passage collection.
-Beware, it's 26 GB.
+On a reasonably modern machine with four threads (as specified above), the complete run typically takes a few minutes (not counting the index download time).
+The above command provides progress updates every 100 queries.
+Adjust the number of search threads by changing the `-threads` option.
 
-For reference, on a circa 2022 MacBook Air with an Apple M2 processor and 24 GB RAM, the retrieval run takes around 4 minutes.
+The documents in the HNSW index have already been converted into vector representations, so no document processing is needed.
+However, retrieval requires the encoder to convert the (text) queries into vector representations.
+If you encounter encoder loading errors, clear the cache at `~/.cache/pyserini/encoders` (just remove the entire directory and Anserini will re-download as needed).
 
 Let's compute the MRR@10 score:
 
@@ -102,26 +117,27 @@ bin/trec_eval -c -M 10 -m recip_rank \
   runs/run.msmarco-passage.dev.bge.txt
 ```
 
-You should get a score of 0.3521, which is much higher than the 0.1874 score from BM25.
-Yes, dense retrieval is better.
+You should get a score of 0.3521, which is much higher than the 0.1875 score from BM25.
+Yes, dense retrieval outperforms BM25 on this dataset.
 
 ## Wrapping Up
 
-As a next step in the onboarding path, you basically [do the same thing again in Python with Pyserini](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) (as opposed to Java with Anserini here).
+As the [next step in the onboarding path](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md), you'll switch to Pyserini, which provides Python integration for Anserini.
+You'll repeat some of the same steps in Python to see how Pyserini organizes indexing and retrieval.
 
 Before you move on, add an entry in the "Reproduction Log" at the bottom of this page:
 
 + Follow the same format as the existing entries:
-  Use the commit you checked out for this exercise, which must be on Anserini's `master` branch.
+  Use the commit you checked out for this lesson, which must be on Anserini's `master` branch.
   Link to `castorini/anserini`, using the full commit hash in the URL and its first seven hexadecimal characters as the link text.
-+ Provide some details about your setup in the description of your pull request (e.g., operating system, environment and configuration, etc.).
++ Provide details about your setup in the description of your pull request (e.g., operating system, environment and configuration, etc.).
 + Provide some indication of success (e.g., everything worked) or document issues you encountered.
 + Confirm that your new entry is chronologically sorted in ascending order by reproduction date (oldest first).
-+ Include additional edits in the pull request if you think this exercise can be improved (e.g., you caught a typo or think a clarification is warranted).
++ Include additional edits in the pull request if you think this lesson can be improved (e.g., you caught a typo or think a clarification is warranted).
 + Make sure that your diffs are clean.
-  Unless you have explicitly modified the exercise (per above), your diff for each exercise should contain only your new entry, nothing else.
+  Unless you have explicitly modified the lesson (per above), your diff for each page should contain only your new entry, nothing else.
 
-Do not send a separate pull request for each exercise in the onboarding path; instead, send a single pull request for all edits to the Anserini repository.
+Do _not_ send a separate pull request for each lesson in the onboarding path; instead, send a single pull request for all edits to the Anserini repository.
 If you have any questions, look at previous pull requests for examples.
 
 ## Reproduction Log[*](reproducibility.md)
@@ -303,6 +319,7 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@nabirarashid](https://github.com/nabirarashid) on 2026-09-26 (commit [`2e00750`](https://github.com/castorini/anserini/commit/2e0075080dc5cc610131b7b78a972e2da8974c83))
 + Results reproduced by [@UmmayMaimonaChaman](https://github.com/UmmayMaimonaChaman) on 2026-09-28 (commit [`d1b8025`](https://github.com/castorini/anserini/commit/d1b80256f4bb0a59d1d6b9a91592e5d9701240dc))
 + Results reproduced by [@GavinYou4](https://github.com/GavinYou4) on 2026-09-28 (commit [`6c72234`](https://github.com/castorini/anserini/commit/6c722342554dabe5999a4634dbf906105f247dcf))
++ Results reproduced by [@ifeanyidike](https://github.com/ifeanyidike) on 2026-10-02 (commit [`ea4a234`](https://github.com/castorini/anserini/commit/ea4a234303b029eefae71385c031cd34af167a2b))
 + Results reproduced by [@rs105](https://github.com/rs105) on 2026-10-03 (commit [`ea4a234`](https://github.com/castorini/anserini/commit/ea4a234303b029eefae71385c031cd34af167a2b))
 + Results reproduced by [@HasanMahmudShanto](https://github.com/HasanMahmudShanto) on 2026-10-03 (commit [`6c72234`](https://github.com/castorini/anserini/commit/6c722342554dabe5999a4634dbf906105f247dcf))
 + Results reproduced by [@BingjieQian-cs](https://github.com/BingjieQian-cs) on 2026-10-04 (commit [`ea4a234`](https://github.com/castorini/anserini/commit/ea4a234303b029eefae71385c031cd34af167a2b))
@@ -325,7 +342,47 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@Kannav02](https://github.com/Kannav02) on 2026-10-16 (commit [`0387a59`](https://github.com/castorini/anserini/commit/0387a5978c029ed1928eb642278faeb03296d86c))
 + Results reproduced by [@natty6418](https://github.com/natty6418) on 2026-10-16 (commit [`d033ef1`](https://github.com/castorini/anserini/commit/d033ef197035bda1723e67b1bca8936b9a821139))
 + Results reproduced by [@somanshudev](https://github.com/somanshudev) on 2026-10-18 (commit [`d033ef1`](https://github.com/castorini/anserini/commit/d033ef197035bda1723e67b1bca8936b9a821139))
++ Results reproduced by [@mahmoudfarhat13](https://github.com/mahmoudfarhat13) on 2026-10-19 (commit [`c4c2666`](https://github.com/castorini/anserini/commit/c4c26663e0ae273acf9a7b2e91986e7e005286ec))
 + Results reproduced by [@msghik](https://github.com/msghik) on 2026-10-19 (commit [`c4c2666`](https://github.com/castorini/anserini/commit/c4c26663e0ae273acf9a7b2e91986e7e005286ec))
 + Results reproduced by [@garvitkaushik-123](https://github.com/garvitkaushik-123) on 2026-10-20 (commit [`79bd2f2`](https://github.com/castorini/anserini/commit/79bd2f2e24ce1f0f0e2e505e7816b6368cc5119c))
++ Results reproduced by [@paudelanil](https://github.com/paudelanil) on 2026-10-20 (commit [`79bd2f2`](https://github.com/castorini/anserini/commit/79bd2f2e24ce1f0f0e2e505e7816b6368cc5119c))
 + Results reproduced by [@saadbinather](https://github.com/saadbinather) on 2026-10-20 (commit [`4200762`](https://github.com/castorini/anserini/commit/420076273e8633dc7971c7ba4efce68d16f9381d))
-+ Results reproduced by [@prayaagm](https://github.com/prayaagm) on 2026-11-04 (commit [`6778bb7`](https://github.com/castorini/anserini/commit/6778bb7fe36a406be2173e6d1c12cadabc32651a))
++ Results reproduced by [@Jamal-Ahmed-Khan](https://github.com/Jamal-Ahmed-Khan) on 2026-10-23 (commit [`6778bb7`](https://github.com/castorini/anserini/commit/6778bb7fe36a406be2173e6d1c12cadabc32651a))
++ Results reproduced by [@moghazym](https://github.com/moghazym) on 2026-10-24 (commit [`900386b`](https://github.com/castorini/anserini/commit/900386b173e82c5fc5940973624bf7ab64d74559))
++ Results reproduced by [@AliMohammadiiii](https://github.com/AliMohammadiiii) on 2026-10-24 (commit [`59d6fa7`](https://github.com/castorini/anserini/commit/59d6fa720ffdf2af7f68e453ca97fa5b452289bf))
++ Results reproduced by [@StephenRebel](https://github.com/StephenRebel) on 2026-10-26 (commit [`5877aed`](https://github.com/castorini/anserini/commit/5877aedfc1a4781bbe6263f9853f2ad66d6fa2b2))
++ Results reproduced by [@orangepineapple](https://github.com/orangepineapple) on 2026-10-27 (commit [`5877aedf`](https://github.com/castorini/anserini/commit/5877aedfc1a4781bbe6263f9853f2ad66d6fa2b2))
++ Results reproduced by [@AwwalMudashir](https://github.com/AwwalMudashir) on 2026-10-27 (commit [`a318eef`](https://github.com/castorini/anserini/commit/a318eef46d2141b71f1795a8ae9ca96f26ea9175))
++ Results reproduced by [@bardia1122](https://github.com/bardia1122) on 2026-10-28 (commit [`7ec35df`](https://github.com/castorini/anserini/commit/7ec35df889c8d12072652cea8df7cf877b9c5340))
++ Results reproduced by [@junieberry](https://github.com/junieberry) on 2026-10-30 (commit [`c0dcb02`](https://github.com/castorini/anserini/commit/c0dcb02732f5bf2725f2ee8a10f2efdc016feed5))
++ Results reproduced by [@pawansapkota100](https://github.com/pawansapkota100) on 2026-10-31 (commit [`8bf7d5e`](https://github.com/castorini/anserini/commit/8bf7d5e0a1a12ce4b6baaa0606e5b2e1eba4ac67))
++ Results reproduced by [@marwa-kiani17](https://github.com/marwa-kiani17) on 2026-11-02 (commit [`aa3930f`](https://github.com/castorini/anserini/commit/aa3930fedb57c00b4c92ba70589a5c9e5beeac4b))
++ Results reproduced by [@nothingdev32](https://github.com/nothingdev32) on 2026-11-03 (commit [`7c796ff`](https://github.com/castorini/anserini/commit/7c796ffcdcfe178943472a0de769c324e45de293))
++ Results reproduced by [@karanverma](https://github.com/karanverma) on 2026-11-04 (commit [`e920b4a`](https://github.com/castorini/anserini/commit/e920b4ad3621da7b61ba81ac9251842dfb1d6f07))
++ Results reproduced by [@fakhirhassan](https://github.com/fakhirhassan) on 2026-11-05 (commit [`37274e3`](https://github.com/castorini/anserini/commit/37274e31df3e86cd300a4188fc95d369c64efe29))
++ Results reproduced by [@oma452](https://github.com/oma452) on 2026-11-06 (commit [`aa3930f`](https://github.com/castorini/anserini/commit/aa3930fedb57c00b4c92ba70589a5c9e5beeac4b))
++ Results reproduced by [@Md7tz](https://github.com/Md7tz) on 2026-11-07 (commit [`92f8cb9`](https://github.com/castorini/anserini/commit/92f8cb98ec54ce891f507dc01b22247eae34127b))
++ Results reproduced by [@rabiyasalehjee](https://github.com/rabiyasalehjee) on 2026-11-07 (commit [`e920b4a`](https://github.com/castorini/anserini/commit/e920b4ad3621da7b61ba81ac9251842dfb1d6f07))
++ Results reproduced by [@vardah-ch](https://github.com/vardah-ch) on 2026-11-08 (commit [`92f8cb9`](https://github.com/castorini/anserini/commit/92f8cb98ec54ce891f507dc01b22247eae34127b))
++ Results reproduced by [@ghaus-malik](https://github.com/ghaus-malik) on 2026-11-08 (commit [`80319f4`](https://github.com/castorini/anserini/commit/80319f4088fbb04ab40e80b5fe3a883038ad6994))
++ Results reproduced by [@mrnabdulai](https://github.com/mrnabdulai) on 2026-11-09 (commit [`92f8cb9`](https://github.com/castorini/anserini/commit/92f8cb98ec54ce891f507dc01b22247eae34127b))
++ Results reproduced by [@afroza-akter-cuet](https://github.com/afroza-akter-cuet) on 2026-11-10 (commit [`44c9ce9`](https://github.com/castorini/anserini/commit/44c9ce9e4548703db69f3a7df04b2297c32bbd5f))
++ Results reproduced by [@nahid2003131](https://github.com/nahid2003131) on 2026-11-11 (commit [`44c9ce9`](https://github.com/castorini/anserini/commit/44c9ce9e4548703db69f3a7df04b2297c32bbd5f))
++ Results reproduced by [@MuhammadBilalKhan267](https://github.com/MuhammadBilalKhan267) on 2026-11-11 (commit [`6390709`](https://github.com/castorini/anserini/commit/6390709ad7a637ec974b69d8a8556e9607652edc))
++ Results reproduced by [@sayyedwajih](https://github.com/sayyedwajih) on 2026-11-11 (commit [`6f5a922`](https://github.com/castorini/anserini/commit/6f5a922c7a8361d63a7a78b37c4921743a7c57c8))
++ Results reproduced by [@musaarfah](https://github.com/musaarfah) on 2026-11-12 (commit [`44c9ce9`](https://github.com/castorini/anserini/commit/44c9ce9e4548703db69f3a7df04b2297c32bbd5f))
++ Results reproduced by [@stallionn](https://github.com/stallionn) on 2026-11-13 (commit [`d69c77b`](https://github.com/castorini/anserini/commit/d69c77b43a5eb59a7e735b1b3a5438de8e14e567))
++ Results reproduced by [@capnmav77](https://github.com/capnmav77) on 2026-11-13 (commit [`d69c77b`](https://github.com/castorini/anserini/commit/d69c77b43a5eb59a7e735b1b3a5438de8e14e567))
++ Results reproduced by [@MohammadAmanlou](https://github.com/MohammadAmanlou) on 2026-11-14 (commit [`6f47d1f`](https://github.com/castorini/anserini/commit/6f47d1ff3d019915beb9ef731e24dcb2889eef92))
++ Results reproduced by [@AmirAshkanChavoshi](https://github.com/AmirAshkanChavoshi) on 2026-11-15 (commit [`7ec35df`](https://github.com/castorini/anserini/commit/7ec35df889c8d12072652cea8df7cf877b9c5340))
++ Results reproduced by [@s4natk](https://github.com/s4natk) on 2026-11-17 (commit [`740e7b8`](https://github.com/castorini/anserini/commit/740e7b84e3c1a3172158c4c920505d7637449d03))
++ Results reproduced by [@UsmanGhias](https://github.com/UsmanGhias) on 2026-11-17 (commit [`f69dc1b`](https://github.com/castorini/anserini/commit/f69dc1bf7ecfc2b8fcfccd364f39788bf125419d))
++ Results reproduced by [@sjyoo88](https://github.com/sjyoo88) on 2026-11-18 (commit [`f6eae4b`](https://github.com/castorini/anserini/commit/f6eae4b92ab53dcc4f4de5f418e0010bc2703cd7))
++ Results reproduced by [@MasihMoafi](https://github.com/MasihMoafi) on 2026-11-18 (commit [`7b08f29`](https://github.com/castorini/anserini/commit/7b08f2954d8390a85370e68ab3a3ff8164f7dd0b))
++ Results reproduced by [@Aviciiiiii](https://github.com/Aviciiiiii) on 2026-11-19 (commit [`d69c77b`](https://github.com/castorini/anserini/commit/d69c77b43a5eb59a7e735b1b3a5438de8e14e567))
++ Results reproduced by [@dlim2011](https://github.com/dlim2011) on 2026-11-22 (commit [`f69dc1b`](https://github.com/castorini/anserini/commit/f69dc1bf7ecfc2b8fcfccd364f39788bf125419d))
++ Results reproduced by [@Harsh23Kashyap](https://github.com/Harsh23Kashyap) on 2026-11-23 (commit [`74596da`](https://github.com/castorini/anserini/commit/74596dac2b5f69db2c1eb20374949efea19fe274))
++ Results reproduced by [@AASani29](https://github.com/AASani29) on 2026-11-24 (commit [`74596da`](https://github.com/castorini/anserini/commit/74596dac2b5f69db2c1eb20374949efea19fe274))
++ Results reproduced by [@jainary4](https://github.com/jainary4) on 2026-11-25 (commit [`92b9d60`](https://github.com/castorini/anserini/commit/92b9d604b05e7685d341ce1d755becf8a8cd03ae))
++ Results reproduced by [@Anushagarg25](https://github.com/Anushagarg25) on 2026-11-28 (commit [`c8d0768`](https://github.com/castorini/anserini/commit/c8d0768c663cf013708c14a41bd617e27ee20f4a))
++ Results reproduced by [@prayaagm](https://github.com/prayaagm) on 2026-11-28 (commit [`6778bb7`](https://github.com/castorini/anserini/commit/6778bb7fe36a406be2173e6d1c12cadabc32651a))

@@ -1,0 +1,73 @@
+---
+corpus: reteco-v1.1-track1-hsm
+corpus_path: collections/reteco/track1_tempo/hsm
+index_path: indexes/lucene-inverted.reteco-v1.1-track1-hsm/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 2
+index_options: -storePositions -storeDocvectors -storeRaw -optimize
+
+index_stats:
+  documents: 169552
+  documents (non-empty): 169552
+  total terms: 40966942
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "RETECO: HSM, Track 1a, train"
+    id: reteco-v1.1-track1a-hsm.train
+    qrels: reteco-v1.1-track1a-hsm.train
+  - name: "RETECO: HSM, Track 1a, dev"
+    id: reteco-v1.1-track1a-hsm.dev
+    qrels: reteco-v1.1-track1a-hsm.dev
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2
+    results:
+      nDCG@10:
+        - 0.1703
+        - 0.2366
+      R@100:
+        - 0.4897
+        - 0.5711
+      R@1000:
+        - 0.7635
+        - 0.7615
+  - name: bm25qs
+    display: BM25QS
+    params: -bm25.querySide -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2
+    results:
+      nDCG@10:
+        - 0.1767
+        - 0.2437
+      R@100:
+        - 0.4897
+        - 0.5933
+      R@1000:
+        - 0.7952
+        - 0.7985

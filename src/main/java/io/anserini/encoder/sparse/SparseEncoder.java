@@ -49,7 +49,14 @@ public abstract class SparseEncoder extends OnnxEncoder<Map<String, Integer>> {
                        @NotNull String modelName, @NotNull String modelUrl,
                        @NotNull String vocabName, @NotNull String vocabUrl, @NotNull String configUrl)
       throws IOException, OrtException, URISyntaxException {
-    super(modelName, modelUrl, vocabName, vocabUrl, configUrl);
+    this(weightRange, quantRange, modelName, modelUrl, vocabName, vocabUrl, configUrl, true);
+  }
+
+  protected SparseEncoder(int weightRange, int quantRange,
+                          @NotNull String modelName, @NotNull String modelUrl,
+                          @NotNull String vocabName, @NotNull String vocabUrl, String configUrl,
+                          boolean useBertTokenizer) throws IOException, OrtException, URISyntaxException {
+    super(modelName, modelUrl, vocabName, vocabUrl, configUrl, useBertTokenizer);
     this.weightRange = weightRange;
     this.quantRange = quantRange;
   }

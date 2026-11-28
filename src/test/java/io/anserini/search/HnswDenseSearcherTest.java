@@ -19,6 +19,7 @@ package io.anserini.search;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +27,15 @@ import java.util.SortedMap;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import io.anserini.CustomAppender;
 import io.anserini.SuppresedLoggingLuceneTestCase;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexHnswDenseVectors;
@@ -63,6 +68,86 @@ public class HnswDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
     String indexPath = prefix + System.currentTimeMillis();
     indexPaths.add(indexPath);
     return indexPath;
+  }
+
+  @Test
+  public void testBatchSearchVerbosity() throws Exception {
+    String indexPath = newIndexPath("target/idx-sample-batch-verbosity");
+    IndexHnswDenseVectors.main(new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1"
+    });
+
+    HnswDenseSearcher.Args args = new HnswDenseSearcher.Args();
+    args.index = indexPath;
+    SortedMap<Integer, Map<String, String>> topics = new JsonIntVectorTopicReader(
+        Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl")).read();
+    List<String> queries = Collections.nCopies(100, topics.get(topics.firstKey()).get("vector"));
+    List<Integer> qids = new ArrayList<>();
+    for (int i = 0; i < queries.size(); i++) {
+      qids.add(i);
+    }
+
+    try (HnswDenseSearcher<Integer> searcher = new HnswDenseSearcher<>(args)) {
+      List<String> messages = Collections.synchronizedList(new ArrayList<>());
+      CustomAppender appender = new CustomAppender("batch-verbosity") {
+        @Override
+        public void append(LogEvent event) {
+          messages.add(event.getMessage().getFormattedMessage());
+        }
+      };
+      Logger logger = (Logger) LogManager.getLogger(HnswDenseSearcher.class);
+      Level previousLevel = logger.getLevel();
+      boolean previousAdditivity = logger.isAdditive();
+      appender.start();
+      logger.addAppender(appender);
+      logger.setAdditive(false);
+      logger.setLevel(Level.INFO);
+      try {
+        SortedMap<Integer, ScoredDoc[]> defaults = searcher.batch_search(queries, qids, 5, 2);
+        assertTrue(messages.toString(), messages.isEmpty());
+        SortedMap<Integer, ScoredDoc[]> quiet = searcher.batch_search(queries, qids, 5, 2, false);
+        assertTrue(messages.toString(), messages.isEmpty());
+        SortedMap<Integer, ScoredDoc[]> verbose = searcher.batch_search(queries, qids, 5, 2, true);
+        assertEquals(messages.toString(), 2, messages.size());
+        assertEquals("100 queries processed", messages.get(0));
+        assertTrue(messages.get(1), messages.get(1).startsWith("100 queries processed in "));
+        assertEquals(100, defaults.size());
+        assertEquals(defaults.keySet(), quiet.keySet());
+        assertEquals(defaults.keySet(), verbose.keySet());
+        for (Integer qid : qids) {
+          ScoredDoc[] expected = defaults.get(qid);
+          assertEquals(5, expected.length);
+          for (ScoredDoc[] actual : new ScoredDoc[][] {quiet.get(qid), verbose.get(qid)}) {
+            assertEquals(expected.length, actual.length);
+            for (int i = 0; i < expected.length; i++) {
+              assertEquals(expected[i].docid, actual[i].docid);
+              assertEquals(expected[i].score, actual[i].score, 10e-6);
+            }
+          }
+        }
+
+        messages.clear();
+        assertEquals(99, searcher.batch_search(queries.subList(0, 99), qids.subList(0, 99), 5, 2, true).size());
+        assertEquals(messages.toString(), 1, messages.size());
+        assertTrue(messages.get(0), messages.get(0).startsWith("99 queries processed in "));
+
+        messages.clear();
+        assertTrue(searcher.batch_search(Collections.emptyList(), Collections.emptyList(), 5, 2, false).isEmpty());
+        assertTrue(messages.toString(), messages.isEmpty());
+        assertTrue(searcher.batch_search(Collections.emptyList(), Collections.emptyList(), 5, 2, true).isEmpty());
+        assertEquals(messages.toString(), 1, messages.size());
+        assertTrue(messages.get(0), messages.get(0).startsWith("0 queries processed in "));
+      } finally {
+        logger.setLevel(previousLevel);
+        logger.setAdditive(previousAdditivity);
+        logger.removeAppender(appender);
+        appender.stop();
+      }
+    }
   }
 
   @Test

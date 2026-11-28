@@ -1,20 +1,23 @@
-# Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2019 Deep Learning Track (Passage)
 
-**Model**: cosDPR-distil with HNSW indexes (using ONNX for on-the-fly query encoding)
+**Anserini reproductions from document collection**
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
++ **Models**: cosDPR-distil with HNSW indexes (using ONNX for on-the-fly query encoding)
++ **Config**: [`dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.yaml)
++ **Template**: [`dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.template)
+
+This page describes reproductions from the raw document collection using cosDPR-distil on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
 > Xueguang Ma, Tommaso Teofili, and Jimmy Lin. [Anserini Gets Dense Retrieval: Integration of Lucene's HNSW Indexes.](https://dl.acm.org/doi/10.1145/3583780.3615112) _Proceedings of the 32nd International Conference on Information and Knowledge Management (CIKM 2023)_, October 2023, pages 5366–5370, Birmingham, the United Kingdom.
 
 In these experiments, we are performing query inference "on-the-fly" with ONNX.
-
-Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](../../experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw.onnx
@@ -22,13 +25,13 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with cosDPR-distil.
 
-From any machine, the following command will download the corpus and perform the complete regression, end to end:
+From any machine, the following command will download the corpus and perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw.onnx
 ```
 
-The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+The `ReproduceFromDocumentCollection` program automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same results.
 
 ## Corpus Download
 

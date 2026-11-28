@@ -57,7 +57,6 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
     ORDERING.put("MS MARCO V1 + DL19-20", List.of(
         Pattern.quote("msmarco-v1-passage"),
         Pattern.quote("msmarco-v1-passage.bm25-b8"),
-        Pattern.quote("msmarco-v1-passage.wp-tok"),
         Pattern.quote("msmarco-v1-passage.wp-hgf"),
         Pattern.quote("msmarco-v1-passage.wp-ca"),
         Pattern.quote("msmarco-v1-passage.doc2query"),
@@ -67,6 +66,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("msmarco-v1-passage.splade-pp-ed.onnx"),
         Pattern.quote("msmarco-v1-passage.splade-pp-sd.onnx"),
         Pattern.quote("msmarco-v1-passage.splade-v3.onnx"),
+        Pattern.quote("msmarco-v1-passage.slideon.onnx"),
         Pattern.quote(""),
         Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.fw"),
         Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh"),
@@ -80,20 +80,18 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx"),
         Pattern.quote(""),
         Pattern.quote("msmarco-v1-doc"),
-        Pattern.quote("msmarco-v1-doc.wp-tok"),
         Pattern.quote("msmarco-v1-doc.wp-hgf"),
         Pattern.quote("msmarco-v1-doc.wp-ca"),
         Pattern.quote("msmarco-v1-doc.docTTTTTquery"),
         Pattern.quote(""),
         Pattern.quote("msmarco-v1-doc-segmented"),
-        Pattern.quote("msmarco-v1-doc-segmented.wp-tok"),
+        Pattern.quote("msmarco-v1-doc-segmented.wp-hgf"),
         Pattern.quote("msmarco-v1-doc-segmented.wp-ca"),
         Pattern.quote("msmarco-v1-doc-segmented.docTTTTTquery"),
         Pattern.quote("msmarco-v1-doc-segmented.unicoil.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl19-passage"),
         Pattern.quote("dl19-passage.bm25-b8"),
-        Pattern.quote("dl19-passage.wp-tok"),
         Pattern.quote("dl19-passage.wp-hgf"),
         Pattern.quote("dl19-passage.wp-ca"),
         Pattern.quote("dl19-passage.docTTTTTquery"),
@@ -102,6 +100,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl19-passage.splade-pp-ed.onnx"),
         Pattern.quote("dl19-passage.splade-pp-sd.onnx"),
         Pattern.quote("dl19-passage.splade-v3.onnx"),
+        Pattern.quote("dl19-passage.slideon.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl19-passage.cos-dpr-distil.parquet.fw"),
         Pattern.quote("dl19-passage.cos-dpr-distil.parquet.lexlsh"),
@@ -115,20 +114,18 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl19-doc"),
-        Pattern.quote("dl19-doc.wp-tok"),
         Pattern.quote("dl19-doc.wp-hgf"),
         Pattern.quote("dl19-doc.wp-ca"),
         Pattern.quote("dl19-doc.docTTTTTquery"),
         Pattern.quote(""),
         Pattern.quote("dl19-doc-segmented"),
-        Pattern.quote("dl19-doc-segmented.wp-tok"),
+        Pattern.quote("dl19-doc-segmented.wp-hgf"),
         Pattern.quote("dl19-doc-segmented.wp-ca"),
         Pattern.quote("dl19-doc-segmented.docTTTTTquery"),
         Pattern.quote("dl19-doc-segmented.unicoil.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl20-passage"),
         Pattern.quote("dl20-passage.bm25-b8"),
-        Pattern.quote("dl20-passage.wp-tok"),
         Pattern.quote("dl20-passage.wp-hgf"),
         Pattern.quote("dl20-passage.wp-ca"),
         Pattern.quote("dl20-passage.docTTTTTquery"),
@@ -137,6 +134,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl20-passage.splade-pp-ed.onnx"),
         Pattern.quote("dl20-passage.splade-pp-sd.onnx"),
         Pattern.quote("dl20-passage.splade-v3.onnx"),
+        Pattern.quote("dl20-passage.slideon.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl20-passage.cos-dpr-distil.parquet.fw"),
         Pattern.quote("dl20-passage.cos-dpr-distil.parquet.lexlsh"),
@@ -150,13 +148,12 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl20-doc"),
-        Pattern.quote("dl20-doc.wp-tok"),
         Pattern.quote("dl20-doc.wp-hgf"),
         Pattern.quote("dl20-doc.wp-ca"),
         Pattern.quote("dl20-doc.docTTTTTquery"),
         Pattern.quote(""),
         Pattern.quote("dl20-doc-segmented"),
-        Pattern.quote("dl20-doc-segmented.wp-tok"),
+        Pattern.quote("dl20-doc-segmented.wp-hgf"),
         Pattern.quote("dl20-doc-segmented.wp-ca"),
         Pattern.quote("dl20-doc-segmented.docTTTTTquery"),
         Pattern.quote("dl20-doc-segmented.unicoil.onnx")
@@ -408,6 +405,37 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx"),
         Pattern.quote("beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.onnx")
     ));
+    ORDERING.put("BEIR (v1.0.0): SlideOn", List.of(
+        Pattern.quote("beir-v1.0.0-trec-covid.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-bioasq.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-nfcorpus.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-nq.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-hotpotqa.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-fiqa.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-signal1m.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-trec-news.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-robust04.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-arguana.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-webis-touche2020.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-android.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-english.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-gaming.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-gis.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-mathematica.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-physics.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-programmers.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-stats.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-tex.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-unix.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-webmasters.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-wordpress.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-quora.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-dbpedia-entity.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-scidocs.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-fever.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-climate-fever.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-scifact.slideon.onnx")
+    ));
     ORDERING.put("BEIR (v1.0.0): SPLADE-v3", List.of(
         Pattern.quote("beir-v1.0.0-trec-covid.splade-v3.onnx"),
         Pattern.quote("beir-v1.0.0-bioasq.splade-v3.onnx"),
@@ -500,37 +528,6 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-fever.flat"),
         Pattern.quote("beir-v1.0.0-climate-fever.flat"),
         Pattern.quote("beir-v1.0.0-scifact.flat")
-    ));
-    ORDERING.put("BEIR (v1.0.0): \"flat\" baseline with WordPiece tokenization", List.of(
-        Pattern.quote("beir-v1.0.0-trec-covid.flat-wp"),
-        Pattern.quote("beir-v1.0.0-bioasq.flat-wp"),
-        Pattern.quote("beir-v1.0.0-nfcorpus.flat-wp"),
-        Pattern.quote("beir-v1.0.0-nq.flat-wp"),
-        Pattern.quote("beir-v1.0.0-hotpotqa.flat-wp"),
-        Pattern.quote("beir-v1.0.0-fiqa.flat-wp"),
-        Pattern.quote("beir-v1.0.0-signal1m.flat-wp"),
-        Pattern.quote("beir-v1.0.0-trec-news.flat-wp"),
-        Pattern.quote("beir-v1.0.0-robust04.flat-wp"),
-        Pattern.quote("beir-v1.0.0-arguana.flat-wp"),
-        Pattern.quote("beir-v1.0.0-webis-touche2020.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-android.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-english.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-gaming.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-gis.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-mathematica.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-physics.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-programmers.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-stats.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-tex.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-unix.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-webmasters.flat-wp"),
-        Pattern.quote("beir-v1.0.0-cqadupstack-wordpress.flat-wp"),
-        Pattern.quote("beir-v1.0.0-quora.flat-wp"),
-        Pattern.quote("beir-v1.0.0-dbpedia-entity.flat-wp"),
-        Pattern.quote("beir-v1.0.0-scidocs.flat-wp"),
-        Pattern.quote("beir-v1.0.0-fever.flat-wp"),
-        Pattern.quote("beir-v1.0.0-climate-fever.flat-wp"),
-        Pattern.quote("beir-v1.0.0-scifact.flat-wp")
     ));
     ORDERING.put("BEIR (v1.0.0): \"multifield\" baseline", List.of(
         Pattern.quote("beir-v1.0.0-trec-covid.multifield"),
@@ -667,7 +664,8 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("ciral-v1.0-sw-en"),
         Pattern.quote("ciral-v1.0-yo-en")
     ));
-    ORDERING.put("BRIGHT: BM25", List.of(
+    ORDERING.put("RETECO v1.1 Track 1a: BM25 and BM25QS", List.of("reteco-v1\\.1-track1-(bitcoin|cardano|economics|genealogy|history|hsm|iota|law|monero|politics|quant|travel|workplace)"));
+    ORDERING.put("BRIGHT: BM25 and BM25QS", List.of(
         Pattern.quote("bright-aops"),
         Pattern.quote("bright-biology"),
         Pattern.quote("bright-earth-science"),
@@ -679,20 +677,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-stackoverflow"),
         Pattern.quote("bright-sustainable-living"),
         Pattern.quote("bright-theoremqa-questions"),
-        Pattern.quote("bright-theoremqa-theorems"),
-        Pattern.quote(""),
-        Pattern.quote("bright-aops.bm25qs"),
-        Pattern.quote("bright-biology.bm25qs"),
-        Pattern.quote("bright-earth-science.bm25qs"),
-        Pattern.quote("bright-economics.bm25qs"),
-        Pattern.quote("bright-leetcode.bm25qs"),
-        Pattern.quote("bright-pony.bm25qs"),
-        Pattern.quote("bright-psychology.bm25qs"),
-        Pattern.quote("bright-robotics.bm25qs"),
-        Pattern.quote("bright-stackoverflow.bm25qs"),
-        Pattern.quote("bright-sustainable-living.bm25qs"),
-        Pattern.quote("bright-theoremqa-questions.bm25qs"),
-        Pattern.quote("bright-theoremqa-theorems.bm25qs")
+        Pattern.quote("bright-theoremqa-theorems")
     ));
     ORDERING.put("BRIGHT: SPLADE-v3", List.of(
         Pattern.quote("bright-aops.splade-v3.onnx"),
@@ -706,8 +691,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-stackoverflow.splade-v3.onnx"),
         Pattern.quote("bright-sustainable-living.splade-v3.onnx"),
         Pattern.quote("bright-theoremqa-questions.splade-v3.onnx"),
-        Pattern.quote("bright-theoremqa-theorems.splade-v3.onnx"),
-        Pattern.quote("")
+        Pattern.quote("bright-theoremqa-theorems.splade-v3.onnx")
     ));
     ORDERING.put("BRIGHT: BGE-large-en-v1.5", List.of(
         Pattern.quote("bright-aops.bge-large-en-v1.5.flat.onnx"),
@@ -721,8 +705,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-stackoverflow.bge-large-en-v1.5.flat.onnx"),
         Pattern.quote("bright-sustainable-living.bge-large-en-v1.5.flat.onnx"),
         Pattern.quote("bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx"),
-        Pattern.quote("bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx"),
-        Pattern.quote("")
+        Pattern.quote("bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx")
     ));
     ORDERING.put("Other regressions (TREC, etc.)", List.of(
         Pattern.quote("backgroundlinking18"),
@@ -788,7 +771,9 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       Map<String, String> valuesMap = new HashMap<>();
       valuesMap.put("root_path", "../../..");
       valuesMap.put("yaml", String.format("../../../src/main/resources/reproduce/from-document-collection/configs/%s.yaml", testName));
+      valuesMap.put("yaml_short", String.format("%s.yaml", testName));
       valuesMap.put("template", String.format("../../../src/main/resources/reproduce/from-document-collection/docgen/%s.template", testName));
+      valuesMap.put("template_short", String.format("%s.template", testName));
       valuesMap.put("test_name", testName);
       valuesMap.put("corpus", corpus);
       valuesMap.put("download_url", data.getDownload_url());
@@ -800,13 +785,16 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       valuesMap.put("eval_cmds", data.generateEvalCommand(corpus));
       valuesMap.put("effectiveness", data.generateEffectiveness(corpus));
 
-      StringSubstitutor sub = new StringSubstitutor(valuesMap);
       URL template = GenerateReproductionDocsFromDocumentCollectionTest.class.getResource(String.format("/reproduce/from-document-collection/docgen/%s.template", testName));
       assertNotNull(template);
 
       Scanner scanner = new Scanner(new File(template.toURI()), StandardCharsets.UTF_8);
       String text = scanner.useDelimiter("\\A").next();
       scanner.close();
+      if (text.contains("${padded_effectiveness}")) {
+        valuesMap.put("padded_effectiveness", DataModel.padMarkdownTable(valuesMap.get("effectiveness")));
+      }
+      StringSubstitutor sub = new StringSubstitutor(valuesMap);
       String resolvedString = sub.replace(text);
 
       FileUtils.writeStringToFile(new File(String.format("docs/reproduce/from-document-collection/%s.md", testName)),

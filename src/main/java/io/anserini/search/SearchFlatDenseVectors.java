@@ -114,7 +114,7 @@ public final class SearchFlatDenseVectors<K extends Comparable<K>> implements Ru
   @Override
   public void run() {
     LOG.info("============ Launching Search Threads ============");
-    SortedMap<K, ScoredDoc[]> results = searcher.batch_search(queries, qids, args.hits, args.threads);
+    SortedMap<K, ScoredDoc[]> results = searcher.batch_search(queries, qids, args.hits, args.threads, true);
 
     String name = null;
     if (ExcludeDocs.isExcludable(args.topics[0])){
