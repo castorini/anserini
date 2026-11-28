@@ -30,7 +30,6 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + [Guide to BM25 baselines for the FEVER Fact Verification Task](experiments-fever.md)
 + [Guide to reproducing "Neural Hype" Experiments](experiments-forum2018.md)
 + [Guide to running experiments on the AI2 Open Research Corpus](experiments-openresearch.md)
-+ [Experiments from Yang et al. (JDIQ 2018)](experiments-jdiq2018.md)
 + Runbooks for TREC 2018: [[Anserini group](runbook-trec2018-anserini.md)] [[h2oloo group](runbook-trec2018-h2oloo.md)]
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](runbook-ecir2019-ccrf.md)

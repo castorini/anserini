@@ -681,7 +681,7 @@ Associated documentation updated.
 + commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/9/2019)
 
 Upgrade to Lucene 8: minor changes to all regression experiments.
-[JDIQ 2018](experiments-jdiq2018.md) experiments are no longer maintained.
+[JDIQ 2018](https://github.com/castorini/anserini/blob/anserini-0.5.1/docs/experiments-jdiq2018.md) experiments are no longer maintained.
 
 ### June 9. 2019
 
@@ -770,7 +770,7 @@ Added regressions tests for CAR17.
 
 + commit [`c0da510`](https://github.com/castorini/Anserini/commit/c0da5105429a15fb85158d1740e0516305cd9de6) (8/5/2018)
 
-This commit adds the effectiveness verification testing for the [JDIQ2018 Paper](experiments-jdiq2018.md).
+This commit adds the effectiveness verification testing for the [JDIQ2018 Paper](https://github.com/castorini/anserini/blob/anserini-0.5.1/docs/experiments-jdiq2018.md).
 
 ### July 22, 2018
 
